@@ -1,0 +1,10 @@
+/.build
+/.out
+/.vs
+*.user
+/*.log
+/help.txt
+/umba-2c-help.txt
+/umba-tr-help.txt
+$*$.*
+tmp*.txt
