@@ -1,0 +1,215 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>
+
+
+body {
+  color:#1F377F;
+}
+
+.unxp{
+}
+
+.ident{
+}
+
+/********************/
+.curly{
+  color:black;
+}
+
+.round{
+  color:black;
+}
+
+.angle{
+  color:black;
+}
+
+.square{
+  color:black;
+}
+
+.op{
+  color:black;
+  /* font-weight: bold; */
+}
+
+/********************/
+.pp{
+  color:green;
+}
+
+/********************/
+.pp .curly{
+  /*color:#004400;*/
+  /*color:#003F00;*/
+  color:#004200;
+}
+
+.pp .round{
+  color:#004200;
+}
+
+.pp .angle{
+  color:#004200;
+}
+
+.pp .square{
+  color:#004200;
+}
+
+.pp .op{
+  color:#004200;
+}
+
+.pp .num{
+  color:#004200;
+}
+
+.pp .cmnt{
+  color:#79AF79;
+}
+
+/********************/
+.cmnt{
+  //color:olive;
+  color:#808080;
+  font-style: italic;
+}
+
+.num{
+  /* color:DarkRed; */
+  /*color:#7A0000;*/
+  color:#6A0000;
+}
+
+.str{
+  /* color:Red; */
+  color:#E21F1F;
+}
+
+.kwd1{
+  color:blue;
+}
+
+.kwd2{
+  color:green;
+}
+
+
+</style>
+</head>
+<body>
+<pre>
+<span class="cmnt">// std::initializer_list support -*- C++ -*-</span>
+
+<span class="cmnt">// Copyright (C) 2008, 2009, 2010, 2011 Free Software Foundation, Inc.</span>
+<span class="cmnt">//
+// This file is part of GCC.</span>
+<span class="cmnt">//
+// GCC is free software; you can redistribute it and/or modify</span>
+<span class="cmnt">// it under the terms of the GNU General Public License as published by</span>
+<span class="cmnt">// the Free Software Foundation; either version 3, or (at your option)</span>
+<span class="cmnt">// any later version.</span>
+<span class="cmnt">//
+// GCC is distributed in the hope that it will be useful,</span>
+<span class="cmnt">// but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="cmnt">// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="cmnt">// GNU General Public License for more details.</span>
+<span class="cmnt">//
+// Under Section 7 of GPL version 3, you are granted additional</span>
+<span class="cmnt">// permissions described in the GCC Runtime Library Exception, version</span>
+<span class="cmnt">// 3.1, as published by the Free Software Foundation.</span>
+
+<span class="cmnt">// You should have received a copy of the GNU General Public License and</span>
+<span class="cmnt">// a copy of the GCC Runtime Library Exception along with this program;</span>
+<span class="cmnt">// see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see</span>
+<span class="cmnt">// &lt;http://www.gnu.org/licenses/&gt;.</span>
+
+<span class="cmnt">/** @file initializer_list
+ *  This is a Standard C++ Library header.
+ */</span>
+
+<span class="pp">#<span class="ident">ifndef</span> <span class="ident">_INITIALIZER_LIST</span>
+</span><span class="pp">#<span class="ident">define</span> <span class="ident">_INITIALIZER_LIST</span>
+</span>
+<span class="cmnt">// #pragma GCC system_header</span>
+<span class="cmnt">//
+// #ifndef __GXX_EXPERIMENTAL_CXX0X__</span>
+<span class="cmnt">// # include &lt;bits/c++0x_warning.h&gt;</span>
+<span class="cmnt">// #else // C++0x</span>
+<span class="cmnt">//
+// #pragma GCC visibility push(default)</span>
+<span class="cmnt">//
+// #include &lt;bits/c++config.h&gt;</span>
+
+<span class="kwd1">namespace</span> <span class="ident">std</span>
+<span class="curly">{</span>
+  <span class="cmnt">/// initializer_list</span>
+  <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">class</span> <span class="ident">_E</span><span class="op">&gt;</span>
+    <span class="kwd1">class</span> <span class="ident">initializer_list</span>
+    <span class="curly">{</span>
+    <span class="kwd1">public</span><span class="op">:</span>
+      <span class="kwd1">typedef</span> <span class="ident">_E</span>         <span class="ident">value_type</span><span class="op">;</span>
+      <span class="kwd1">typedef</span> <span class="kwd1">const</span> <span class="ident">_E</span><span class="op">&amp;</span>     <span class="ident">reference</span><span class="op">;</span>
+      <span class="kwd1">typedef</span> <span class="kwd1">const</span> <span class="ident">_E</span><span class="op">&amp;</span>     <span class="ident">const_reference</span><span class="op">;</span>
+      <span class="kwd1">typedef</span> <span class="ident">size_t</span>         <span class="ident">size_type</span><span class="op">;</span>
+      <span class="kwd1">typedef</span> <span class="kwd1">const</span> <span class="ident">_E</span><span class="op">*</span>     <span class="ident">iterator</span><span class="op">;</span>
+      <span class="kwd1">typedef</span> <span class="kwd1">const</span> <span class="ident">_E</span><span class="op">*</span>     <span class="ident">const_iterator</span><span class="op">;</span>
+
+    <span class="kwd1">private</span><span class="op">:</span>
+      <span class="ident">iterator</span>            <span class="ident">_M_array</span><span class="op">;</span>
+      <span class="ident">size_type</span>            <span class="ident">_M_len</span><span class="op">;</span>
+
+      <span class="cmnt">// The compiler can call a private constructor.</span>
+      <span class="kwd1">constexpr</span> <span class="ident">initializer_list</span><span class="round">(</span><span class="ident">const_iterator</span> <span class="ident">__a</span><span class="op">,</span> <span class="ident">size_type</span> <span class="ident">__l</span><span class="round">)</span>
+      <span class="op">:</span> <span class="ident">_M_array</span><span class="round">(</span><span class="ident">__a</span><span class="round">)</span><span class="op">,</span> <span class="ident">_M_len</span><span class="round">(</span><span class="ident">__l</span><span class="round">)</span> <span class="curly">{</span> <span class="curly">}</span>
+
+    <span class="kwd1">public</span><span class="op">:</span>
+      <span class="kwd1">constexpr</span> <span class="ident">initializer_list</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">noexcept</span>
+      <span class="op">:</span> <span class="ident">_M_array</span><span class="round">(</span><span class="num">0</span><span class="round">)</span><span class="op">,</span> <span class="ident">_M_len</span><span class="round">(</span><span class="num">0</span><span class="round">)</span> <span class="curly">{</span> <span class="curly">}</span>
+
+      <span class="cmnt">// Number of elements.</span>
+      <span class="kwd1">constexpr</span> <span class="ident">size_type</span>
+      <span class="ident">size</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span> <span class="kwd1">noexcept</span> <span class="curly">{</span> <span class="kwd1">return</span> <span class="ident">_M_len</span><span class="op">;</span> <span class="curly">}</span>
+
+      <span class="cmnt">// First element.</span>
+      <span class="kwd1">constexpr</span> <span class="ident">const_iterator</span>
+      <span class="ident">begin</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span> <span class="kwd1">noexcept</span> <span class="curly">{</span> <span class="kwd1">return</span> <span class="ident">_M_array</span><span class="op">;</span> <span class="curly">}</span>
+
+      <span class="cmnt">// One past the last element.</span>
+      <span class="kwd1">constexpr</span> <span class="ident">const_iterator</span>
+      <span class="ident">end</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span> <span class="kwd1">noexcept</span> <span class="curly">{</span> <span class="kwd1">return</span> <span class="ident">begin</span><span class="round">(</span><span class="round">)</span> <span class="op">+</span> <span class="ident">size</span><span class="round">(</span><span class="round">)</span><span class="op">;</span> <span class="curly">}</span>
+  <span class="curly">}</span><span class="op">;</span>
+
+  <span class="cmnt">/**
+   *  @brief  Return an iterator pointing to the first element of
+   *          the initilizer_list.
+   *  @param  __ils  Initializer list.
+   */</span>
+  <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">class</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
+    <span class="kwd1">constexpr</span> <span class="kwd1">const</span> <span class="ident">_Tp</span><span class="op">*</span>
+    <span class="ident">begin</span><span class="round">(</span><span class="ident">initializer_list</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span> <span class="ident">__ils</span><span class="round">)</span> <span class="kwd1">noexcept</span>
+    <span class="curly">{</span> <span class="kwd1">return</span> <span class="ident">__ils</span><span class="op">.</span><span class="ident">begin</span><span class="round">(</span><span class="round">)</span><span class="op">;</span> <span class="curly">}</span>
+
+  <span class="cmnt">/**
+   *  @brief  Return an iterator pointing to one past the last element
+   *          of the initilizer_list.
+   *  @param  __ils  Initializer list.
+   */</span>
+  <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">class</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
+    <span class="kwd1">constexpr</span> <span class="kwd1">const</span> <span class="ident">_Tp</span><span class="op">*</span>
+    <span class="ident">end</span><span class="round">(</span><span class="ident">initializer_list</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span> <span class="ident">__ils</span><span class="round">)</span> <span class="kwd1">noexcept</span>
+    <span class="curly">{</span> <span class="kwd1">return</span> <span class="ident">__ils</span><span class="op">.</span><span class="ident">end</span><span class="round">(</span><span class="round">)</span><span class="op">;</span> <span class="curly">}</span>
+<span class="curly">}</span>
+
+<span class="cmnt">// #pragma GCC visibility pop</span>
+
+<span class="cmnt">// #endif // __GXX_EXPERIMENTAL_CXX0X__</span>
+
+<span class="pp">#<span class="ident">endif</span> <span class="cmnt">// _INITIALIZER_LIST</span>
+</span></pre>
+</body>
+</html>

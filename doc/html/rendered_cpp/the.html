@@ -1,0 +1,222 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>
+
+
+body {
+  color:#1F377F;
+}
+
+.unxp{
+}
+
+.ident{
+}
+
+/********************/
+.curly{
+  color:black;
+}
+
+.round{
+  color:black;
+}
+
+.angle{
+  color:black;
+}
+
+.square{
+  color:black;
+}
+
+.op{
+  color:black;
+  /* font-weight: bold; */
+}
+
+/********************/
+.pp{
+  color:green;
+}
+
+/********************/
+.pp .curly{
+  /*color:#004400;*/
+  /*color:#003F00;*/
+  color:#004200;
+}
+
+.pp .round{
+  color:#004200;
+}
+
+.pp .angle{
+  color:#004200;
+}
+
+.pp .square{
+  color:#004200;
+}
+
+.pp .op{
+  color:#004200;
+}
+
+.pp .num{
+  color:#004200;
+}
+
+.pp .cmnt{
+  color:#79AF79;
+}
+
+/********************/
+.cmnt{
+  //color:olive;
+  color:#808080;
+  font-style: italic;
+}
+
+.num{
+  /* color:DarkRed; */
+  /*color:#7A0000;*/
+  color:#6A0000;
+}
+
+.str{
+  /* color:Red; */
+  color:#E21F1F;
+}
+
+.kwd1{
+  color:blue;
+}
+
+.kwd2{
+  color:green;
+}
+
+
+</style>
+</head>
+<body>
+<pre>
+<span class="pp">#<span class="ident">pragma</span> <span class="ident">once</span>
+</span>
+
+<span class="cmnt">// https://rsdn.org/forum/cpp.applied/8544625.1</span>
+<span class="cmnt">// https://rsdn.org/forum/cpp.applied/8555847.1</span>
+<span class="cmnt">// https://habr.com/ru/articles/248897/</span>
+<span class="cmnt">// https://habr.com/ru/articles/228031/</span>
+<span class="cmnt">// https://en.cppreference.com/w/cpp/language/parameter_pack</span>
+<span class="cmnt">// C++20 idioms for parameter packs - https://www.scs.stanford.edu/~dm/blog/param-pack.html</span>
+
+
+<span class="pp">#<span class="ident">include</span> <span class="str">&quot;rule_of_five.h&quot;</span>
+</span>
+
+<span class="kwd1">namespace</span> <span class="ident">umba</span> <span class="curly">{</span>
+
+
+
+<span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">TVal</span><span class="op">&gt;</span>
+<span class="kwd1">class</span> <span class="ident">TheValue</span>
+<span class="curly">{</span>
+
+    <span class="kwd1">const</span> <span class="ident">TVal</span> <span class="op">&amp;</span><span class="ident">tVal</span><span class="op">;</span>
+
+
+<span class="kwd1">public</span><span class="op">:</span>
+
+    <span class="ident">UMBA_RULE_OF_FIVE</span><span class="round">(</span><span class="ident">TheValue</span><span class="op">,</span> <span class="kwd1">delete</span><span class="op">,</span> <span class="kwd1">delete</span><span class="op">,</span> <span class="kwd1">delete</span><span class="op">,</span> <span class="kwd1">delete</span><span class="op">,</span> <span class="kwd1">delete</span><span class="round">)</span><span class="op">;</span>
+
+    <span class="kwd1">constexpr</span> <span class="kwd1">explicit</span> <span class="ident">TheValue</span><span class="round">(</span><span class="kwd1">const</span> <span class="ident">TVal</span><span class="op">&amp;</span> <span class="ident">v</span><span class="round">)</span> <span class="kwd1">noexcept</span>
+      <span class="op">:</span> <span class="ident">tVal</span><span class="round">(</span><span class="ident">v</span><span class="round">)</span>
+    <span class="curly">{</span>
+    <span class="curly">}</span>
+
+    <span class="kwd1">template</span> <span class="op">&lt;</span><span class="kwd1">typename</span><span class="op">...</span> <span class="ident">TArgs</span><span class="op">&gt;</span>
+    <span class="kwd1">constexpr</span>
+    <span class="kwd1">bool</span> <span class="ident">oneOf</span><span class="round">(</span><span class="ident">TArgs</span><span class="op">&amp;&amp;</span><span class="op">...</span> <span class="ident">args</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">return</span> <span class="round">(</span><span class="round">(</span><span class="ident">tVal</span> <span class="op">==</span> <span class="ident">args</span><span class="round">)</span> <span class="op">||</span> <span class="op">...</span><span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="kwd1">template</span> <span class="op">&lt;</span><span class="kwd1">auto</span><span class="op">...</span> <span class="ident">VArgs</span><span class="op">&gt;</span>
+    <span class="kwd1">constexpr</span>
+    <span class="kwd1">bool</span> <span class="ident">oneOf</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">return</span> <span class="round">(</span><span class="round">(</span><span class="ident">tVal</span> <span class="op">==</span> <span class="ident">VArgs</span><span class="round">)</span> <span class="op">||</span> <span class="op">...</span><span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+<span class="curly">}</span><span class="op">;</span> <span class="cmnt">// class TheValue</span>
+
+
+
+
+
+<span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">TFlags</span><span class="op">&gt;</span>
+<span class="kwd1">class</span> <span class="ident">TheFlags</span>
+<span class="curly">{</span>
+
+    <span class="kwd1">const</span> <span class="ident">TFlags</span> <span class="op">&amp;</span><span class="ident">tFlags</span><span class="op">;</span>
+
+    <span class="cmnt">// template &lt;typename... TArgs&gt;</span>
+    <span class="cmnt">// constexpr static</span>
+    <span class="cmnt">// TFlags orImpl(TArgs&amp;&amp;... args)</span>
+
+
+<span class="kwd1">public</span><span class="op">:</span>
+
+    <span class="ident">UMBA_RULE_OF_FIVE</span><span class="round">(</span><span class="ident">TheFlags</span><span class="op">,</span> <span class="kwd1">delete</span><span class="op">,</span> <span class="kwd1">delete</span><span class="op">,</span> <span class="kwd1">delete</span><span class="op">,</span> <span class="kwd1">delete</span><span class="op">,</span> <span class="kwd1">delete</span><span class="round">)</span><span class="op">;</span>
+
+    <span class="kwd1">constexpr</span> <span class="kwd1">explicit</span> <span class="ident">TheFlags</span><span class="round">(</span><span class="kwd1">const</span> <span class="ident">TFlags</span><span class="op">&amp;</span> <span class="ident">f</span><span class="round">)</span> <span class="kwd1">noexcept</span>
+      <span class="op">:</span> <span class="ident">tFlags</span><span class="round">(</span><span class="ident">f</span><span class="round">)</span>
+    <span class="curly">{</span>
+    <span class="curly">}</span>
+
+    <span class="kwd1">template</span> <span class="op">&lt;</span><span class="kwd1">typename</span><span class="op">...</span> <span class="ident">TArgs</span><span class="op">&gt;</span>
+    <span class="kwd1">constexpr</span>
+    <span class="kwd1">bool</span> <span class="ident">oneOf</span><span class="round">(</span><span class="ident">TArgs</span><span class="op">&amp;&amp;</span><span class="op">...</span> <span class="ident">args</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">auto</span> <span class="ident">flags</span> <span class="op">=</span> <span class="round">(</span><span class="round">(</span><span class="ident">TFlags</span><span class="round">)</span><span class="num">0</span> <span class="op">|</span> <span class="op">...</span> <span class="op">|</span> <span class="ident">args</span><span class="round">)</span><span class="op">;</span> <span class="cmnt">//  | &amp;args</span>
+        <span class="kwd1">return</span> <span class="round">(</span><span class="ident">tFlags</span> <span class="op">&amp;</span> <span class="ident">flags</span><span class="round">)</span><span class="op">!=</span><span class="round">(</span><span class="ident">TFlags</span><span class="round">)</span><span class="num">0</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="kwd1">template</span> <span class="op">&lt;</span><span class="kwd1">auto</span><span class="op">...</span> <span class="ident">VArgs</span><span class="op">&gt;</span>
+    <span class="kwd1">constexpr</span>
+    <span class="kwd1">bool</span> <span class="ident">oneOf</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">auto</span> <span class="ident">flags</span> <span class="op">=</span> <span class="round">(</span><span class="round">(</span><span class="ident">TFlags</span><span class="round">)</span><span class="num">0</span> <span class="op">|</span> <span class="op">...</span> <span class="op">|</span> <span class="ident">VArgs</span><span class="round">)</span><span class="op">;</span>
+        <span class="kwd1">return</span> <span class="round">(</span><span class="ident">tFlags</span> <span class="op">&amp;</span> <span class="ident">flags</span><span class="round">)</span><span class="op">!=</span><span class="round">(</span><span class="ident">TFlags</span><span class="round">)</span><span class="num">0</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="kwd1">template</span> <span class="op">&lt;</span><span class="kwd1">typename</span><span class="op">...</span> <span class="ident">TArgs</span><span class="op">&gt;</span>
+    <span class="kwd1">constexpr</span>
+    <span class="kwd1">bool</span> <span class="ident">allOf</span><span class="round">(</span><span class="ident">TArgs</span><span class="op">&amp;&amp;</span><span class="op">...</span> <span class="ident">args</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">auto</span> <span class="ident">flags</span> <span class="op">=</span> <span class="round">(</span><span class="round">(</span><span class="ident">TFlags</span><span class="round">)</span><span class="num">0</span> <span class="op">|</span> <span class="op">...</span> <span class="op">|</span> <span class="ident">args</span><span class="round">)</span><span class="op">;</span>
+        <span class="kwd1">return</span> <span class="round">(</span><span class="ident">tFlags</span> <span class="op">&amp;</span> <span class="ident">flags</span><span class="round">)</span><span class="op">==</span><span class="ident">flags</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="kwd1">template</span> <span class="op">&lt;</span><span class="kwd1">auto</span><span class="op">...</span> <span class="ident">VArgs</span><span class="op">&gt;</span>
+    <span class="kwd1">constexpr</span>
+    <span class="kwd1">bool</span> <span class="ident">allOf</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">auto</span> <span class="ident">flags</span> <span class="op">=</span> <span class="round">(</span><span class="round">(</span><span class="ident">TFlags</span><span class="round">)</span><span class="num">0</span> <span class="op">|</span> <span class="op">...</span> <span class="op">|</span> <span class="ident">VArgs</span><span class="round">)</span><span class="op">;</span>
+        <span class="kwd1">return</span> <span class="round">(</span><span class="ident">tFlags</span> <span class="op">&amp;</span> <span class="ident">flags</span><span class="round">)</span><span class="op">==</span><span class="ident">flags</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+<span class="curly">}</span><span class="op">;</span> <span class="cmnt">// class TheFlags</span>
+
+
+
+
+<span class="curly">}</span> <span class="cmnt">// namespace umba</span>
+
+
+</pre>
+</body>
+</html>

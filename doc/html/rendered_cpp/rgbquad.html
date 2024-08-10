@@ -1,0 +1,734 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>
+
+
+body {
+  color:#1F377F;
+}
+
+.unxp{
+}
+
+.ident{
+}
+
+/********************/
+.curly{
+  color:black;
+}
+
+.round{
+  color:black;
+}
+
+.angle{
+  color:black;
+}
+
+.square{
+  color:black;
+}
+
+.op{
+  color:black;
+  /* font-weight: bold; */
+}
+
+/********************/
+.pp{
+  color:green;
+}
+
+/********************/
+.pp .curly{
+  /*color:#004400;*/
+  /*color:#003F00;*/
+  color:#004200;
+}
+
+.pp .round{
+  color:#004200;
+}
+
+.pp .angle{
+  color:#004200;
+}
+
+.pp .square{
+  color:#004200;
+}
+
+.pp .op{
+  color:#004200;
+}
+
+.pp .num{
+  color:#004200;
+}
+
+.pp .cmnt{
+  color:#79AF79;
+}
+
+/********************/
+.cmnt{
+  //color:olive;
+  color:#808080;
+  font-style: italic;
+}
+
+.num{
+  /* color:DarkRed; */
+  /*color:#7A0000;*/
+  color:#6A0000;
+}
+
+.str{
+  /* color:Red; */
+  color:#E21F1F;
+}
+
+.kwd1{
+  color:blue;
+}
+
+.kwd2{
+  color:green;
+}
+
+
+</style>
+</head>
+<body>
+<pre>
+<span class="cmnt">/*!
+    \file
+    \brief Реализация RGB четвертяка. Хранит RGB и Alpha-канал компоненты цвета
+ */</span>
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+
+<span class="pp">#<span class="ident">pragma</span> <span class="ident">once</span>
+</span>
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+
+<span class="pp">#<span class="ident">include</span> <span class="str">&quot;format_utils.h&quot;</span>
+</span><span class="pp">#<span class="ident">include</span> <span class="str">&quot;umba.h&quot;</span>
+</span>
+<span class="pp">#<span class="ident">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_USED</span><span class="round">)</span>
+</span>    <span class="pp">#<span class="ident">include</span> <span class="str">&quot;string_plus.h&quot;</span>
+</span><span class="pp">#<span class="ident">endif</span>
+</span>
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+
+
+
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+
+<span class="cmnt">/*
+Must be included before this file
+#include &lt;QBrush&gt;
+#include &lt;QColor&gt;
+*/</span>
+
+<span class="pp">#<span class="ident">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_USED</span><span class="round">)</span>
+</span>    <span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">string</span><span class="op">&gt;</span>
+</span><span class="pp">#<span class="ident">endif</span>
+</span>
+
+<span class="pp">#<span class="ident">include</span> <span class="str">&quot;const_string.h&quot;</span>
+</span><span class="pp">#<span class="ident">include</span> <span class="str">&quot;parse_utils.h&quot;</span>
+</span>
+<span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">cstring</span><span class="op">&gt;</span>
+</span>
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+
+
+
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+
+<span class="cmnt">// https://doc.qt.io/qt-5/qcolorconstants.html#svg-colors</span>
+<span class="cmnt">// https://www.w3.org/TR/SVG11/types.html#ColorKeywords</span>
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+
+
+
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+<span class="kwd1">namespace</span> <span class="ident">umba</span>
+<span class="curly">{</span>
+
+
+
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+<span class="kwd1">struct</span> <span class="ident">RgbQuad_NameColorPair</span><span class="op">;</span>
+<span class="kwd1">const</span> <span class="ident">RgbQuad_NameColorPair</span><span class="op">*</span> <span class="ident">RgbQuad_NameColorPair_getColorPairs</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+
+
+
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+<span class="pp">#<span class="ident">include</span> <span class="str">&quot;pushpack1.h&quot;</span>
+</span><span class="cmnt">//! RGB четвертяк, хранит компоненты цвета</span>
+<span class="cmnt">/*! Не привязываемся как какому-либо фреймворку, вполне может использоваться и на MCU.
+
+    Иныалидный цвет - RGBA(1,1,1,1). Хотя, теоретически, цвет RGBA(1,1,1,1) - вполне валидный, но, так-то,
+    невозможно найти невалидное значения без расширения типа.
+    Вероятность же, что в конфиге будет задан цвет RGBA(1,1,1,1) (почти черный, и с прозрачностью 1) - стремится к нулю.
+    В других же местах (кроме обработки конфигов и какого-либо пользовательского ввода) - маркер инвалидности обычно не нужен.
+
+    При конвертации в/из 16ти-битных величин  используем по 4 бита на цветовую компоненту, 12 бит на цвет (без альфа-канала),
+    итого - 4096 цветов. Для MCU, да и для других применений вполне может прокатывать (а сделано - просто потому, что было несложно
+    копипастой сделать пару методов).
+ */</span>
+<span class="kwd1">struct</span> <span class="ident">RgbQuad</span>
+<span class="curly">{</span>
+    <span class="ident">uint8_t</span>      <span class="ident">blue</span>  <span class="op">;</span> <span class="cmnt">//!&lt; Синяя компонента цвета</span>
+    <span class="ident">uint8_t</span>      <span class="ident">green</span> <span class="op">;</span> <span class="cmnt">//!&lt; Зелёная компонента цвета</span>
+    <span class="ident">uint8_t</span>      <span class="ident">red</span>   <span class="op">;</span> <span class="cmnt">//!&lt; Красная компонента цвета</span>
+    <span class="ident">uint8_t</span>      <span class="ident">alpha</span> <span class="op">;</span> <span class="cmnt">//!&lt; Альфа компонента цвета - прозрачность</span>
+
+    <span class="kwd1">static</span> <span class="kwd1">const</span> <span class="ident">std</span><span class="op">::</span><span class="ident">size_t</span>  <span class="ident">max_name_buf_size</span> <span class="op">=</span> <span class="num">32</span><span class="op">;</span> <span class="cmnt">//!&lt; Размер буфера для форматирования в него цвета</span>
+
+    <span class="cmnt">//! Конструктор по умолчанию. Конструирует инвалидный цвет.</span>
+    <span class="ident">RgbQuad</span><span class="round">(</span><span class="round">)</span>                                                 <span class="op">:</span> <span class="ident">blue</span> <span class="round">(</span><span class="num">1</span><span class="round">)</span><span class="op">,</span> <span class="ident">green</span><span class="round">(</span><span class="num">1</span><span class="round">)</span><span class="op">,</span> <span class="ident">red</span>  <span class="round">(</span><span class="num">1</span><span class="round">)</span><span class="op">,</span> <span class="ident">alpha</span><span class="round">(</span><span class="num">1</span><span class="round">)</span> <span class="curly">{</span> <span class="curly">}</span> <span class="cmnt">// invalid value</span>
+    <span class="cmnt">//! Конструктор из цветовых компонент</span>
+    <span class="ident">RgbQuad</span><span class="round">(</span> <span class="ident">uint8_t</span> <span class="ident">r</span><span class="op">,</span> <span class="ident">uint8_t</span> <span class="ident">g</span><span class="op">,</span> <span class="ident">uint8_t</span> <span class="ident">b</span><span class="op">,</span> <span class="ident">uint8_t</span> <span class="ident">a</span> <span class="op">=</span> <span class="num">0</span> <span class="round">)</span> <span class="op">:</span> <span class="ident">blue</span> <span class="round">(</span><span class="ident">b</span><span class="round">)</span><span class="op">,</span> <span class="ident">green</span><span class="round">(</span><span class="ident">g</span><span class="round">)</span><span class="op">,</span> <span class="ident">red</span>  <span class="round">(</span><span class="ident">r</span><span class="round">)</span><span class="op">,</span> <span class="ident">alpha</span><span class="round">(</span><span class="ident">a</span><span class="round">)</span> <span class="curly">{</span> <span class="curly">}</span>
+    <span class="cmnt">//! Конструктор копирования</span>
+    <span class="ident">RgbQuad</span><span class="round">(</span> <span class="kwd1">const</span> <span class="ident">RgbQuad</span> <span class="op">&amp;</span><span class="ident">q</span> <span class="round">)</span>                               <span class="op">:</span> <span class="ident">blue</span> <span class="round">(</span><span class="ident">q</span><span class="op">.</span><span class="ident">blue</span> <span class="round">)</span> <span class="op">,</span> <span class="ident">green</span><span class="round">(</span><span class="ident">q</span><span class="op">.</span><span class="ident">green</span><span class="round">)</span> <span class="op">,</span> <span class="ident">red</span>  <span class="round">(</span><span class="ident">q</span><span class="op">.</span><span class="ident">red</span>  <span class="round">)</span> <span class="op">,</span> <span class="ident">alpha</span><span class="round">(</span><span class="ident">q</span><span class="op">.</span><span class="ident">alpha</span><span class="round">)</span> <span class="curly">{</span> <span class="curly">}</span>
+    <span class="cmnt">//! Конструктор из 32х-битного беззнакового целого</span>
+    <span class="ident">RgbQuad</span><span class="round">(</span> <span class="ident">uint32_t</span> <span class="ident">argb</span><span class="op">,</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="op">=</span> <span class="kwd1">false</span> <span class="round">)</span>           <span class="op">:</span> <span class="ident">blue</span> <span class="round">(</span><span class="round">)</span><span class="op">,</span> <span class="ident">green</span><span class="round">(</span><span class="round">)</span><span class="op">,</span> <span class="ident">red</span>  <span class="round">(</span><span class="round">)</span><span class="op">,</span> <span class="ident">alpha</span><span class="round">(</span><span class="round">)</span>     <span class="curly">{</span> <span class="ident">fromUnsigned</span><span class="round">(</span><span class="ident">argb</span><span class="op">,</span> <span class="ident">useAlpha</span><span class="round">)</span><span class="op">;</span> <span class="curly">}</span>
+    <span class="cmnt">//! Конструктор из 16ти-битного беззнакового целого</span>
+    <span class="ident">RgbQuad</span><span class="round">(</span> <span class="ident">uint16_t</span> <span class="ident">argb</span><span class="op">,</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="op">=</span> <span class="kwd1">false</span> <span class="round">)</span>           <span class="op">:</span> <span class="ident">blue</span> <span class="round">(</span><span class="round">)</span><span class="op">,</span> <span class="ident">green</span><span class="round">(</span><span class="round">)</span><span class="op">,</span> <span class="ident">red</span>  <span class="round">(</span><span class="round">)</span><span class="op">,</span> <span class="ident">alpha</span><span class="round">(</span><span class="round">)</span>     <span class="curly">{</span> <span class="ident">fromUnsigned</span><span class="round">(</span><span class="ident">argb</span><span class="op">,</span> <span class="ident">useAlpha</span><span class="round">)</span><span class="op">;</span> <span class="curly">}</span>
+    <span class="cmnt">//! Конструктор из 32х-битного знакового целого</span>
+    <span class="ident">RgbQuad</span><span class="round">(</span>  <span class="ident">int32_t</span> <span class="ident">argb</span><span class="op">,</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="op">=</span> <span class="kwd1">false</span> <span class="round">)</span>           <span class="op">:</span> <span class="ident">blue</span> <span class="round">(</span><span class="round">)</span><span class="op">,</span> <span class="ident">green</span><span class="round">(</span><span class="round">)</span><span class="op">,</span> <span class="ident">red</span>  <span class="round">(</span><span class="round">)</span><span class="op">,</span> <span class="ident">alpha</span><span class="round">(</span><span class="round">)</span>     <span class="curly">{</span> <span class="ident">fromUnsigned</span><span class="round">(</span><span class="round">(</span><span class="ident">uint32_t</span><span class="round">)</span><span class="ident">argb</span><span class="op">,</span> <span class="ident">useAlpha</span><span class="round">)</span><span class="op">;</span> <span class="curly">}</span>
+    <span class="cmnt">//! Конструктор из 16ти-битного знакового целого</span>
+    <span class="ident">RgbQuad</span><span class="round">(</span>  <span class="ident">int16_t</span> <span class="ident">argb</span><span class="op">,</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="op">=</span> <span class="kwd1">false</span> <span class="round">)</span>           <span class="op">:</span> <span class="ident">blue</span> <span class="round">(</span><span class="round">)</span><span class="op">,</span> <span class="ident">green</span><span class="round">(</span><span class="round">)</span><span class="op">,</span> <span class="ident">red</span>  <span class="round">(</span><span class="round">)</span><span class="op">,</span> <span class="ident">alpha</span><span class="round">(</span><span class="round">)</span>     <span class="curly">{</span> <span class="ident">fromUnsigned</span><span class="round">(</span><span class="round">(</span><span class="ident">uint16_t</span><span class="round">)</span><span class="ident">argb</span><span class="op">,</span> <span class="ident">useAlpha</span><span class="round">)</span><span class="op">;</span> <span class="curly">}</span>
+
+    <span class="cmnt">//! Оператор сравнения на равенство</span>
+    <span class="kwd1">bool</span> <span class="kwd1">operator</span><span class="op">==</span><span class="round">(</span> <span class="kwd1">const</span> <span class="ident">RgbQuad</span> <span class="ident">rq</span> <span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">return</span> <span class="ident">blue</span>  <span class="op">==</span> <span class="ident">rq</span><span class="op">.</span><span class="ident">blue</span>
+            <span class="op">&amp;&amp;</span> <span class="ident">green</span> <span class="op">==</span> <span class="ident">rq</span><span class="op">.</span><span class="ident">green</span>
+            <span class="op">&amp;&amp;</span> <span class="ident">red</span>   <span class="op">==</span> <span class="ident">rq</span><span class="op">.</span><span class="ident">red</span>
+            <span class="op">&amp;&amp;</span> <span class="ident">alpha</span> <span class="op">==</span> <span class="ident">rq</span><span class="op">.</span><span class="ident">alpha</span>
+            <span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Оператор сравнения на неравенство</span>
+    <span class="kwd1">bool</span> <span class="kwd1">operator</span><span class="op">!=</span><span class="round">(</span> <span class="kwd1">const</span> <span class="ident">RgbQuad</span> <span class="ident">rq</span> <span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">return</span> <span class="ident">blue</span>  <span class="op">!=</span> <span class="ident">rq</span><span class="op">.</span><span class="ident">blue</span>
+            <span class="op">||</span> <span class="ident">green</span> <span class="op">!=</span> <span class="ident">rq</span><span class="op">.</span><span class="ident">green</span>
+            <span class="op">||</span> <span class="ident">red</span>   <span class="op">!=</span> <span class="ident">rq</span><span class="op">.</span><span class="ident">red</span>
+            <span class="op">||</span> <span class="ident">alpha</span> <span class="op">!=</span> <span class="ident">rq</span><span class="op">.</span><span class="ident">alpha</span>
+            <span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Возвращает инвалидный цвет</span>
+    <span class="kwd1">static</span>
+    <span class="ident">RgbQuad</span> <span class="ident">getInvalidValue</span><span class="round">(</span><span class="round">)</span>
+    <span class="curly">{</span>
+        <span class="cmnt">//return RgbQuad(); // default constructor can be changed</span>
+        <span class="kwd1">return</span> <span class="ident">RgbQuad</span><span class="round">(</span> <span class="num">1</span><span class="op">,</span><span class="num">1</span><span class="op">,</span><span class="num">1</span><span class="op">,</span><span class="num">1</span> <span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Парсит 32х-битное беззнаковое целое</span>
+    <span class="kwd1">void</span> <span class="ident">fromUnsigned</span><span class="round">(</span> <span class="ident">uint32_t</span> <span class="ident">argb</span> <span class="cmnt">/* clr */</span> <span class="op">,</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="op">=</span> <span class="kwd1">false</span> <span class="round">)</span>
+    <span class="curly">{</span>
+        <span class="ident">blue</span>  <span class="op">=</span> <span class="round">(</span><span class="ident">argb</span>    <span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFFu</span><span class="op">;</span>
+        <span class="ident">green</span> <span class="op">=</span> <span class="round">(</span><span class="ident">argb</span><span class="op">&gt;&gt;</span><span class="num">8</span> <span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFFu</span><span class="op">;</span>
+        <span class="ident">red</span>   <span class="op">=</span> <span class="round">(</span><span class="ident">argb</span><span class="op">&gt;&gt;</span><span class="num">16</span><span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFFu</span><span class="op">;</span>
+        <span class="kwd1">if</span> <span class="round">(</span><span class="ident">useAlpha</span><span class="round">)</span>
+           <span class="ident">alpha</span> <span class="op">=</span> <span class="round">(</span><span class="ident">argb</span><span class="op">&gt;&gt;</span><span class="num">24</span><span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFFu</span><span class="op">;</span>
+        <span class="kwd1">else</span>
+           <span class="ident">alpha</span> <span class="op">=</span> <span class="num">0x00u</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Парсит 16ти-битное беззнаковое целое</span>
+    <span class="kwd1">void</span> <span class="ident">fromUnsigned</span><span class="round">(</span> <span class="ident">uint16_t</span> <span class="ident">argb</span> <span class="cmnt">/* clr */</span> <span class="op">,</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="op">=</span> <span class="kwd1">false</span> <span class="round">)</span>
+    <span class="curly">{</span>
+        <span class="ident">blue</span>  <span class="op">=</span> <span class="round">(</span><span class="round">(</span><span class="ident">argb</span>    <span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFu</span><span class="round">)</span><span class="op">&lt;&lt;</span><span class="num">4</span><span class="op">;</span>
+        <span class="ident">green</span> <span class="op">=</span> <span class="round">(</span><span class="round">(</span><span class="ident">argb</span><span class="op">&gt;&gt;</span><span class="num">4</span> <span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFu</span><span class="round">)</span><span class="op">&lt;&lt;</span><span class="num">4</span><span class="op">;</span>
+        <span class="ident">red</span>   <span class="op">=</span> <span class="round">(</span><span class="round">(</span><span class="ident">argb</span><span class="op">&gt;&gt;</span><span class="num">8</span> <span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFu</span><span class="round">)</span><span class="op">&lt;&lt;</span><span class="num">4</span><span class="op">;</span>
+        <span class="kwd1">if</span> <span class="round">(</span><span class="ident">useAlpha</span><span class="round">)</span>
+           <span class="ident">alpha</span> <span class="op">=</span> <span class="round">(</span><span class="round">(</span><span class="ident">argb</span><span class="op">&gt;&gt;</span><span class="num">12</span><span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFu</span><span class="round">)</span><span class="op">&lt;&lt;</span><span class="num">4</span><span class="op">;</span>
+        <span class="kwd1">else</span>
+           <span class="ident">alpha</span> <span class="op">=</span> <span class="num">0x00u</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Парсит 32х-битное знаковое целое</span>
+    <span class="kwd1">void</span> <span class="ident">fromInt</span><span class="round">(</span> <span class="ident">int32_t</span> <span class="ident">argb</span> <span class="cmnt">/* clr */</span> <span class="op">,</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="op">=</span> <span class="kwd1">false</span> <span class="round">)</span>
+    <span class="curly">{</span>
+        <span class="ident">fromUnsigned</span><span class="round">(</span> <span class="round">(</span><span class="ident">uint32_t</span><span class="round">)</span><span class="ident">argb</span><span class="op">,</span> <span class="ident">useAlpha</span> <span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Парсит 16ти-битное знаковое целое</span>
+    <span class="kwd1">void</span> <span class="ident">fromInt</span><span class="round">(</span> <span class="ident">int16_t</span> <span class="ident">argb</span> <span class="cmnt">/* clr */</span> <span class="op">,</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="op">=</span> <span class="kwd1">false</span> <span class="round">)</span>
+    <span class="curly">{</span>
+        <span class="ident">fromUnsigned</span><span class="round">(</span> <span class="round">(</span><span class="ident">uint16_t</span><span class="round">)</span><span class="ident">argb</span><span class="op">,</span> <span class="ident">useAlpha</span> <span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Парсит 32х-битное беззнаковое целое - для универсальности имени fromInt</span>
+    <span class="kwd1">void</span> <span class="ident">fromInt</span><span class="round">(</span> <span class="ident">uint32_t</span> <span class="ident">argb</span> <span class="cmnt">/* clr */</span> <span class="op">,</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="op">=</span> <span class="kwd1">false</span> <span class="round">)</span>
+    <span class="curly">{</span>
+        <span class="ident">fromUnsigned</span><span class="round">(</span> <span class="ident">argb</span><span class="op">,</span> <span class="ident">useAlpha</span> <span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Парсит 16ти-битное беззнаковое целое - для универсальности имени fromInt</span>
+    <span class="kwd1">void</span> <span class="ident">fromInt</span><span class="round">(</span> <span class="ident">uint16_t</span> <span class="ident">argb</span> <span class="cmnt">/* clr */</span> <span class="op">,</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="op">=</span> <span class="kwd1">false</span> <span class="round">)</span>
+    <span class="curly">{</span>
+        <span class="ident">fromUnsigned</span><span class="round">(</span> <span class="round">(</span><span class="ident">uint16_t</span><span class="round">)</span><span class="ident">argb</span><span class="op">,</span> <span class="ident">useAlpha</span> <span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Конвертирует в 32х-битное беззнаковое целое - оставлено для совместимости со старым кодом</span>
+    <span class="ident">uint32_t</span> <span class="ident">toUnsigned</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">return</span>
+        <span class="round">(</span><span class="round">(</span><span class="round">(</span><span class="ident">uint32_t</span><span class="round">)</span><span class="ident">blue</span> <span class="round">)</span>    <span class="round">)</span> <span class="op">|</span>
+        <span class="round">(</span><span class="round">(</span><span class="round">(</span><span class="ident">uint32_t</span><span class="round">)</span><span class="ident">green</span><span class="round">)</span><span class="op">&lt;&lt;</span> <span class="num">8</span><span class="round">)</span> <span class="op">|</span>
+        <span class="round">(</span><span class="round">(</span><span class="round">(</span><span class="ident">uint32_t</span><span class="round">)</span><span class="ident">red</span>  <span class="round">)</span><span class="op">&lt;&lt;</span><span class="num">16</span><span class="round">)</span> <span class="op">|</span>
+        <span class="round">(</span><span class="round">(</span><span class="round">(</span><span class="ident">uint32_t</span><span class="round">)</span><span class="ident">alpha</span><span class="round">)</span><span class="op">&lt;&lt;</span><span class="num">24</span><span class="round">)</span> <span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Конвертирует в 32х-битное беззнаковое целое</span>
+    <span class="ident">uint32_t</span> <span class="ident">toUnsigned32</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">return</span> <span class="ident">toUnsigned</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Конвертирует в 16ти-битное беззнаковое целое</span>
+    <span class="ident">uint16_t</span> <span class="ident">toUnsigned16</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">return</span>
+        <span class="round">(</span><span class="round">(</span><span class="round">(</span><span class="ident">uint16_t</span><span class="round">)</span><span class="round">(</span><span class="round">(</span><span class="ident">blue</span> <span class="op">&gt;&gt;</span><span class="num">4</span><span class="round">)</span><span class="op">&amp;</span><span class="num">0x0F</span><span class="round">)</span><span class="round">)</span>    <span class="round">)</span> <span class="op">|</span>
+        <span class="round">(</span><span class="round">(</span><span class="round">(</span><span class="ident">uint16_t</span><span class="round">)</span><span class="round">(</span><span class="round">(</span><span class="ident">green</span><span class="op">&gt;&gt;</span><span class="num">4</span><span class="round">)</span><span class="op">&amp;</span><span class="num">0x0F</span><span class="round">)</span><span class="round">)</span><span class="op">&lt;&lt;</span> <span class="num">4</span><span class="round">)</span> <span class="op">|</span>
+        <span class="round">(</span><span class="round">(</span><span class="round">(</span><span class="ident">uint16_t</span><span class="round">)</span><span class="round">(</span><span class="round">(</span><span class="ident">red</span>  <span class="op">&gt;&gt;</span><span class="num">4</span><span class="round">)</span><span class="op">&amp;</span><span class="num">0x0F</span><span class="round">)</span><span class="round">)</span><span class="op">&lt;&lt;</span> <span class="num">8</span><span class="round">)</span> <span class="op">|</span>
+        <span class="round">(</span><span class="round">(</span><span class="round">(</span><span class="ident">uint16_t</span><span class="round">)</span><span class="round">(</span><span class="round">(</span><span class="ident">alpha</span><span class="op">&gt;&gt;</span><span class="num">4</span><span class="round">)</span><span class="op">&amp;</span><span class="num">0x0F</span><span class="round">)</span><span class="round">)</span><span class="op">&lt;&lt;</span><span class="num">12</span><span class="round">)</span> <span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Конвертирует в 32х-битное знаковое целое</span>
+    <span class="ident">int32_t</span> <span class="ident">toInt32</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">return</span> <span class="round">(</span><span class="ident">int32_t</span><span class="round">)</span><span class="ident">toUnsigned32</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Конвертирует в 16ти-битное знаковое целое</span>
+    <span class="ident">int16_t</span> <span class="ident">toInt6</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">return</span> <span class="round">(</span><span class="ident">int16_t</span><span class="round">)</span><span class="ident">toUnsigned16</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+
+
+<span class="kwd1">public</span><span class="op">:</span>
+
+    <span class="cmnt">//! Конвертирует из строки</span>
+    <span class="cmnt">/*! Строковое представление может быть в 16тиричном в формате вида \#AARRGGBB, или именем цвета из предопределённого набора
+     */</span>
+    <span class="kwd1">bool</span> <span class="ident">fromString</span><span class="round">(</span> <span class="kwd1">const</span> <span class="kwd1">char</span><span class="op">*</span> <span class="ident">str</span> <span class="round">)</span><span class="op">;</span>
+
+    <span class="cmnt">//! Конвертирует цвет в 16тиричное строковое представление</span>
+    <span class="cmnt">/*!
+        В буфере nameBuf должно быть достаточно места для имени или шестнадцатиричного представления.
+        Самое длинное имя цвета - &quot;lightgoldenrodyellow&quot; - длина 20 символов.
+        Длинна буфера в 32 символа достаточна всегда.
+
+        Если noAlpha==true, то при преобразовании альфаканал отбрасывается.
+     */</span>
+    <span class="kwd1">void</span> <span class="ident">toString</span><span class="round">(</span> <span class="kwd1">char</span><span class="op">*</span> <span class="ident">nameBuf</span>       <span class="cmnt">//!&lt; Указатель на буфер</span>
+                 <span class="op">,</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="op">=</span> <span class="kwd1">false</span> <span class="cmnt">//!&lt; Игнорировать альфа канал</span>
+                 <span class="round">)</span> <span class="kwd1">const</span><span class="op">;</span>
+
+
+    <span class="pp">#<span class="ident">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_USED</span><span class="round">)</span>
+</span>
+    <span class="cmnt">//! Конвертирует из строки std::string</span>
+    <span class="kwd1">bool</span> <span class="ident">fromString</span><span class="round">(</span> <span class="kwd1">const</span> <span class="ident">std</span><span class="op">::</span><span class="ident">string</span> <span class="op">&amp;</span><span class="ident">s</span> <span class="round">)</span>
+    <span class="curly">{</span>
+        <span class="kwd1">return</span> <span class="ident">fromString</span><span class="round">(</span><span class="ident">s</span><span class="op">.</span><span class="ident">c_str</span><span class="round">(</span><span class="round">)</span><span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Конвертирует из строки std::wstring</span>
+    <span class="kwd1">bool</span> <span class="ident">fromString</span><span class="round">(</span> <span class="kwd1">const</span> <span class="ident">std</span><span class="op">::</span><span class="ident">wstring</span> <span class="op">&amp;</span><span class="ident">s</span> <span class="round">)</span>
+    <span class="curly">{</span>
+        <span class="kwd1">return</span> <span class="ident">fromString</span><span class="round">(</span><span class="ident">umba</span><span class="op">::</span><span class="ident">string_plus</span><span class="op">::</span><span class="ident">make_string</span><span class="op">&lt;</span><span class="ident">std</span><span class="op">::</span><span class="ident">string</span><span class="op">&gt;</span><span class="round">(</span> <span class="ident">s</span> <span class="round">)</span><span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">//! Конвертирует в строку</span>
+    <span class="kwd1">template</span> <span class="op">&lt;</span> <span class="kwd1">typename</span> <span class="ident">StringType</span> <span class="op">&gt;</span>
+    <span class="ident">StringType</span> <span class="ident">toString</span><span class="round">(</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="op">=</span> <span class="kwd1">false</span> <span class="cmnt">/*!&lt; Игнорировать альфа канал */</span> <span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">char</span> <span class="ident">buf</span><span class="square">[</span> <span class="ident">max_name_buf_size</span> <span class="square">]</span><span class="op">;</span>
+        <span class="ident">toString</span><span class="round">(</span> <span class="op">&amp;</span><span class="ident">buf</span><span class="square">[</span><span class="num">0</span><span class="square">]</span> <span class="round">)</span><span class="op">;</span>
+        <span class="kwd1">return</span> <span class="ident">umba</span><span class="op">::</span><span class="ident">string_plus</span><span class="op">::</span><span class="ident">make_string</span><span class="op">&lt;</span><span class="ident">std</span><span class="op">::</span><span class="ident">string</span><span class="op">&gt;</span><span class="round">(</span> <span class="op">&amp;</span><span class="ident">buf</span><span class="square">[</span><span class="num">0</span><span class="square">]</span> <span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="pp">#<span class="ident">endif</span>
+</span>
+
+    <span class="pp">#<span class="ident">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">QCOLOR_H</span><span class="round">)</span>
+</span>    <span class="cmnt">/* Qt guard name */</span>
+
+    <span class="cmnt">//! Преобразование в QColor - совместимость с Qt</span>
+    <span class="kwd1">operator</span> <span class="ident">QColor</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">alpha</span><span class="round">)</span> <span class="cmnt">// ����� - ������ �� ������. ���� �� ��������� ����������, � ������ ����� � ������ - �� ���� �� ����� ���� ������ ������������</span>
+            <span class="kwd1">return</span> <span class="ident">QColor</span><span class="round">(</span> <span class="round">(</span><span class="kwd1">int</span><span class="round">)</span><span class="round">(</span><span class="kwd1">unsigned</span><span class="round">)</span><span class="ident">red</span><span class="op">,</span> <span class="round">(</span><span class="kwd1">int</span><span class="round">)</span><span class="round">(</span><span class="kwd1">unsigned</span><span class="round">)</span><span class="ident">green</span><span class="op">,</span> <span class="round">(</span><span class="kwd1">int</span><span class="round">)</span><span class="round">(</span><span class="kwd1">unsigned</span><span class="round">)</span><span class="ident">blue</span> <span class="round">)</span><span class="op">;</span>
+        <span class="kwd1">else</span>
+            <span class="kwd1">return</span> <span class="ident">QColor</span><span class="round">(</span> <span class="round">(</span><span class="kwd1">int</span><span class="round">)</span><span class="round">(</span><span class="kwd1">unsigned</span><span class="round">)</span><span class="ident">red</span><span class="op">,</span> <span class="round">(</span><span class="kwd1">int</span><span class="round">)</span><span class="round">(</span><span class="kwd1">unsigned</span><span class="round">)</span><span class="ident">green</span><span class="op">,</span> <span class="round">(</span><span class="kwd1">int</span><span class="round">)</span><span class="round">(</span><span class="kwd1">unsigned</span><span class="round">)</span><span class="ident">blue</span><span class="op">,</span> <span class="round">(</span><span class="kwd1">int</span><span class="round">)</span><span class="round">(</span><span class="kwd1">unsigned</span><span class="round">)</span><span class="ident">alpha</span> <span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+    <span class="pp">#<span class="ident">endif</span>
+</span>
+
+    <span class="pp">#<span class="ident">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">QBRUSH_H</span><span class="round">)</span> <span class="cmnt">/* Qt guard name */</span>
+</span>
+    <span class="cmnt">//! Преобразование в QBrush - совместимость с Qt и упрощение использования для рисования</span>
+    <span class="kwd1">operator</span> <span class="ident">QBrush</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span>
+    <span class="curly">{</span>
+        <span class="kwd1">return</span> <span class="ident">QBrush</span><span class="round">(</span> <span class="ident">QColor</span><span class="round">(</span><span class="op">*</span><span class="kwd1">this</span><span class="round">)</span> <span class="round">)</span><span class="op">;</span> <span class="cmnt">// Qt::SolidPattern as second args</span>
+    <span class="curly">}</span>
+
+    <span class="pp">#<span class="ident">endif</span>
+</span>
+
+
+<span class="curly">}</span><span class="op">;</span> <span class="cmnt">// struct RgbQuad</span>
+<span class="pp">#<span class="ident">include</span> <span class="str">&quot;packpop.h&quot;</span>
+</span>
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+
+
+
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+<span class="cmnt">//! Хранит связку имя - значение цвета</span>
+<span class="kwd1">struct</span> <span class="ident">RgbQuad_NameColorPair</span>
+<span class="curly">{</span>
+    <span class="kwd1">const</span> <span class="kwd1">char</span><span class="op">*</span>    <span class="ident">name</span><span class="op">;</span>  <span class="cmnt">//!&lt; Имя цвета</span>
+    <span class="ident">RgbQuad</span>        <span class="ident">color</span><span class="op">;</span> <span class="cmnt">//!&lt; Цвет</span>
+<span class="curly">}</span><span class="op">;</span>
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+
+
+
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+<span class="cmnt">//! Возвращает таблицу предопределённых имён цветов - спёрто вроде из SVG стандарта, но имхо совместимо и с HTML</span>
+<span class="kwd1">inline</span>
+<span class="kwd1">const</span> <span class="ident">RgbQuad_NameColorPair</span><span class="op">*</span> <span class="ident">RgbQuad_NameColorPair_getColorPairs</span><span class="round">(</span><span class="round">)</span>
+<span class="curly">{</span>
+    <span class="kwd1">static</span>
+    <span class="ident">RgbQuad_NameColorPair</span>
+    <span class="ident">names</span><span class="square">[</span><span class="square">]</span> <span class="op">=</span>
+    <span class="curly">{</span> <span class="curly">{</span> <span class="str">&quot;black&quot;</span>      <span class="op">,</span> <span class="num">0x000000u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;white&quot;</span>      <span class="op">,</span> <span class="num">0xffffffu</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkgray&quot;</span>   <span class="op">,</span> <span class="num">0x606060u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkgrey&quot;</span>   <span class="op">,</span> <span class="num">0x606060u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;gray&quot;</span>       <span class="op">,</span> <span class="num">0xa0a0a0u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;grey&quot;</span>       <span class="op">,</span> <span class="num">0xa0a0a0u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightgray&quot;</span>  <span class="op">,</span> <span class="num">0xc0c0c0u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightgrey&quot;</span>  <span class="op">,</span> <span class="num">0xc0c0c0u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;red&quot;</span>        <span class="op">,</span> <span class="num">0xff0000u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;green&quot;</span>      <span class="op">,</span> <span class="num">0x00ff00u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;blue&quot;</span>       <span class="op">,</span> <span class="num">0x0000ffu</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;cyan&quot;</span>       <span class="op">,</span> <span class="num">0x00ffffu</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;magenta&quot;</span>    <span class="op">,</span> <span class="num">0xff00ffu</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;yellow&quot;</span>     <span class="op">,</span> <span class="num">0xffff00u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkred&quot;</span>    <span class="op">,</span> <span class="num">0x800000u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkgreen&quot;</span>  <span class="op">,</span> <span class="num">0x008000u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkblue&quot;</span>   <span class="op">,</span> <span class="num">0x000080u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkcyan&quot;</span>   <span class="op">,</span> <span class="num">0x008080u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkmagenta&quot;</span><span class="op">,</span> <span class="num">0x800080u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkyellow&quot;</span> <span class="op">,</span> <span class="num">0x808000u</span> <span class="curly">}</span>
+
+    <span class="cmnt">// Advanced color names (not for MCU)</span>
+    <span class="pp">#<span class="ident">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_USED</span><span class="round">)</span> <span class="op">||</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_ADVANCED_RGBQUAD_NAMES</span><span class="round">)</span>
+</span>    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;dimgray&quot;</span>    <span class="op">,</span> <span class="num">0x909090u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;dimgrey&quot;</span>    <span class="op">,</span> <span class="num">0x909090u</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;aliceblue&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">240</span><span class="op">,</span> <span class="num">248</span><span class="op">,</span> <span class="num">255</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;antiquewhite&quot;</span>         <span class="op">,</span> <span class="curly">{</span> <span class="num">250</span><span class="op">,</span> <span class="num">235</span><span class="op">,</span> <span class="num">215</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;aqua&quot;</span>                 <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span> <span class="num">255</span><span class="op">,</span> <span class="num">255</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;aquamarine&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">127</span><span class="op">,</span> <span class="num">255</span><span class="op">,</span> <span class="num">212</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;azure&quot;</span>                <span class="op">,</span> <span class="curly">{</span> <span class="num">240</span><span class="op">,</span> <span class="num">255</span><span class="op">,</span> <span class="num">255</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;beige&quot;</span>                <span class="op">,</span> <span class="curly">{</span> <span class="num">245</span><span class="op">,</span> <span class="num">245</span><span class="op">,</span> <span class="num">220</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;bisque&quot;</span>               <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">228</span><span class="op">,</span> <span class="num">196</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;blanchedalmond&quot;</span>       <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">235</span><span class="op">,</span> <span class="num">205</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;blue&quot;</span>                 <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span>   <span class="num">0</span><span class="op">,</span> <span class="num">255</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;blueviolet&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">138</span><span class="op">,</span>  <span class="num">43</span><span class="op">,</span> <span class="num">226</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;brown&quot;</span>                <span class="op">,</span> <span class="curly">{</span> <span class="num">165</span><span class="op">,</span>  <span class="num">42</span><span class="op">,</span>  <span class="num">42</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;burlywood&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">222</span><span class="op">,</span> <span class="num">184</span><span class="op">,</span> <span class="num">135</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;cadetblue&quot;</span>            <span class="op">,</span> <span class="curly">{</span>  <span class="num">95</span><span class="op">,</span> <span class="num">158</span><span class="op">,</span> <span class="num">160</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;chartreuse&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">127</span><span class="op">,</span> <span class="num">255</span><span class="op">,</span>   <span class="num">0</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;chocolate&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">210</span><span class="op">,</span> <span class="num">105</span><span class="op">,</span>  <span class="num">30</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;coral&quot;</span>                <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">127</span><span class="op">,</span>  <span class="num">80</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;cornflowerblue&quot;</span>       <span class="op">,</span> <span class="curly">{</span> <span class="num">100</span><span class="op">,</span> <span class="num">149</span><span class="op">,</span> <span class="num">237</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;cornsilk&quot;</span>             <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">248</span><span class="op">,</span> <span class="num">220</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;crimson&quot;</span>              <span class="op">,</span> <span class="curly">{</span> <span class="num">220</span><span class="op">,</span>  <span class="num">20</span><span class="op">,</span>  <span class="num">60</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkblue&quot;</span>             <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span>   <span class="num">0</span><span class="op">,</span> <span class="num">139</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkcyan&quot;</span>             <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span> <span class="num">139</span><span class="op">,</span> <span class="num">139</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkgoldenrod&quot;</span>        <span class="op">,</span> <span class="curly">{</span> <span class="num">184</span><span class="op">,</span> <span class="num">134</span><span class="op">,</span>  <span class="num">11</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkgreen&quot;</span>            <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span> <span class="num">100</span><span class="op">,</span>   <span class="num">0</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkgrey&quot;</span>             <span class="op">,</span> <span class="curly">{</span> <span class="num">169</span><span class="op">,</span> <span class="num">169</span><span class="op">,</span> <span class="num">169</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkkhaki&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">189</span><span class="op">,</span> <span class="num">183</span><span class="op">,</span> <span class="num">107</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkmagenta&quot;</span>          <span class="op">,</span> <span class="curly">{</span> <span class="num">139</span><span class="op">,</span>   <span class="num">0</span><span class="op">,</span> <span class="num">139</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkolivegreen&quot;</span>       <span class="op">,</span> <span class="curly">{</span>  <span class="num">85</span><span class="op">,</span> <span class="num">107</span><span class="op">,</span>  <span class="num">47</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkorange&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">140</span><span class="op">,</span>   <span class="num">0</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkorchid&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">153</span><span class="op">,</span>  <span class="num">50</span><span class="op">,</span> <span class="num">204</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkred&quot;</span>              <span class="op">,</span> <span class="curly">{</span> <span class="num">139</span><span class="op">,</span>   <span class="num">0</span><span class="op">,</span>   <span class="num">0</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darksalmon&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">233</span><span class="op">,</span> <span class="num">150</span><span class="op">,</span> <span class="num">122</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkseagreen&quot;</span>         <span class="op">,</span> <span class="curly">{</span> <span class="num">143</span><span class="op">,</span> <span class="num">188</span><span class="op">,</span> <span class="num">143</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkslateblue&quot;</span>        <span class="op">,</span> <span class="curly">{</span>  <span class="num">72</span><span class="op">,</span>  <span class="num">61</span><span class="op">,</span> <span class="num">139</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkslategray&quot;</span>        <span class="op">,</span> <span class="curly">{</span>  <span class="num">47</span><span class="op">,</span>  <span class="num">79</span><span class="op">,</span>  <span class="num">79</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkslategrey&quot;</span>        <span class="op">,</span> <span class="curly">{</span>  <span class="num">47</span><span class="op">,</span>  <span class="num">79</span><span class="op">,</span>  <span class="num">79</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkturquoise&quot;</span>        <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span> <span class="num">206</span><span class="op">,</span> <span class="num">209</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkviolet&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">148</span><span class="op">,</span>   <span class="num">0</span><span class="op">,</span> <span class="num">211</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;deeppink&quot;</span>             <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span>  <span class="num">20</span><span class="op">,</span> <span class="num">147</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;deepskyblue&quot;</span>          <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span> <span class="num">191</span><span class="op">,</span> <span class="num">255</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;dodgerblue&quot;</span>           <span class="op">,</span> <span class="curly">{</span>  <span class="num">30</span><span class="op">,</span> <span class="num">144</span><span class="op">,</span> <span class="num">255</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;firebrick&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">178</span><span class="op">,</span>  <span class="num">34</span><span class="op">,</span>  <span class="num">34</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;floralwhite&quot;</span>          <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">250</span><span class="op">,</span> <span class="num">240</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;forestgreen&quot;</span>          <span class="op">,</span> <span class="curly">{</span>  <span class="num">34</span><span class="op">,</span> <span class="num">139</span><span class="op">,</span>  <span class="num">34</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;fuchsia&quot;</span>              <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span>   <span class="num">0</span><span class="op">,</span> <span class="num">255</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;gainsboro&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">220</span><span class="op">,</span> <span class="num">220</span><span class="op">,</span> <span class="num">220</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;ghostwhite&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">248</span><span class="op">,</span> <span class="num">248</span><span class="op">,</span> <span class="num">255</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;gold&quot;</span>                 <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">215</span><span class="op">,</span>   <span class="num">0</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;goldenrod&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">218</span><span class="op">,</span> <span class="num">165</span><span class="op">,</span>  <span class="num">32</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;greenyellow&quot;</span>          <span class="op">,</span> <span class="curly">{</span> <span class="num">173</span><span class="op">,</span> <span class="num">255</span><span class="op">,</span>  <span class="num">47</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;honeydew&quot;</span>             <span class="op">,</span> <span class="curly">{</span> <span class="num">240</span><span class="op">,</span> <span class="num">255</span><span class="op">,</span> <span class="num">240</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;hotpink&quot;</span>              <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">105</span><span class="op">,</span> <span class="num">180</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;indianred&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">205</span><span class="op">,</span>  <span class="num">92</span><span class="op">,</span>  <span class="num">92</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;indigo&quot;</span>               <span class="op">,</span> <span class="curly">{</span>  <span class="num">75</span><span class="op">,</span>   <span class="num">0</span><span class="op">,</span> <span class="num">130</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;ivory&quot;</span>                <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">255</span><span class="op">,</span> <span class="num">240</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;khaki&quot;</span>                <span class="op">,</span> <span class="curly">{</span> <span class="num">240</span><span class="op">,</span> <span class="num">230</span><span class="op">,</span> <span class="num">140</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lavender&quot;</span>             <span class="op">,</span> <span class="curly">{</span> <span class="num">230</span><span class="op">,</span> <span class="num">230</span><span class="op">,</span> <span class="num">250</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lavenderblush&quot;</span>        <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">240</span><span class="op">,</span> <span class="num">245</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lawngreen&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">124</span><span class="op">,</span> <span class="num">252</span><span class="op">,</span>   <span class="num">0</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lemonchiffon&quot;</span>         <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">250</span><span class="op">,</span> <span class="num">205</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightblue&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">173</span><span class="op">,</span> <span class="num">216</span><span class="op">,</span> <span class="num">230</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightcoral&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">240</span><span class="op">,</span> <span class="num">128</span><span class="op">,</span> <span class="num">128</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightcyan&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">224</span><span class="op">,</span> <span class="num">255</span><span class="op">,</span> <span class="num">255</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightgoldenrodyellow&quot;</span> <span class="op">,</span> <span class="curly">{</span> <span class="num">250</span><span class="op">,</span> <span class="num">250</span><span class="op">,</span> <span class="num">210</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightgreen&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">144</span><span class="op">,</span> <span class="num">238</span><span class="op">,</span> <span class="num">144</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightpink&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">182</span><span class="op">,</span> <span class="num">193</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightsalmon&quot;</span>          <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">160</span><span class="op">,</span> <span class="num">122</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightseagreen&quot;</span>        <span class="op">,</span> <span class="curly">{</span>  <span class="num">32</span><span class="op">,</span> <span class="num">178</span><span class="op">,</span> <span class="num">170</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightskyblue&quot;</span>         <span class="op">,</span> <span class="curly">{</span> <span class="num">135</span><span class="op">,</span> <span class="num">206</span><span class="op">,</span> <span class="num">250</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightslategray&quot;</span>       <span class="op">,</span> <span class="curly">{</span> <span class="num">119</span><span class="op">,</span> <span class="num">136</span><span class="op">,</span> <span class="num">153</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightslategrey&quot;</span>       <span class="op">,</span> <span class="curly">{</span> <span class="num">119</span><span class="op">,</span> <span class="num">136</span><span class="op">,</span> <span class="num">153</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightsteelblue&quot;</span>       <span class="op">,</span> <span class="curly">{</span> <span class="num">176</span><span class="op">,</span> <span class="num">196</span><span class="op">,</span> <span class="num">222</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lightyellow&quot;</span>          <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">255</span><span class="op">,</span> <span class="num">224</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;lime&quot;</span>                 <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span> <span class="num">255</span><span class="op">,</span>   <span class="num">0</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;limegreen&quot;</span>            <span class="op">,</span> <span class="curly">{</span>  <span class="num">50</span><span class="op">,</span> <span class="num">205</span><span class="op">,</span>  <span class="num">50</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;linen&quot;</span>                <span class="op">,</span> <span class="curly">{</span> <span class="num">250</span><span class="op">,</span> <span class="num">240</span><span class="op">,</span> <span class="num">230</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;maroon&quot;</span>               <span class="op">,</span> <span class="curly">{</span> <span class="num">128</span><span class="op">,</span>   <span class="num">0</span><span class="op">,</span>   <span class="num">0</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;mediumaquamarine&quot;</span>     <span class="op">,</span> <span class="curly">{</span> <span class="num">102</span><span class="op">,</span> <span class="num">205</span><span class="op">,</span> <span class="num">170</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;mediumblue&quot;</span>           <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span>   <span class="num">0</span><span class="op">,</span> <span class="num">205</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;mediumorchid&quot;</span>         <span class="op">,</span> <span class="curly">{</span> <span class="num">186</span><span class="op">,</span>  <span class="num">85</span><span class="op">,</span> <span class="num">211</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;mediumpurple&quot;</span>         <span class="op">,</span> <span class="curly">{</span> <span class="num">147</span><span class="op">,</span> <span class="num">112</span><span class="op">,</span> <span class="num">219</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;mediumseagreen&quot;</span>       <span class="op">,</span> <span class="curly">{</span>  <span class="num">60</span><span class="op">,</span> <span class="num">179</span><span class="op">,</span> <span class="num">113</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;mediumslateblue&quot;</span>      <span class="op">,</span> <span class="curly">{</span> <span class="num">123</span><span class="op">,</span> <span class="num">104</span><span class="op">,</span> <span class="num">238</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;mediumspringgreen&quot;</span>    <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span> <span class="num">250</span><span class="op">,</span> <span class="num">154</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;mediumturquoise&quot;</span>      <span class="op">,</span> <span class="curly">{</span>  <span class="num">72</span><span class="op">,</span> <span class="num">209</span><span class="op">,</span> <span class="num">204</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;mediumvioletred&quot;</span>      <span class="op">,</span> <span class="curly">{</span> <span class="num">199</span><span class="op">,</span>  <span class="num">21</span><span class="op">,</span> <span class="num">133</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;midnightblue&quot;</span>         <span class="op">,</span> <span class="curly">{</span>  <span class="num">25</span><span class="op">,</span>  <span class="num">25</span><span class="op">,</span> <span class="num">112</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;mintcream&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">245</span><span class="op">,</span> <span class="num">255</span><span class="op">,</span> <span class="num">250</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;mistyrose&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">228</span><span class="op">,</span> <span class="num">225</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;moccasin&quot;</span>             <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">228</span><span class="op">,</span> <span class="num">181</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;navajowhite&quot;</span>          <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">222</span><span class="op">,</span> <span class="num">173</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;navy&quot;</span>                 <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span>   <span class="num">0</span><span class="op">,</span> <span class="num">128</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;oldlace&quot;</span>              <span class="op">,</span> <span class="curly">{</span> <span class="num">253</span><span class="op">,</span> <span class="num">245</span><span class="op">,</span> <span class="num">230</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;olive&quot;</span>                <span class="op">,</span> <span class="curly">{</span> <span class="num">128</span><span class="op">,</span> <span class="num">128</span><span class="op">,</span>   <span class="num">0</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;olivedrab&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">107</span><span class="op">,</span> <span class="num">142</span><span class="op">,</span>  <span class="num">35</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;orange&quot;</span>               <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">165</span><span class="op">,</span>   <span class="num">0</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;orangered&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span>  <span class="num">69</span><span class="op">,</span>   <span class="num">0</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;orchid&quot;</span>               <span class="op">,</span> <span class="curly">{</span> <span class="num">218</span><span class="op">,</span> <span class="num">112</span><span class="op">,</span> <span class="num">214</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;palegoldenrod&quot;</span>        <span class="op">,</span> <span class="curly">{</span> <span class="num">238</span><span class="op">,</span> <span class="num">232</span><span class="op">,</span> <span class="num">170</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;palegreen&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">152</span><span class="op">,</span> <span class="num">251</span><span class="op">,</span> <span class="num">152</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;paleturquoise&quot;</span>        <span class="op">,</span> <span class="curly">{</span> <span class="num">175</span><span class="op">,</span> <span class="num">238</span><span class="op">,</span> <span class="num">238</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;palevioletred&quot;</span>        <span class="op">,</span> <span class="curly">{</span> <span class="num">219</span><span class="op">,</span> <span class="num">112</span><span class="op">,</span> <span class="num">147</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;papayawhip&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">239</span><span class="op">,</span> <span class="num">213</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;peachpuff&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">218</span><span class="op">,</span> <span class="num">185</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;peru&quot;</span>                 <span class="op">,</span> <span class="curly">{</span> <span class="num">205</span><span class="op">,</span> <span class="num">133</span><span class="op">,</span>  <span class="num">63</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;pink&quot;</span>                 <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">192</span><span class="op">,</span> <span class="num">203</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;plum&quot;</span>                 <span class="op">,</span> <span class="curly">{</span> <span class="num">221</span><span class="op">,</span> <span class="num">160</span><span class="op">,</span> <span class="num">221</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;powderblue&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">176</span><span class="op">,</span> <span class="num">224</span><span class="op">,</span> <span class="num">230</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;purple&quot;</span>               <span class="op">,</span> <span class="curly">{</span> <span class="num">128</span><span class="op">,</span>   <span class="num">0</span><span class="op">,</span> <span class="num">128</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;red&quot;</span>                  <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span>   <span class="num">0</span><span class="op">,</span>   <span class="num">0</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;rosybrown&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">188</span><span class="op">,</span> <span class="num">143</span><span class="op">,</span> <span class="num">143</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;royalblue&quot;</span>            <span class="op">,</span> <span class="curly">{</span>  <span class="num">65</span><span class="op">,</span> <span class="num">105</span><span class="op">,</span> <span class="num">225</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;saddlebrown&quot;</span>          <span class="op">,</span> <span class="curly">{</span> <span class="num">139</span><span class="op">,</span>  <span class="num">69</span><span class="op">,</span>  <span class="num">19</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;salmon&quot;</span>               <span class="op">,</span> <span class="curly">{</span> <span class="num">250</span><span class="op">,</span> <span class="num">128</span><span class="op">,</span> <span class="num">114</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;sandybrown&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">244</span><span class="op">,</span> <span class="num">164</span><span class="op">,</span>  <span class="num">96</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;seagreen&quot;</span>             <span class="op">,</span> <span class="curly">{</span>  <span class="num">46</span><span class="op">,</span> <span class="num">139</span><span class="op">,</span>  <span class="num">87</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;seashell&quot;</span>             <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">245</span><span class="op">,</span> <span class="num">238</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;sienna&quot;</span>               <span class="op">,</span> <span class="curly">{</span> <span class="num">160</span><span class="op">,</span>  <span class="num">82</span><span class="op">,</span>  <span class="num">45</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;silver&quot;</span>               <span class="op">,</span> <span class="curly">{</span> <span class="num">192</span><span class="op">,</span> <span class="num">192</span><span class="op">,</span> <span class="num">192</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;skyblue&quot;</span>              <span class="op">,</span> <span class="curly">{</span> <span class="num">135</span><span class="op">,</span> <span class="num">206</span><span class="op">,</span> <span class="num">235</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;slateblue&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">106</span><span class="op">,</span>  <span class="num">90</span><span class="op">,</span> <span class="num">205</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;slategray&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">112</span><span class="op">,</span> <span class="num">128</span><span class="op">,</span> <span class="num">144</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;slategrey&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">112</span><span class="op">,</span> <span class="num">128</span><span class="op">,</span> <span class="num">144</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;snow&quot;</span>                 <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span> <span class="num">250</span><span class="op">,</span> <span class="num">250</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;springgreen&quot;</span>          <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span> <span class="num">255</span><span class="op">,</span> <span class="num">127</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;steelblue&quot;</span>            <span class="op">,</span> <span class="curly">{</span>  <span class="num">70</span><span class="op">,</span> <span class="num">130</span><span class="op">,</span> <span class="num">180</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;tan&quot;</span>                  <span class="op">,</span> <span class="curly">{</span> <span class="num">210</span><span class="op">,</span> <span class="num">180</span><span class="op">,</span> <span class="num">140</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;teal&quot;</span>                 <span class="op">,</span> <span class="curly">{</span>   <span class="num">0</span><span class="op">,</span> <span class="num">128</span><span class="op">,</span> <span class="num">128</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;thistle&quot;</span>              <span class="op">,</span> <span class="curly">{</span> <span class="num">216</span><span class="op">,</span> <span class="num">191</span><span class="op">,</span> <span class="num">216</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;tomato&quot;</span>               <span class="op">,</span> <span class="curly">{</span> <span class="num">255</span><span class="op">,</span>  <span class="num">99</span><span class="op">,</span>  <span class="num">71</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;turquoise&quot;</span>            <span class="op">,</span> <span class="curly">{</span>  <span class="num">64</span><span class="op">,</span> <span class="num">224</span><span class="op">,</span> <span class="num">208</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;violet&quot;</span>               <span class="op">,</span> <span class="curly">{</span> <span class="num">238</span><span class="op">,</span> <span class="num">130</span><span class="op">,</span> <span class="num">238</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;wheat&quot;</span>                <span class="op">,</span> <span class="curly">{</span> <span class="num">245</span><span class="op">,</span> <span class="num">222</span><span class="op">,</span> <span class="num">179</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;whitesmoke&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">245</span><span class="op">,</span> <span class="num">245</span><span class="op">,</span> <span class="num">245</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;yellowgreen&quot;</span>          <span class="op">,</span> <span class="curly">{</span> <span class="num">154</span><span class="op">,</span> <span class="num">205</span><span class="op">,</span>  <span class="num">50</span> <span class="curly">}</span> <span class="curly">}</span>
+    <span class="pp">#<span class="ident">endif</span>
+</span>    <span class="op">,</span> <span class="curly">{</span> <span class="num">0</span>                      <span class="op">,</span> <span class="num">0</span> <span class="curly">}</span>
+    <span class="curly">}</span><span class="op">;</span>
+
+    <span class="kwd1">return</span> <span class="op">&amp;</span><span class="ident">names</span><span class="square">[</span><span class="num">0</span><span class="square">]</span><span class="op">;</span>
+<span class="curly">}</span>
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+<span class="kwd1">inline</span>
+<span class="kwd1">bool</span> <span class="ident">RgbQuad</span><span class="op">::</span><span class="ident">fromString</span><span class="round">(</span> <span class="kwd1">const</span> <span class="kwd1">char</span><span class="op">*</span> <span class="ident">str</span> <span class="round">)</span>
+<span class="curly">{</span>
+    <span class="kwd1">if</span> <span class="round">(</span><span class="op">*</span><span class="ident">str</span><span class="op">==</span><span class="str">&apos;#&apos;</span><span class="round">)</span>
+    <span class="curly">{</span>
+        <span class="op">++</span><span class="ident">str</span><span class="op">;</span>
+        <span class="ident">size_t</span> <span class="ident">readedDigits</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+        <span class="ident">uint32_t</span> <span class="ident">argb</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+        <span class="kwd1">for</span><span class="round">(</span><span class="op">;</span> <span class="op">*</span><span class="ident">str</span><span class="op">;</span> <span class="op">++</span><span class="ident">str</span><span class="round">)</span>
+        <span class="curly">{</span>
+            <span class="kwd1">int</span> <span class="ident">d</span> <span class="op">=</span> <span class="ident">umba</span><span class="op">::</span><span class="ident">parse_utils</span><span class="op">::</span><span class="ident">toDigit</span><span class="round">(</span><span class="op">*</span><span class="ident">str</span><span class="round">)</span><span class="op">;</span>
+            <span class="kwd1">if</span> <span class="round">(</span><span class="ident">d</span><span class="op">&lt;</span><span class="num">0</span><span class="round">)</span>
+                <span class="kwd1">return</span> <span class="kwd1">false</span><span class="op">;</span>
+            <span class="ident">argb</span> <span class="op">&lt;&lt;=</span> <span class="num">16</span><span class="op">;</span>
+            <span class="ident">argb</span> <span class="op">+=</span> <span class="round">(</span><span class="ident">uint32_t</span><span class="round">)</span><span class="ident">d</span><span class="op">;</span>
+            <span class="op">++</span><span class="ident">readedDigits</span><span class="op">;</span>
+        <span class="curly">}</span>
+
+        <span class="kwd1">if</span> <span class="round">(</span><span class="ident">readedDigits</span><span class="op">==</span><span class="num">8</span> <span class="op">||</span> <span class="ident">readedDigits</span><span class="op">==</span><span class="num">6</span><span class="round">)</span>
+        <span class="curly">{</span>
+            <span class="ident">blue</span>  <span class="op">=</span> <span class="round">(</span><span class="ident">argb</span>    <span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFFu</span><span class="op">;</span>
+            <span class="ident">green</span> <span class="op">=</span> <span class="round">(</span><span class="ident">argb</span><span class="op">&gt;&gt;</span><span class="num">8</span> <span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFFu</span><span class="op">;</span>
+            <span class="ident">red</span>   <span class="op">=</span> <span class="round">(</span><span class="ident">argb</span><span class="op">&gt;&gt;</span><span class="num">16</span><span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFFu</span><span class="op">;</span>
+            <span class="kwd1">if</span> <span class="round">(</span><span class="ident">readedDigits</span><span class="op">==</span><span class="num">8</span><span class="round">)</span>
+               <span class="ident">alpha</span> <span class="op">=</span> <span class="round">(</span><span class="ident">argb</span><span class="op">&gt;&gt;</span><span class="num">24</span><span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFFu</span><span class="op">;</span>
+            <span class="kwd1">else</span>
+               <span class="ident">alpha</span> <span class="op">=</span> <span class="num">0xFFu</span><span class="op">;</span>
+        <span class="curly">}</span>
+        <span class="kwd1">else</span> <span class="kwd1">if</span> <span class="round">(</span><span class="ident">readedDigits</span><span class="op">==</span><span class="num">4</span> <span class="op">||</span> <span class="ident">readedDigits</span><span class="op">==</span><span class="num">3</span><span class="round">)</span>
+        <span class="curly">{</span>
+            <span class="ident">blue</span>  <span class="op">=</span> <span class="round">(</span><span class="round">(</span><span class="ident">argb</span>    <span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFu</span><span class="round">)</span><span class="op">&lt;&lt;</span><span class="num">4</span><span class="op">;</span>
+            <span class="ident">green</span> <span class="op">=</span> <span class="round">(</span><span class="round">(</span><span class="ident">argb</span><span class="op">&gt;&gt;</span><span class="num">4</span> <span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFu</span><span class="round">)</span><span class="op">&lt;&lt;</span><span class="num">4</span><span class="op">;</span>
+            <span class="ident">red</span>   <span class="op">=</span> <span class="round">(</span><span class="round">(</span><span class="ident">argb</span><span class="op">&gt;&gt;</span><span class="num">8</span> <span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFu</span><span class="round">)</span><span class="op">&lt;&lt;</span><span class="num">4</span><span class="op">;</span>
+            <span class="kwd1">if</span> <span class="round">(</span><span class="ident">readedDigits</span><span class="op">==</span><span class="num">4</span><span class="round">)</span>
+               <span class="ident">alpha</span> <span class="op">=</span> <span class="round">(</span><span class="round">(</span><span class="ident">argb</span><span class="op">&gt;&gt;</span><span class="num">12</span><span class="round">)</span> <span class="op">&amp;</span> <span class="num">0xFu</span><span class="round">)</span><span class="op">&lt;&lt;</span><span class="num">4</span><span class="op">;</span>
+            <span class="kwd1">else</span>
+               <span class="ident">alpha</span> <span class="op">=</span> <span class="num">0xFFu</span><span class="op">;</span>
+        <span class="curly">}</span>
+        <span class="kwd1">else</span>
+        <span class="curly">{</span>
+            <span class="kwd1">return</span> <span class="kwd1">false</span><span class="op">;</span>
+        <span class="curly">}</span>
+
+        <span class="kwd1">return</span> <span class="kwd1">true</span><span class="op">;</span>
+    <span class="curly">}</span>
+    <span class="kwd1">else</span> <span class="cmnt">// name taken</span>
+    <span class="curly">{</span>
+        <span class="kwd1">const</span> <span class="ident">RgbQuad_NameColorPair</span><span class="op">*</span> <span class="ident">pColorPair</span> <span class="op">=</span> <span class="ident">RgbQuad_NameColorPair_getColorPairs</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>
+        <span class="kwd1">for</span><span class="round">(</span> <span class="op">;</span> <span class="ident">pColorPair</span><span class="op">-&gt;</span><span class="ident">name</span><span class="op">;</span> <span class="op">++</span><span class="ident">pColorPair</span><span class="round">)</span>
+        <span class="curly">{</span>
+            <span class="kwd1">if</span> <span class="round">(</span><span class="ident">umba</span><span class="op">::</span><span class="ident">platform_support</span><span class="op">::</span><span class="ident">str_icase_compare</span><span class="round">(</span><span class="ident">pColorPair</span><span class="op">-&gt;</span><span class="ident">name</span><span class="op">,</span> <span class="ident">str</span><span class="round">)</span><span class="op">==</span><span class="num">0</span><span class="round">)</span>
+            <span class="curly">{</span>
+                <span class="op">*</span><span class="kwd1">this</span> <span class="op">=</span> <span class="ident">pColorPair</span><span class="op">-&gt;</span><span class="ident">color</span><span class="op">;</span>
+                <span class="kwd1">return</span> <span class="kwd1">true</span><span class="op">;</span>
+            <span class="curly">}</span>
+        <span class="curly">}</span>
+    <span class="curly">}</span>
+
+    <span class="kwd1">return</span> <span class="kwd1">false</span><span class="op">;</span>
+
+<span class="curly">}</span>
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+<span class="kwd1">inline</span>
+<span class="kwd1">void</span> <span class="ident">RgbQuad</span><span class="op">::</span><span class="ident">toString</span><span class="round">(</span> <span class="kwd1">char</span><span class="op">*</span> <span class="ident">nameBuf</span><span class="op">,</span> <span class="kwd1">bool</span> <span class="ident">useAlpha</span> <span class="round">)</span> <span class="kwd1">const</span>
+<span class="curly">{</span>
+    <span class="ident">RgbQuad</span> <span class="ident">cmp</span> <span class="op">=</span> <span class="op">*</span><span class="kwd1">this</span><span class="op">;</span>
+    <span class="kwd1">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">useAlpha</span><span class="round">)</span>
+        <span class="ident">cmp</span><span class="op">.</span><span class="ident">alpha</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+
+    <span class="kwd1">const</span> <span class="ident">RgbQuad_NameColorPair</span><span class="op">*</span> <span class="ident">pColorPair</span> <span class="op">=</span> <span class="ident">RgbQuad_NameColorPair_getColorPairs</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>
+    <span class="kwd1">for</span><span class="round">(</span> <span class="op">;</span> <span class="ident">pColorPair</span><span class="op">-&gt;</span><span class="ident">name</span><span class="op">;</span> <span class="op">++</span><span class="ident">pColorPair</span><span class="round">)</span>
+    <span class="curly">{</span>
+        <span class="kwd1">if</span> <span class="round">(</span><span class="ident">pColorPair</span><span class="op">-&gt;</span><span class="ident">color</span> <span class="op">==</span> <span class="ident">cmp</span><span class="round">)</span>
+        <span class="curly">{</span>
+            <span class="ident">std</span><span class="op">::</span><span class="ident">strcpy</span><span class="round">(</span> <span class="ident">nameBuf</span><span class="op">,</span> <span class="ident">pColorPair</span><span class="op">-&gt;</span><span class="ident">name</span> <span class="round">)</span><span class="op">;</span>
+            <span class="kwd1">return</span><span class="op">;</span>
+        <span class="curly">}</span>
+    <span class="curly">}</span>
+
+    <span class="cmnt">// Appropriate color not found</span>
+    <span class="cmnt">// Generate hex representation</span>
+
+    <span class="ident">uint32_t</span> <span class="ident">uclr</span> <span class="op">=</span> <span class="ident">toUnsigned</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>
+    <span class="op">*</span><span class="ident">nameBuf</span><span class="op">++</span> <span class="op">=</span> <span class="str">&apos;#&apos;</span><span class="op">;</span>
+
+    <span class="kwd1">char</span><span class="op">*</span> <span class="ident">numericStart</span> <span class="op">=</span> <span class="ident">nameBuf</span><span class="op">;</span>
+
+    <span class="cmnt">// #AARRGGBB</span>
+    <span class="kwd1">for</span><span class="round">(</span> <span class="kwd1">auto</span> <span class="ident">i</span> <span class="op">=</span> <span class="num">0u</span><span class="op">;</span> <span class="ident">i</span><span class="op">!=</span><span class="num">8</span><span class="op">;</span> <span class="op">++</span><span class="ident">i</span><span class="round">)</span> <span class="cmnt">// eight digits in 32 bit number</span>
+    <span class="curly">{</span>
+        <span class="cmnt">//  i         0    1    2    3    4    5    6    7</span>
+        <span class="cmnt">//  i+1       1    2    3    4    5    6    7    8</span>
+        <span class="cmnt">// (i+1)*4    4    8   12   16   20   24   28   32</span>
+        <span class="cmnt">// (i+1)*4 = XM</span>
+        <span class="cmnt">// XM         4    8   12   16   20   24   28   32</span>
+        <span class="cmnt">// need (N)  28   24   20   16   12    8    4    0</span>
+
+        <span class="cmnt">// N = 32-XM (nShift)</span>
+
+        <span class="cmnt">// nShift = N</span>
+
+        <span class="kwd1">auto</span> <span class="ident">XM</span> <span class="op">=</span> <span class="round">(</span><span class="ident">i</span><span class="op">+</span><span class="num">1</span><span class="round">)</span><span class="op">*</span><span class="num">4</span><span class="op">;</span>
+        <span class="kwd1">auto</span>  <span class="ident">N</span> <span class="op">=</span> <span class="num">32</span> <span class="op">-</span> <span class="ident">XM</span><span class="op">;</span>
+
+        <span class="kwd1">auto</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">uclr</span><span class="op">;</span>
+        <span class="kwd1">if</span> <span class="round">(</span><span class="ident">N</span><span class="round">)</span>
+            <span class="ident">tmp</span> <span class="op">&lt;&lt;=</span> <span class="ident">N</span><span class="op">;</span>
+        <span class="ident">tmp</span> <span class="op">&amp;=</span> <span class="num">0x0F</span><span class="op">;</span>
+
+        <span class="op">*</span><span class="ident">nameBuf</span><span class="op">++</span> <span class="op">=</span> <span class="ident">umba</span><span class="op">::</span><span class="ident">format_utils</span><span class="op">::</span><span class="ident">digitToChar</span><span class="round">(</span> <span class="ident">tmp</span> <span class="round">)</span><span class="op">;</span>
+
+    <span class="curly">}</span>
+
+    <span class="op">*</span><span class="ident">nameBuf</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
+
+    <span class="kwd1">if</span> <span class="round">(</span><span class="round">(</span><span class="ident">uclr</span> <span class="op">&amp;</span> <span class="num">0xFF000000</span><span class="round">)</span> <span class="op">==</span> <span class="num">0</span><span class="round">)</span>
+    <span class="curly">{</span>
+        <span class="ident">std</span><span class="op">::</span><span class="ident">memmove</span><span class="round">(</span> <span class="round">(</span><span class="kwd1">void</span><span class="op">*</span><span class="round">)</span><span class="ident">numericStart</span><span class="op">,</span> <span class="round">(</span><span class="kwd1">void</span><span class="op">*</span><span class="round">)</span><span class="round">(</span><span class="ident">numericStart</span><span class="op">+</span><span class="num">2</span><span class="round">)</span><span class="op">,</span> <span class="num">6</span><span class="op">+</span><span class="num">1</span> <span class="round">)</span><span class="op">;</span>
+    <span class="curly">}</span>
+
+<span class="curly">}</span>
+
+<span class="cmnt">//-----------------------------------------------------------------------------</span>
+
+
+
+
+<span class="curly">}</span> <span class="cmnt">// namespace umba</span>
+
+
+</pre>
+</body>
+</html>
