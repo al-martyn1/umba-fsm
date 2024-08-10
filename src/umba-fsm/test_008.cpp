@@ -242,7 +242,7 @@ body {
 //   /*color:#E2831F;*/
 //   color:#D3783F;
 // }
-//  
+//
 
 
 
@@ -261,7 +261,7 @@ auto makeTokenText(umba::tokenizer::payload_type tokenType, umba::iterator::Text
     {
         return std::string("\n");
     }
-    
+
     if (tokenType==UMBA_TOKENIZER_TOKEN_LINE_CONTINUATION)
     {
         return std::string("\\\n");
@@ -409,7 +409,7 @@ int main(int argc, char* argv[])
         #endif
 
         inputFiles.clear();
-        
+
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/preprocessor.h")));
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/the.h")));
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/stl_keil_initializer_list.h")));
@@ -565,7 +565,7 @@ int main(int argc, char* argv[])
                                      oss << "<span class=\"pp\">";
                                      flushBufferedTokens();
                                      oss << "</span>";
-                                     
+
                                      if (st==stWaitPreprocessorKeyword)
                                      {
                                          // errMsg = "Unexpected '#'"
@@ -608,7 +608,7 @@ int main(int argc, char* argv[])
                                           return true;
 
                                           break;
-                                     }     
+                                     }
 
                                      case stReadPreprocessor:
                                          if (tokenType==UMBA_TOKENIZER_TOKEN_IDENTIFIER)
@@ -683,7 +683,7 @@ int main(int argc, char* argv[])
     // {
     //     return "\n";
     // }
-    //  
+    //
     // if (tokenType==UMBA_TOKENIZER_TOKEN_LINE_CONTINUATION)
 
 
