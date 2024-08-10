@@ -30,12 +30,12 @@ add_subdirectory(${LIB_ROOT}/encoding)
 add_subdirectory(${LIB_ROOT}/marty_cpp)
 # add_subdirectory(${LIB_ROOT}/marty_pugixml)
 add_subdirectory(${LIB_ROOT}/marty_tr)
-add_subdirectory(${LIB_ROOT}/marty_yaml_toml_json)
-add_subdirectory(${LIB_ROOT}/nlohmann)    # https://json.nlohmann.me/integration/cmake/#external
-#add_subdirectory(${LIB_ROOT}/pugixml)
+# add_subdirectory(${LIB_ROOT}/marty_yaml_toml_json)
+# add_subdirectory(${LIB_ROOT}/nlohmann)    # https://json.nlohmann.me/integration/cmake/#external
+# add_subdirectory(${LIB_ROOT}/pugixml)
 add_subdirectory(${LIB_ROOT}/sfmt)
 add_subdirectory(${LIB_ROOT}/umba)
-add_subdirectory(${LIB_ROOT}/yaml-cpp)
+# add_subdirectory(${LIB_ROOT}/yaml-cpp)
 
 
 umba_configure_boost("STATIC_LIBS" "MULTITHREADED" "${STATIC_RUNTIME}")

@@ -1,0 +1,14 @@
+Boost MSM PUML - https://www.boost.org/doc/libs/1_85_0/libs/msm/doc/HTML/ch03s04.html
+    http://www.boost.org/doc/libs/release/libs/msm/index.html
+Дизайн шаблона конечного автомата на C++ - http://www.rsdn.ru/article/alg/FiniteStateMachine.xml
+Static Finite State Machine - http://www.rsdn.ru/article/alg/Static_Finite_State_Machine.xml
+Конечные автоматы в C++  - http://www.devexp.ru/2011/02/konechnye-avtomaty-v-c/
+Matlab Simulink Stateflow - https://exponenta.ru/stateflow
+Генератор на perl конечного автомата на C - http://we.easyelectronics.ru/Soft/generator-na-perl-konechnogo-avtomata-na-c.html
+  https://demitel@bitbucket.org/demitel/dfsm.git
+Modern Embedded Software - Quantum Leaps - https://www.state-machine.com/
+Конечные автоматы - Владимир Кожаев - http://www.slideshare.net/uafpug/ss-4604587
+  https://web.archive.org/web/20240806164814/https://www.slideshare.net/slideshow/ss-4604587/4604587
+AVR. Учебный курс. Конечный автомат - http://easyelectronics.ru/avr-uchebnyj-kurs-konechnyj-avtomat.html
+  Тут в коментах про Вову
+
