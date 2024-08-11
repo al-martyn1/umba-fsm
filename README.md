@@ -17,13 +17,14 @@
 Пока можно посмотреть:
 
  - [Раскрашиватель плюсового кода - сорс](src/umba-fsm/test_008.cpp)
- - [Пример рендеринга 1](doc/html/rendered_cpp/preprocessor.html)
- - [Пример рендеринга 2](doc/html/rendered_cpp/rgbquad.html)
- - [Пример рендеринга 3](doc/html/rendered_cpp/stl_keil_initializer_list.html)
- - [Пример рендеринга 4](doc/html/rendered_cpp/stl_keil_type_traits.html)
- - [Пример рендеринга 5](doc/html/rendered_cpp/string_plus.html)
- - [Пример рендеринга 6](doc/html/rendered_cpp/the.html)
- - [Пример рендеринга 7](doc/html/rendered_cpp/regression_tests.html)
+ - [Пример рендеринга 1](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/preprocessor.html)
+ - [Пример рендеринга 2](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/rgbquad.html)
+ - [Пример рендеринга 3](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/stl_keil_initializer_list.html)
+ - [Пример рендеринга 4](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/stl_keil_type_traits.html)
+ - [Пример рендеринга 5](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/string_plus.html)
+ - [Пример рендеринга 6](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/the.html)
+ - [Пример рендеринга 7](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/regression_tests.html)
+
 
 
 

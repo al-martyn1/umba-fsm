@@ -69,7 +69,8 @@ StringType getTokenKindString(umba::tokenizer::payload_type p)
             if (p>=UMBA_TOKENIZER_TOKEN_OPERATOR_SINGLE_LINE_COMMENT_FIRST && p<=UMBA_TOKENIZER_TOKEN_OPERATOR_SINGLE_LINE_COMMENT_LAST)
                 return umba::string_plus::make_string<StringType>("cmnt");
 
-            if (p>=UMBA_TOKENIZER_TOKEN_NUMBER_USER_LITERAL_FIRST && p<=UMBA_TOKENIZER_TOKEN_NUMBER_USER_LITERAL_LAST)
+            //if (p>=UMBA_TOKENIZER_TOKEN_NUMBER_USER_LITERAL_FIRST && p<=UMBA_TOKENIZER_TOKEN_NUMBER_USER_LITERAL_LAST)
+            if (p>=UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_FIRST && p<=UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_LAST)
                 return umba::string_plus::make_string<StringType>("num");
 
             if (p>=UMBA_TOKENIZER_TOKEN_OPERATOR_FIRST && p<=UMBA_TOKENIZER_TOKEN_OPERATOR_LAST)
@@ -415,13 +416,13 @@ int main(int argc, char* argv[])
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/stl_keil_initializer_list.h")));
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/stl_keil_type_traits.h")));
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/string_plus.h")));
-        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/rgbquad.h")));
+        inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/rgbquad.h")));
 
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/")));
 
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/marty_decimal/tests/src/regression_tests.cpp")));
 
-        inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("tests/tokenizer/number_ull.cpp")));
+        //inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("tests/tokenizer/number_ull.cpp")));
 
     }
 
@@ -708,6 +709,27 @@ int main(int argc, char* argv[])
                                  }
 
                                  printToken(oss, tokenType, b, e);
+
+                                 if (tokenType>=UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_FIRST && tokenType<=UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_LAST)
+                                 {
+                                     if (tokenType&UMBA_TOKENIZER_TOKEN_FLOAT_NUMBER)
+                                     {
+                                         auto numericLiteralData = std::get<typename tokenizer_type::FloatNumericLiteralData>(parsedData);
+                                         oss << " " << numericLiteralData.data << " ";
+                                         if (numericLiteralData.fIntegerOverflow)
+                                             oss << "integer part overflow ";
+                                         if (numericLiteralData.fFractionalOverflow)
+                                             oss << "floating part overflow ";
+                                     }
+                                     else
+                                     {
+                                         auto numericLiteralData = std::get<typename tokenizer_type::IntegerNumericLiteralData>(parsedData);
+                                         oss << " " << numericLiteralData.data << " ";
+                                         if (numericLiteralData.fOverflow)
+                                             oss << "overflow ";
+                                     }
+                                 }    
+
 
                                  return true;
 
