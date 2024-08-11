@@ -29,6 +29,15 @@
 #include <deque>
 #include <sstream>
 
+
+
+#define SIMPLE_NUMBER_SUFFIX_GLUING
+// #define NUMBER_PRINTING_PRINT_PARSED_VALUE
+// #define PRINT_ONLY_NUMBERS
+#define USE_TRY_CATCH
+
+
+
 using std::cout;
 using std::cerr;
 
@@ -712,21 +721,29 @@ int main(int argc, char* argv[])
 
                                  if (tokenType>=UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_FIRST && tokenType<=UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_LAST)
                                  {
-                                     if (tokenType&UMBA_TOKENIZER_TOKEN_FLOAT_NUMBER)
+                                     oss.flush();
+
+                                     // https://en.cppreference.com/w/cpp/utility/variant/get_if
+                                     // https://en.cppreference.com/w/cpp/utility/variant/get
+                                     if (tokenType&UMBA_TOKENIZER_TOKEN_FLOAT_FLAG)
                                      {
                                          auto numericLiteralData = std::get<typename tokenizer_type::FloatNumericLiteralData>(parsedData);
+                                         #if defined(NUMBER_PRINTING_PRINT_PARSED_VALUE)
                                          oss << " " << numericLiteralData.data << " ";
                                          if (numericLiteralData.fIntegerOverflow)
                                              oss << "integer part overflow ";
                                          if (numericLiteralData.fFractionalOverflow)
                                              oss << "floating part overflow ";
+                                         #endif
                                      }
                                      else
                                      {
                                          auto numericLiteralData = std::get<typename tokenizer_type::IntegerNumericLiteralData>(parsedData);
+                                         #if defined(NUMBER_PRINTING_PRINT_PARSED_VALUE)
                                          oss << " " << numericLiteralData.data << " ";
                                          if (numericLiteralData.fOverflow)
                                              oss << "overflow ";
+                                         #endif
                                      }
                                  }    
 
@@ -815,7 +832,9 @@ int main(int argc, char* argv[])
     //     cout << "    |" << errMarkerStr << "|\n";
     // };
 
+    #if defined(SIMPLE_NUMBER_SUFFIX_GLUING)
     tokenizer.installTokenFilter<umba::tokenizer::filters::SimpleNumberSuffixGluing<tokenizer_type> >();
+    #endif
 
 
     if (inputFiles.empty())
@@ -837,12 +856,17 @@ int main(int argc, char* argv[])
 
         std::string text;
 
+#if 0
+        // text = "(1)";
+        text = "    //! Оператор сравнения на равенство\n    bool operator==( const RgbQuad rq ) const\n";
+        inputFilename.clear();
+#else
         if (!umba::filesys::readFile(inputFilename, text))
         {
             std::cout << "Failed to read input file '" << inputFilename << "'\n";
             continue;
         }
-
+#endif
         if (text.empty())
         {
             std::cout << "Input file '" << inputFilename << "' empty\n";
@@ -859,35 +883,68 @@ int main(int argc, char* argv[])
 
         oss<<"<html>\n<head>\n<meta charset=\"utf-8\"/>\n<style>\n" << cssStyle << "\n</style>\n</head>\n<body>\n<pre>\n";
 
-        auto itBegin = InputIteratorType(text.data(), text.size());
-        auto itEnd   = InputIteratorType();
-        tokenizer.tokenizeInit();
-        for( InputIteratorType it=itBegin; it!=itEnd && bOk; ++it)
+#if defined(USE_TRY_CATCH)
+        try
         {
-            if (!tokenizer.tokenize(it, itEnd))
+#endif
+            auto itBegin = InputIteratorType(text.data(), text.size());
+            auto itEnd   = InputIteratorType();
+            tokenizer.tokenizeInit();
+            for( InputIteratorType it=itBegin; it!=itEnd && bOk; ++it)
             {
-                bOk = false;
+                if (!tokenizer.tokenize(it, itEnd))
+                {
+                    bOk = false;
+                }
             }
+
+            if (bOk)
+            {
+                bOk = tokenizer.tokenizeFinalize(itEnd);
+            }
+    
+            if (bOk)
+            {
+                oss<<"</pre>\n</body>\n</html>\n";
+    
+                if (inputFilename.empty())
+                {
+                    std::cout << oss.str() << "\n";
+                }
+                else
+                {
+                    auto resultText = marty_cpp::converLfToOutputFormat(oss.str(), outputLinefeed);
+                    auto outputFilename = umba::filename::replaceExtention(inputFilename, std::string("html"));
+                    std::cout << "Writting output to '" << outputFilename << "' - ";
+                    if (!umba::filesys::writeFile(outputFilename, resultText, true /* overwrite */ ))
+                        std::cout << "Failed";
+                    else
+                        std::cout << "Success";
+                    std::cout << "\n";
+                }
+    
+            }
+
+#if defined(USE_TRY_CATCH)
         }
-
-        if (bOk)
+        catch(const std::exception &e)
         {
-            bOk = tokenizer.tokenizeFinalize(itEnd);
-        }
 
-        if (bOk)
-        {
-            oss<<"</pre>\n</body>\n</html>\n";
+            std::cout << oss.str() << "\n";
 
-            auto resultText = marty_cpp::converLfToOutputFormat(oss.str(), outputLinefeed);
+            auto resultText = marty_cpp::converLfToOutputFormat("!!!"  + oss.str(), outputLinefeed);
             auto outputFilename = umba::filename::replaceExtention(inputFilename, std::string("html"));
-            std::cout << "Writting output to '" << outputFilename << "' - ";
-            if (!umba::filesys::writeFile(outputFilename, resultText, true /* overwrite */ ))
-                std::cout << "Failed";
-            else
-                std::cout << "Success";
-            std::cout << "\n";
+            //std::cout << "Writting output to '" << outputFilename << "' - ";
+            umba::filesys::writeFile(outputFilename, resultText, true /* overwrite */ );
+            // if (!umba::filesys::writeFile(outputFilename, resultText, true /* overwrite */ ))
+            //     std::cout << "Failed";
+            // else
+            //     std::cout << "Success";
+            // std::cout << "\n";
+
+            std::cout << "!!!\n";
         }
+#endif
 
     }
 
