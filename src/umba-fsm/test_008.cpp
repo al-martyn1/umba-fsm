@@ -31,7 +31,7 @@
 
 
 
-#define SIMPLE_NUMBER_SUFFIX_GLUING
+#define USE_SIMPLE_NUMBER_SUFFIX_GLUING_FILTER
 // #define NUMBER_PRINTING_PRINT_PARSED_VALUE
 // #define PRINT_ONLY_NUMBERS
 #define USE_TRY_CATCH
@@ -832,7 +832,7 @@ int main(int argc, char* argv[])
     //     cout << "    |" << errMarkerStr << "|\n";
     // };
 
-    #if defined(SIMPLE_NUMBER_SUFFIX_GLUING)
+    #if defined(USE_SIMPLE_NUMBER_SUFFIX_GLUING_FILTER)
     tokenizer.installTokenFilter<umba::tokenizer::filters::SimpleNumberSuffixGluing<tokenizer_type> >();
     #endif
 
@@ -858,7 +858,15 @@ int main(int argc, char* argv[])
 
 #if 0
         // text = "(1)";
-        text = "    //! Оператор сравнения на равенство\n    bool operator==( const RgbQuad rq ) const\n";
+        // text = "    //! Оператор сравнения на равенство\n    bool operator==( const RgbQuad rq ) const\n";
+        // text = "DECIMAL_CTOR_TEST_WITH_PREC(  ((std::uint64_t)3141592654ULL), 9, \"3.141592654\" );";
+        // text = "3141592654ULL), 9, \"3.141592654\" );";
+        // text = "54ULL), 9, \"3.141592654\" );";
+        text = "4ULL), 9, \"3.141592654\" );";
+        // text = "";
+        // text = "";
+        // text = "";
+        // text = "";
         inputFilename.clear();
 #else
         if (!umba::filesys::readFile(inputFilename, text))

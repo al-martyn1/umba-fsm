@@ -6,13 +6,13 @@
 @set LIB_MARTY_DECIMAL=%LIB_ROOT%\marty_decimal
 
 @rem @%TEST_EXE% ^
-@rem %LIB_UMBA%\preprocessor.h ^
-@rem %LIB_UMBA%\the.h ^
-@rem %LIB_UMBA%\stl_keil_initializer_list.h ^
-@rem %LIB_UMBA%\stl_keil_type_traits.h ^
-@rem %LIB_UMBA%\string_plus.h ^
-@rem %LIB_UMBA%\rgbquad.h ^
-@rem %LIB_MARTY_DECIMAL%\tests\src\regression_tests.cpp     > test_008.log
+@rem @%LIB_UMBA%\preprocessor.h ^
+@rem @%LIB_UMBA%\the.h ^
+@rem @%LIB_UMBA%\stl_keil_initializer_list.h ^
+@rem @%LIB_UMBA%\stl_keil_type_traits.h ^
+@rem @%LIB_UMBA%\string_plus.h ^
+@rem @%LIB_UMBA%\rgbquad.h ^
+@rem @%LIB_MARTY_DECIMAL%\tests\src\regression_tests.cpp     > test_008.log
 @rem 
 
 
