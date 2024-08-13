@@ -206,7 +206,7 @@ int main(int argc, char* argv[])
                                  {
                                      cout << ", linefeed, '\\n'"; // "CRLF";
                                  }
-                                 else if (tokenType==UMBA_TOKENIZER_TOKEN_SPACE)
+                                 else if (tokenType==UMBA_TOKENIZER_TOKEN_SPACE || tokenType==UMBA_TOKENIZER_TOKEN_TAB)
                                  {
                                      cout << ", " << (*b==' '?"spaces":"tabs") << ", len=" << makeStringView(b, e).size();
                                  }

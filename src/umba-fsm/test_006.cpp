@@ -316,9 +316,6 @@ int main(int argc, char* argv[])
 
     std::cout << "sizeof TextPositionCountingIterator: " << sizeof(umba::iterator::TextPositionCountingIterator<char>) << " bytes\n";
 
-// #define UMBA_TOKENIZER_TOKEN_LINEFEED                                          1u
-// #define UMBA_TOKENIZER_TOKEN_SPACE                                             2u
-
     enum State
     {
         stInitial              = 0,
@@ -367,6 +364,7 @@ int main(int argc, char* argv[])
             case UMBA_TOKENIZER_TOKEN_UNEXPECTED          : return std::string("<UNEXPECTED>");
             case UMBA_TOKENIZER_TOKEN_LINEFEED            : return std::string("LINEFEED");
             case UMBA_TOKENIZER_TOKEN_SPACE               : return std::string("SPACE");
+            case UMBA_TOKENIZER_TOKEN_TAB                 : return std::string("TAB");
             case UMBA_TOKENIZER_TOKEN_IDENTIFIER          : return std::string("IDENTIFIER");
             case UMBA_TOKENIZER_TOKEN_SEMIALPHA           : return std::string("SEMIALPHA");
             case UMBA_TOKENIZER_TOKEN_CURLY_BRACKET_OPEN  : return std::string("KIND_OF_BRACKET");
@@ -425,6 +423,10 @@ int main(int argc, char* argv[])
             cout << ", linefeed, '\\n'"; // "CRLF";
         }
         else if (tokenType==UMBA_TOKENIZER_TOKEN_SPACE)
+        {
+            cout << ", " << (*b==' '?"spaces":"tabs") << ", len=" << makeStringView(b, e).size();
+        }
+        else if (tokenType==UMBA_TOKENIZER_TOKEN_TAB)
         {
             cout << ", " << (*b==' '?"spaces":"tabs") << ", len=" << makeStringView(b, e).size();
         }

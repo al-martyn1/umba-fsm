@@ -51,6 +51,7 @@ StringType getTokenKindString(umba::tokenizer::payload_type p)
         case UMBA_TOKENIZER_TOKEN_UNEXPECTED                       : return umba::string_plus::make_string<StringType>("unxp");
         case UMBA_TOKENIZER_TOKEN_LINEFEED                         : return umba::string_plus::make_string<StringType>("");
         case UMBA_TOKENIZER_TOKEN_SPACE                            : return umba::string_plus::make_string<StringType>("");
+        case UMBA_TOKENIZER_TOKEN_TAB                              : return umba::string_plus::make_string<StringType>("");
         case UMBA_TOKENIZER_TOKEN_IDENTIFIER                       : return umba::string_plus::make_string<StringType>("ident");
         case UMBA_TOKENIZER_TOKEN_SEMIALPHA                        : return umba::string_plus::make_string<StringType>("");
         // https://en.wikipedia.org/wiki/Bracket
@@ -594,7 +595,7 @@ int main(int argc, char* argv[])
                                      case stWaitPreprocessorKeyword:
                                      {
                                           // UMBA_TOKENIZER_TOKEN_LINEFEED
-                                          if (tokenType==UMBA_TOKENIZER_TOKEN_SPACE || tokenType==UMBA_TOKENIZER_TOKEN_LINE_CONTINUATION)
+                                          if (tokenType==UMBA_TOKENIZER_TOKEN_SPACE || tokenType==UMBA_TOKENIZER_TOKEN_TAB || tokenType==UMBA_TOKENIZER_TOKEN_LINE_CONTINUATION)
                                           {
                                               bufferedTokens.emplace_back(TokenInfo{tokenType, b, e});
                                               return true;
