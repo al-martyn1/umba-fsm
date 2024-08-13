@@ -139,6 +139,11 @@ umba_add_target_options(test_008 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
 target_link_libraries(test_008 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
+add_executable(test_009 "${SRC_ROOT}/umba-fsm/test_009.cpp" "${headers}")
+umba_add_target_options(test_009 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
+target_link_libraries(test_009 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+
+
 #https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#target-usage-requirements
 
 

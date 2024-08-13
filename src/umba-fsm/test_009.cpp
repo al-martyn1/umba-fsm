@@ -36,6 +36,8 @@
 // #define PRINT_ONLY_NUMBERS
 #define USE_TRY_CATCH
 
+#define DUPLICATE_TO_STD_OUT
+
 
 
 using std::cout;
@@ -64,6 +66,9 @@ StringType getTokenKindString(umba::tokenizer::payload_type p)
         case UMBA_TOKENIZER_TOKEN_SQUARE_BRACKET_CLOSE             : return umba::string_plus::make_string<StringType>("square");
         case UMBA_TOKENIZER_TOKEN_OPERATOR_MULTI_LINE_COMMENT_START: return umba::string_plus::make_string<StringType>("cmnt");
         case UMBA_TOKENIZER_TOKEN_OPERATOR_MULTI_LINE_COMMENT_END  : return umba::string_plus::make_string<StringType>("cmnt");
+        case UMBA_TOKENIZER_TOKEN_PP_START                         : return umba::string_plus::make_string<StringType>("pp");
+        case UMBA_TOKENIZER_TOKEN_PP_END                           : return umba::string_plus::make_string<StringType>("pp");
+
         //case : return umba::string_plus::make_string<StringType>("");
         default:
 
@@ -213,7 +218,15 @@ body {
 }
 
 .pp .num{
-  color:#004200;
+  color:#006400; /* #004200 */
+}
+
+.pp .kwd1{
+  color:#006400; /* #004200 */
+}
+
+.pp .kwd1{
+  color:#006400; /* #004200 */
 }
 
 .pp .cmnt{
@@ -297,10 +310,16 @@ StreamType& printToken(StreamType &ss, umba::tokenizer::payload_type tokenType, 
     if (kindStr.empty())
     {
         ss << umba::escapeStringXmlHtml(tokenText);
+#if defined(DUPLICATE_TO_STD_OUT)
+        std::cout << umba::escapeStringXmlHtml(tokenText);
+#endif
     }
     else
     {
         ss << "<span class=\"" << kindStr << "\">" << umba::escapeStringXmlHtml(tokenText) << "</span>";
+#if defined(DUPLICATE_TO_STD_OUT)
+        std::cout << "<span class=\"" << kindStr << "\">" << umba::escapeStringXmlHtml(tokenText) << "</span>";
+#endif
     }
 
     return ss;
@@ -420,12 +439,12 @@ int main(int argc, char* argv[])
 
         inputFiles.clear();
 
-        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/preprocessor.h")));
+        inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/preprocessor.h")));
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/the.h")));
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/stl_keil_initializer_list.h")));
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/stl_keil_type_traits.h")));
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/string_plus.h")));
-        inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/rgbquad.h")));
+        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/rgbquad.h")));
 
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/")));
 
@@ -472,7 +491,11 @@ int main(int argc, char* argv[])
                                              .setMultiLineComment("/*", "*/")
 
 
-                                             .addOperators(UMBA_TOKENIZER_TOKEN_OPERATOR_FIRST_GENERIC, std::vector<std::string>{".","...",".*","+","-","*","/","%","^","&","|","~","!","=","<",">","+=","-=","*=","/=","%=","^=","&=","|=","<<",">>",">>=","<<=","==","!=","<=",">=","<=>","&&","||","++","--",",","->*","->",":","::",";","?"})
+                                             // Операторы # и ## доступны только внутри директивы define препроцессора.
+                                             // Для этого вначале работы мы сбрасываем признак umba::tokenizer::CharClass::opchar, 
+                                             // при получении маркера директивы define - устанавливаем его,
+                                             // и при окончании блока препроцессора опять сбрасываем
+                                             .addOperators(UMBA_TOKENIZER_TOKEN_OPERATOR_FIRST_GENERIC, std::vector<std::string>{".","#","##","...",".*","+","-","*","/","%","^","&","|","~","!","=","<",">","+=","-=","*=","/=","%=","^=","&=","|=","<<",">>",">>=","<<=","==","!=","<=",">=","<=>","&&","||","++","--",",","->*","->",":","::",";","?"})
 
 
                                              .addStringLiteralParser("\'", &cppEscapedSimpleQuotedStringLiteralParser)
@@ -541,16 +564,16 @@ int main(int argc, char* argv[])
     using token_parsed_data    = typename tokenizer_type::token_parsed_data;
 
 
-    enum State
-    {
-        stNormal,
-        stWaitPreprocessorKeyword,
-        stReadPreprocessor,
-        stReadDefine
-    };
+    // enum State
+    // {
+    //     stNormal,
+    //     stWaitPreprocessorKeyword,
+    //     stReadPreprocessor,
+    //     stReadDefine
+    // };
 
     std::vector<TokenInfo> bufferedTokens;
-    State st = stNormal;
+
 
     auto flushBufferedTokens = [&]()
     {
@@ -562,7 +585,9 @@ int main(int argc, char* argv[])
         bufferedTokens.clear();
     };
 
+    bool inPreprocessor = false;
 
+    tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::opchar); // Ничего не устанавливаем, сбрасываем opchar
 
     tokenizer.tokenHandler = [&]( tokenizer_type &tokenizer
                                 , bool bLineStart, payload_type tokenType
@@ -571,138 +596,45 @@ int main(int argc, char* argv[])
                                 , messages_string_type &errMsg
                                 ) -> bool
                              {
+                                 UMBA_USED(parsedData);
+
                                  if (tokenType==UMBA_TOKENIZER_TOKEN_FIN)
                                  {
+                                     return true;
+                                 }
+                                 else if (tokenType==UMBA_TOKENIZER_TOKEN_PP_START)
+                                 {
                                      oss << "<span class=\"pp\">";
-                                     flushBufferedTokens();
+#if defined(DUPLICATE_TO_STD_OUT)
+                                     std::cout << "<span class=\"pp\">";
+#endif
+
+                                     inPreprocessor = true;
+                                     return true;
+                                 }
+                                 else if (tokenType==UMBA_TOKENIZER_TOKEN_PP_END)
+                                 {
                                      oss << "</span>";
-
-                                     if (st==stWaitPreprocessorKeyword)
-                                     {
-                                         // errMsg = "Unexpected '#'"
-                                         std::cout << "Unexpected EOF while reading macroprocessor directive\n";
-                                     }
-
+#if defined(DUPLICATE_TO_STD_OUT)
+                                     std::cout << "</span>";
+#endif
+                                     tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::opchar); // Ничего не устанавливаем, сбрасываем opchar
+                                     inPreprocessor = false;
                                      return true;
                                  }
-
-                                 switch(st)
+                                 else if (tokenType==UMBA_TOKENIZER_TOKEN_PP_DEFINE)
                                  {
-                                     case stNormal:
-                                          break;
-
-                                     case stWaitPreprocessorKeyword:
-                                     {
-                                          // UMBA_TOKENIZER_TOKEN_LINEFEED
-                                          if (tokenType==UMBA_TOKENIZER_TOKEN_SPACE || tokenType==UMBA_TOKENIZER_TOKEN_LINE_CONTINUATION)
-                                          {
-                                              bufferedTokens.emplace_back(TokenInfo{tokenType, b, e});
-                                              return true;
-                                          }
-                                          if (tokenType!=UMBA_TOKENIZER_TOKEN_IDENTIFIER)
-                                          {
-                                              std::cout << "Unexpected " << getTokenizerTokenStr<std::string>(tokenType) << "\n";
-                                              printError(tokenType, b, e);
-                                              return false;
-                                          }
-
-                                          auto kwdIt = cppPreprocessorKeywords.find(umba::iterator::makeString(b, e));
-                                          if (kwdIt==cppPreprocessorKeywords.end())
-                                          {
-                                              std::cout << "Unexpected " << getTokenizerTokenStr<std::string>(tokenType) << "\n";
-                                              printError(tokenType, b, e);
-                                              return false;
-                                          }
-
-                                          st = kwdIt->second==0 ? stReadPreprocessor : stReadDefine;
-                                          bufferedTokens.emplace_back(TokenInfo{tokenType, b, e});
-                                          return true;
-
-                                          break;
-                                     }
-
-                                     case stReadPreprocessor:
-                                         if (tokenType==UMBA_TOKENIZER_TOKEN_IDENTIFIER)
-                                         {
-                                             if (cppPreprocessorKeywords.find(umba::iterator::makeString(b, e))!=cppPreprocessorKeywords.end())
-                                                 tokenType = UMBA_TOKENIZER_TOKEN_KEYWORD_SET2_FIRST;
-                                         }
-
-                                         bufferedTokens.emplace_back(TokenInfo{tokenType, b, e});
-
-                                         if (tokenType==UMBA_TOKENIZER_TOKEN_LINEFEED)
-                                         {
-                                             oss << "<span class=\"pp\">";
-                                             flushBufferedTokens();
-                                             oss << "</span>";
-                                             st = stNormal;
-                                         }
-                                         return true;
-
-                                     case stReadDefine:
-                                         if (tokenType==UMBA_TOKENIZER_TOKEN_IDENTIFIER)
-                                         {
-                                             if (cppPreprocessorKeywords.find(umba::iterator::makeString(b, e))!=cppPreprocessorKeywords.end())
-                                                 tokenType = UMBA_TOKENIZER_TOKEN_KEYWORD_SET2_FIRST;
-                                         }
-
-                                         bufferedTokens.emplace_back(TokenInfo{tokenType, b, e});
-
-                                         if (tokenType==UMBA_TOKENIZER_TOKEN_LINEFEED)
-                                         {
-                                             oss << "<span class=\"pp\">";
-                                             flushBufferedTokens();
-                                             oss << "</span>";
-                                             st = stNormal;
-                                         }
-                                         return true;
-
-                                 }
-
-
-                                 if (*b=='#')
-                                 {
-                                     if (st==stNormal && bLineStart)
-                                     {
-                                         bufferedTokens.emplace_back(TokenInfo{tokenType, b, e});
-                                         st = stWaitPreprocessorKeyword;
-                                         return true;
-                                     }
-
-                                     if (st==stNormal || st==stWaitPreprocessorKeyword)
-                                     {
-                                          std::cout << "Unexpected " << getTokenizerTokenStr<std::string>(tokenType) << "\n";
-                                          printError(tokenType, b, e);
-                                          return false;
-                                     }
-
-                                     bufferedTokens.emplace_back(TokenInfo{tokenType, b, e});
+                                     tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::opchar, umba::tokenizer::CharClass::none); // устанавливаем opchar, ничего не сбрасываем 
+                                     // inDefine = false;
                                      return true;
                                  }
-
-
-
-//printError(it, itEnd, srcFile, srcLine);
-// struct TokenInfo
-// {
-//     umba::tokenizer::payload_type                        tokenType;
-//     umba::iterator::TextPositionCountingIterator<char>   b;
-//     umba::iterator::TextPositionCountingIterator<char>   e;
-// };
-
-    // if (tokenType==UMBA_TOKENIZER_TOKEN_LINEFEED)
-    // {
-    //     return "\n";
-    // }
-    //
-    // if (tokenType==UMBA_TOKENIZER_TOKEN_LINE_CONTINUATION)
 
 
                                  if (tokenType==UMBA_TOKENIZER_TOKEN_IDENTIFIER)
                                  {
                                      auto identStr = umba::iterator::makeString(b, e);
 
-                                     if (st==stNormal)
+                                     if (!inPreprocessor)
                                      {
                                          if (cppKeywords.find(identStr)!=cppKeywords.end())
                                              tokenType = UMBA_TOKENIZER_TOKEN_KEYWORD_SET1_FIRST;
@@ -748,40 +680,7 @@ int main(int argc, char* argv[])
                                      }
                                  }    
 
-
                                  return true;
-
-                                 #if 0
-                                 using namespace umba::iterator;
-
-                                 auto curPos = b.getPosition(); // Выводим позицию начала токена
-
-                                 //cout << umba::tokenizer::utils::iterator_getRawValueTypePointer(b) << "\n";
-
-                                 cout << "token_type: " << tokenType;
-                                 if (tokenType==UMBA_TOKENIZER_TOKEN_LINEFEED)
-                                 {
-                                     cout << ", linefeed, '\\n'"; // "CRLF";
-                                 }
-                                 else if (tokenType==UMBA_TOKENIZER_TOKEN_SPACE)
-                                 {
-                                     cout << ", " << (*b==' '?"spaces":"tabs") << ", len=" << makeStringView(b, e).size();
-                                 }
-                                 else
-                                 {
-                                     cout << ", ";
-                                     if (tokenType==UMBA_TOKENIZER_TOKEN_ESCAPE || tokenType==UMBA_TOKENIZER_TOKEN_LINE_CONTINUATION)
-                                         cout << umba::escapeStringC(getTokenizerTokenStr<std::string>(tokenType));
-                                     else
-                                        cout << getTokenizerTokenStr<std::string>(tokenType);
-                                     cout << ", '" << makeString(b, e) << "'";
-                                 }
-
-                                 cout << /*", state: " << getStateStr(st) <<*/ ", in data location " << curPos.toString<std::string>() ;
-                                 cout << (bLineStart?"*** Line start":"") << "\n";
-                                 #endif
-                                 UMBA_USED(errMsg);
-                                 UMBA_USED(parsedData);
                              };
 
     tokenizer.unexpectedHandler = [&](tokenizer_type &tokenizer, InputIteratorType it, InputIteratorType itEnd, const char* srcFile, int srcLine) -> bool
@@ -833,9 +732,15 @@ int main(int argc, char* argv[])
     //     cout << "    |" << errMarkerStr << "|\n";
     // };
 
+
+    // Фильтры, установленные позже, отрабатывают раньше
+
     #if defined(USE_SIMPLE_NUMBER_SUFFIX_GLUING_FILTER)
     tokenizer.installTokenFilter<umba::tokenizer::filters::SimpleNumberSuffixGluingFilter<tokenizer_type> >();
     #endif
+
+    tokenizer.installTokenFilter<umba::tokenizer::filters::CcPreprocessorFilter<tokenizer_type> >();
+    
 
 
     if (inputFiles.empty())
