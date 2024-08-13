@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8"/>
@@ -65,7 +66,15 @@ body {
 }
 
 .pp .num{
-  color:#004200;
+  color:#006400; /* #004200 */
+}
+
+.pp .kwd1{
+  color:#006400; /* #004200 */
+}
+
+.pp .kwd1{
+  color:#006400; /* #004200 */
 }
 
 .pp .cmnt{
@@ -120,58 +129,58 @@ body {
 <span class="cmnt">// Что-то в группу (from \b \c preprocessor.h) \\addtogroup UMBA_CORE</span>
 
 
-<span class="pp">#<span class="ident">pragma</span> <span class="ident">once</span>
-</span>
-<span class="pp">#<span class="ident">include</span> <span class="str">&quot;zz_detect_environment.h&quot;</span>
-</span>
-<span class="pp">#<span class="ident">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_CXX_HAS_STD11</span><span class="round">)</span>
-</span>
-    <span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">cstddef</span><span class="op">&gt;</span>
-</span>    <span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">cstdint</span><span class="op">&gt;</span>
-</span>
-    <span class="cmnt">//! Зачем-то сделано</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_STD_SIZE_T</span>    <span class="ident">std</span><span class="op">::</span><span class="ident">size_t</span>
-</span>
-<span class="pp">#<span class="ident">else</span>
-</span>
-    <span class="cmnt">//! Зачем-то сделано</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_STD_SIZE_T</span>    <span class="ident">size_t</span>
-</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
-<span class="cmnt">//! Просто сократил</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_SIZE_T</span> <span class="ident">UMBA_STD_SIZE_T</span>
-</span>
-<span class="cmnt">//---------------------------------------------------------</span>
-<span class="pp">#<span class="ident">ifndef</span> <span class="ident">UMBA_KEEP_MINMAX</span>
-</span>
-    <span class="pp">#<span class="ident">ifdef</span> <span class="ident">min</span>
-</span>        <span class="pp">#<span class="ident">undef</span> <span class="ident">min</span>
-</span>    <span class="pp">#<span class="ident">endif</span>
-</span>
-    <span class="pp">#<span class="ident">ifdef</span> <span class="ident">max</span>
-</span>        <span class="pp">#<span class="ident">undef</span> <span class="ident">max</span>
-</span>    <span class="pp">#<span class="ident">endif</span>
-</span>
-<span class="pp">#<span class="ident">endif</span>  <span class="cmnt">/* UMBA_KEEP_MINMAX */</span>
-</span>
+<span class="pp">#<span class="kwd2">pragma</span> <span class="ident">once</span></span>
 
-<span class="pp">#<span class="ident">ifdef</span> <span class="ident">UMBA_CXX_HAS_STD11</span>
-</span>
+<span class="pp">#<span class="kwd2">include</span> <span class="str">&quot;zz_detect_environment.h&quot;</span></span>
+
+<span class="pp">#<span class="kwd2">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_CXX_HAS_STD11</span><span class="round">)</span></span>
+
+    <span class="pp">#<span class="kwd2">include</span> <span class="op">&lt;</span><span class="ident">cstddef</span><span class="op">&gt;</span></span>
+    <span class="pp">#<span class="kwd2">include</span> <span class="op">&lt;</span><span class="ident">cstdint</span><span class="op">&gt;</span></span>
+
+    <span class="cmnt">//! Зачем-то сделано</span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_STD_SIZE_T</span>    <span class="ident">std</span><span class="op">::</span><span class="ident">size_t</span></span>
+
+<span class="pp">#<span class="kwd2">else</span></span>
+
+    <span class="cmnt">//! Зачем-то сделано</span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_STD_SIZE_T</span>    <span class="ident">size_t</span></span>
+
+<span class="pp">#<span class="kwd2">endif</span></span>
+
+<span class="cmnt">//! Просто сократил</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_SIZE_T</span> <span class="ident">UMBA_STD_SIZE_T</span></span>
+
+<span class="cmnt">//---------------------------------------------------------</span>
+<span class="pp">#<span class="kwd2">ifndef</span> <span class="ident">UMBA_KEEP_MINMAX</span></span>
+
+    <span class="pp">#<span class="kwd2">ifdef</span> <span class="ident">min</span></span>
+        <span class="pp">#<span class="kwd2">undef</span> <span class="ident">min</span></span>
+    <span class="pp">#<span class="kwd2">endif</span></span>
+
+    <span class="pp">#<span class="kwd2">ifdef</span> <span class="ident">max</span></span>
+        <span class="pp">#<span class="kwd2">undef</span> <span class="ident">max</span></span>
+    <span class="pp">#<span class="kwd2">endif</span></span>
+
+<span class="pp">#<span class="kwd2">endif</span>  <span class="cmnt">/* UMBA_KEEP_MINMAX */</span></span>
+
+
+<span class="pp">#<span class="kwd2">ifdef</span> <span class="ident">UMBA_CXX_HAS_STD11</span></span>
+
     <span class="cmnt">//! Совместимый constexpr</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_CONSTEXPR</span>  <span class="ident">constexpr</span>
-</span>    <span class="cmnt">//! Совместимый explicit</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_EXPLICIT</span>   <span class="ident">explicit</span>
-</span>
-<span class="pp">#<span class="ident">else</span>
-</span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_CONSTEXPR</span>  <span class="kwd1">constexpr</span></span>
+    <span class="cmnt">//! Совместимый explicit</span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_EXPLICIT</span>   <span class="kwd1">explicit</span></span>
+
+<span class="pp">#<span class="kwd2">else</span></span>
+
     <span class="cmnt">//! Совместимый constexpr</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_CONSTEXPR</span>
-</span>    <span class="cmnt">//! Совместимый explicit</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_EXPLICIT</span>
-</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_CONSTEXPR</span></span>
+    <span class="cmnt">//! Совместимый explicit</span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_EXPLICIT</span></span>
+
+<span class="pp">#<span class="kwd2">endif</span></span>
+
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">// Стырил у ребят безопасную C++ версию, пока положу тут</span>
 <span class="kwd1">namespace</span> <span class="ident">umba</span>
@@ -194,8 +203,8 @@ body {
 
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">//! Вычисление количества элементов массива</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_COUNT_OF</span><span class="round">(</span><span class="ident">a</span><span class="round">)</span>               <span class="op">::</span><span class="ident">umba</span><span class="op">::</span><span class="ident">count_of</span><span class="round">(</span><span class="ident">a</span><span class="round">)</span>
-</span><span class="cmnt">// #define UMBA_COUNT_OF(a)               (sizeof (a) / sizeof (a[0]))</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_COUNT_OF</span><span class="round">(</span><span class="ident">a</span><span class="round">)</span>               <span class="op">::</span><span class="ident">umba</span><span class="op">::</span><span class="ident">count_of</span><span class="round">(</span><span class="ident">a</span><span class="round">)</span></span>
+<span class="cmnt">// #define UMBA_COUNT_OF(a)               (sizeof (a) / sizeof (a[0]))</span>
 
 
 <span class="cmnt">// ! Legacy версия UMBA_COUNT_OF</span>
@@ -208,41 +217,41 @@ body {
 
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">//! Размер массива нулевого размера как последнего поля структур</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_ZERO_SIZE</span>
-</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_ZERO_SIZE</span></span>
+
 
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">//! Стрингификация - промежуточный макрос-хелпер для разворачивания макроподстановок</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_STRINGIFY_HELPER</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>       #<span class="ident">x</span>
-</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_STRINGIFY_HELPER</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>       <span class="op">#</span><span class="ident">x</span></span>
+
 <span class="cmnt">//! Стрингификация</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_STRINGIFY</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>              <span class="ident">UMBA_STRINGIFY_HELPER</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>
-</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_STRINGIFY</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>              <span class="ident">UMBA_STRINGIFY_HELPER</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span></span>
+
 
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">//! Подавление варнинга о неиспользованном аргументе</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_USED</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>                   <span class="round">(</span><span class="ident">void</span><span class="round">)</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>
-</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_USED</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>                   <span class="round">(</span><span class="kwd1">void</span><span class="round">)</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span></span>
+
 
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">/*! \def UMBA_ALIGNED
     \brief Задаёт выравнивание
  */</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_ARMCC_COMPILER_USED</span><span class="round">)</span>
-</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_ALIGNED</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>                <span class="ident">__align</span><span class="round">(</span> <span class="ident">x</span> <span class="round">)</span>
-</span>
-<span class="pp">#<span class="ident">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_CLANG_COMPILER_USED</span><span class="round">)</span> <span class="op">||</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_GCC_COMPILER_USED</span><span class="round">)</span>
-</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_ALIGNED</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>                <span class="ident">__attribute__</span><span class="round">(</span><span class="round">(</span><span class="ident">aligned</span> <span class="round">(</span> <span class="ident">x</span> <span class="round">)</span><span class="round">)</span><span class="round">)</span>
-</span>
-<span class="pp">#<span class="ident">else</span>
-</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_ALIGNED</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>
-</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_ARMCC_COMPILER_USED</span><span class="round">)</span></span>
+
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_ALIGNED</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>                <span class="ident">__align</span><span class="round">(</span> <span class="ident">x</span> <span class="round">)</span></span>
+
+<span class="pp">#<span class="kwd2">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_CLANG_COMPILER_USED</span><span class="round">)</span> <span class="op">||</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_GCC_COMPILER_USED</span><span class="round">)</span></span>
+
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_ALIGNED</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span>                <span class="ident">__attribute__</span><span class="round">(</span><span class="round">(</span><span class="ident">aligned</span> <span class="round">(</span> <span class="ident">x</span> <span class="round">)</span><span class="round">)</span><span class="round">)</span></span>
+
+<span class="pp">#<span class="kwd2">else</span></span>
+
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_ALIGNED</span><span class="round">(</span><span class="ident">x</span><span class="round">)</span></span>
+
+<span class="pp">#<span class="kwd2">endif</span></span>
+
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">/*! \def UMBA_DEPRECATED
     \brief Компиляторо-зависимый макрос для пометки функций как устаревшие
@@ -252,77 +261,77 @@ body {
     \brief Компиляторо-зависимый макрос для пометки функций как устаревшие, с выдачей сообщения
 */</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MSVC_COMPILER_USED</span><span class="round">)</span>
-</span>
-    <span class="pp">#<span class="ident">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">_MSVC_LANG</span><span class="round">)</span> <span class="op">||</span> <span class="ident">_MSVC_LANG</span> <span class="op">&lt;</span> <span class="num">201402</span>
-</span>        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DEPRECATED</span>            <span class="ident">__declspec</span><span class="round">(</span><span class="ident">deprecated</span><span class="round">)</span>
-</span>        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span>   <span class="ident">__declspec</span><span class="round">(</span><span class="ident">deprecated</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span><span class="round">)</span>
-</span>    <span class="pp">#<span class="ident">else</span>
-</span>        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DEPRECATED</span>            <span class="square">[</span><span class="square">[</span><span class="ident">deprecated</span><span class="square">]</span><span class="square">]</span>
-</span>        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span>   <span class="square">[</span><span class="square">[</span><span class="ident">deprecated</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span><span class="square">]</span><span class="square">]</span>
-</span>    <span class="pp">#<span class="ident">endif</span>
-</span>
-<span class="pp">#<span class="ident">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_ARMCC_COMPILER_USED</span><span class="round">)</span>
-</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DEPRECATED</span>
-</span>    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span>
-</span>
-<span class="pp">#<span class="ident">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_CLANG_COMPILER_USED</span><span class="round">)</span>
-</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DEPRECATED</span>                <span class="ident">__attribute__</span><span class="round">(</span><span class="round">(</span><span class="ident">deprecated</span><span class="round">)</span><span class="round">)</span>
-</span>    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span>       <span class="ident">__attribute__</span><span class="round">(</span><span class="round">(</span><span class="ident">deprecated</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span><span class="round">)</span><span class="round">)</span>
-</span>
-<span class="pp">#<span class="ident">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">__GNUC__</span><span class="round">)</span>
-</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DEPRECATED</span>                <span class="ident">__attribute__</span><span class="round">(</span><span class="round">(</span><span class="ident">deprecated</span><span class="round">)</span><span class="round">)</span>
-</span>    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span>       <span class="ident">__attribute__</span><span class="round">(</span><span class="round">(</span><span class="ident">deprecated</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span><span class="round">)</span><span class="round">)</span>
-</span>
-<span class="pp">#<span class="ident">else</span>
-</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MSVC_COMPILER_USED</span><span class="round">)</span></span>
+
+    <span class="pp">#<span class="kwd2">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">_MSVC_LANG</span><span class="round">)</span> <span class="op">||</span> <span class="ident">_MSVC_LANG</span> <span class="op">&lt;</span> <span class="num">201402</span></span>
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DEPRECATED</span>            <span class="ident">__declspec</span><span class="round">(</span><span class="ident">deprecated</span><span class="round">)</span></span>
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span>   <span class="ident">__declspec</span><span class="round">(</span><span class="ident">deprecated</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span><span class="round">)</span></span>
+    <span class="pp">#<span class="kwd2">else</span></span>
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DEPRECATED</span>            <span class="square">[</span><span class="square">[</span><span class="ident">deprecated</span><span class="square">]</span><span class="square">]</span></span>
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span>   <span class="square">[</span><span class="square">[</span><span class="ident">deprecated</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span><span class="square">]</span><span class="square">]</span></span>
+    <span class="pp">#<span class="kwd2">endif</span></span>
+
+<span class="pp">#<span class="kwd2">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_ARMCC_COMPILER_USED</span><span class="round">)</span></span>
+
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DEPRECATED</span></span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span></span>
+
+<span class="pp">#<span class="kwd2">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_CLANG_COMPILER_USED</span><span class="round">)</span></span>
+
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DEPRECATED</span>                <span class="ident">__attribute__</span><span class="round">(</span><span class="round">(</span><span class="ident">deprecated</span><span class="round">)</span><span class="round">)</span></span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span>       <span class="ident">__attribute__</span><span class="round">(</span><span class="round">(</span><span class="ident">deprecated</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span><span class="round">)</span><span class="round">)</span></span>
+
+<span class="pp">#<span class="kwd2">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">__GNUC__</span><span class="round">)</span></span>
+
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DEPRECATED</span>                <span class="ident">__attribute__</span><span class="round">(</span><span class="round">(</span><span class="ident">deprecated</span><span class="round">)</span><span class="round">)</span></span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span>       <span class="ident">__attribute__</span><span class="round">(</span><span class="round">(</span><span class="ident">deprecated</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span><span class="round">)</span><span class="round">)</span></span>
+
+<span class="pp">#<span class="kwd2">else</span></span>
+
     <span class="cmnt">/* UMBA_IAR_ICC_COMPILER_USED и другие */</span>
 
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DEPRECATED</span>
-</span>    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span>
-</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DEPRECATED</span></span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span></span>
+
+<span class="pp">#<span class="kwd2">endif</span></span>
+
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">//! Синтаксический сахар для объявления некопируемых классов</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_NON_COPYABLE_CLASS</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>                                   \
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_NON_COPYABLE_CLASS</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>                                   \
                                 <span class="cmnt">/* запрещаем помещением в protected секцию */</span>\
-                                <span class="ident">protected</span><span class="op">:</span>                                   \
-                                    <span class="ident">className</span><span class="round">(</span><span class="ident">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span>            \
-                                    <span class="ident">className</span><span class="op">&amp;</span> <span class="ident">operator</span><span class="op">=</span><span class="round">(</span><span class="ident">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span> \
-                                <span class="ident">private</span><span class="op">:</span>
-</span>
+                                <span class="kwd1">protected</span><span class="op">:</span>                                   \
+                                    <span class="ident">className</span><span class="round">(</span><span class="kwd1">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span>            \
+                                    <span class="ident">className</span><span class="op">&amp;</span> <span class="kwd1">operator</span><span class="op">=</span><span class="round">(</span><span class="kwd1">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span> \
+                                <span class="kwd1">private</span><span class="op">:</span></span>
+
 <span class="cmnt">//! Синтаксический сахар для объявления некопируемых классов - строгая версия</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_NON_COPYABLE_CLASS_STRONG</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>                            \
-                                <span class="ident">private</span><span class="op">:</span>                                     \
-                                    <span class="ident">className</span><span class="round">(</span><span class="ident">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span>            \
-                                    <span class="ident">className</span><span class="op">&amp;</span> <span class="ident">operator</span><span class="op">=</span><span class="round">(</span><span class="ident">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span> \
-                                <span class="ident">private</span><span class="op">:</span>
-</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_NON_COPYABLE_CLASS_STRONG</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>                            \
+                                <span class="kwd1">private</span><span class="op">:</span>                                     \
+                                    <span class="ident">className</span><span class="round">(</span><span class="kwd1">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span>            \
+                                    <span class="ident">className</span><span class="op">&amp;</span> <span class="kwd1">operator</span><span class="op">=</span><span class="round">(</span><span class="kwd1">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span> \
+                                <span class="kwd1">private</span><span class="op">:</span></span>
+
 <span class="cmnt">//! Синтаксический сахар для объявления некопируемых классов - строгая версия</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_NON_COPYABLE_CLASS_STRICT</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>   <span class="ident">UMBA_NON_COPYABLE_CLASS_STRONG</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>
-</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_NON_COPYABLE_CLASS_STRICT</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>   <span class="ident">UMBA_NON_COPYABLE_CLASS_STRONG</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span></span>
+
 
 <span class="cmnt">//! Синтаксический сахар для объявления некопируемых структур</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_NON_COPYABLE_STRUCT</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>                                  \
-                                <span class="ident">protected</span><span class="op">:</span>                                   \
-                                    <span class="ident">className</span><span class="round">(</span><span class="ident">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span>            \
-                                    <span class="ident">className</span><span class="op">&amp;</span> <span class="ident">operator</span><span class="op">=</span><span class="round">(</span><span class="ident">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span> \
-                                <span class="ident">public</span><span class="op">:</span>
-</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_NON_COPYABLE_STRUCT</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>                                  \
+                                <span class="kwd1">protected</span><span class="op">:</span>                                   \
+                                    <span class="ident">className</span><span class="round">(</span><span class="kwd1">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span>            \
+                                    <span class="ident">className</span><span class="op">&amp;</span> <span class="kwd1">operator</span><span class="op">=</span><span class="round">(</span><span class="kwd1">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span> \
+                                <span class="kwd1">public</span><span class="op">:</span></span>
+
 <span class="cmnt">//! Синтаксический сахар для объявления некопируемых структур - строгая версия</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_NON_COPYABLE_STRUCT_STRONG</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>                           \
-                                <span class="ident">private</span><span class="op">:</span>                                     \
-                                    <span class="ident">className</span><span class="round">(</span><span class="ident">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span>            \
-                                    <span class="ident">className</span><span class="op">&amp;</span> <span class="ident">operator</span><span class="op">=</span><span class="round">(</span><span class="ident">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span> \
-                                <span class="ident">public</span><span class="op">:</span>
-</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_NON_COPYABLE_STRUCT_STRONG</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>                           \
+                                <span class="kwd1">private</span><span class="op">:</span>                                     \
+                                    <span class="ident">className</span><span class="round">(</span><span class="kwd1">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span>            \
+                                    <span class="ident">className</span><span class="op">&amp;</span> <span class="kwd1">operator</span><span class="op">=</span><span class="round">(</span><span class="kwd1">const</span> <span class="ident">className</span> <span class="op">&amp;</span><span class="round">)</span><span class="op">;</span> \
+                                <span class="kwd1">public</span><span class="op">:</span></span>
+
 <span class="cmnt">//! Синтаксический сахар для объявления некопируемых структур - строгая версия</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_NON_COPYABLE_STRUCT_STRICT</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>  <span class="ident">UMBA_NON_COPYABLE_STRUCT_STRONG</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>
-</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_NON_COPYABLE_STRUCT_STRICT</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span>  <span class="ident">UMBA_NON_COPYABLE_STRUCT_STRONG</span><span class="round">(</span><span class="ident">className</span><span class="round">)</span></span>
+
 
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">/*! \def UMBA_DECLARE_DEPRECATED_FN(...)
@@ -335,68 +344,68 @@ body {
     По возможности выдает предупреждение (с выдачей сообщения), если задан макрос UMBA_DISABLE_DEPRECATED, то ломает компиляцию.
 */</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_DISABLE_DEPRECATED</span><span class="round">)</span>
-</span>    <span class="cmnt">//#error &quot;UMBA_DISABLE_DEPRECATED defined&quot;</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DECLARE_DEPRECATED_FN</span><span class="round">(</span> <span class="op">...</span> <span class="round">)</span>
-</span>    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DECLARE_DEPRECATED_FN_MSG</span><span class="round">(</span> <span class="ident">msg</span><span class="op">,</span> <span class="op">...</span> <span class="round">)</span>
-</span><span class="pp">#<span class="ident">else</span>
-</span>    <span class="cmnt">//#error &quot;UMBA_DISABLE_DEPRECATED - NOT defined!!!&quot;</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DECLARE_DEPRECATED_FN</span><span class="round">(</span> <span class="op">...</span> <span class="round">)</span>             <span class="ident">UMBA_DEPRECATED</span> <span class="ident">__VA_ARGS__</span>
-</span>    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DECLARE_DEPRECATED_FN_MSG</span><span class="round">(</span> <span class="ident">msg</span><span class="op">,</span> <span class="op">...</span> <span class="round">)</span>    <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span> <span class="ident">__VA_ARGS__</span>
-</span><span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_DISABLE_DEPRECATED</span><span class="round">)</span></span>
+    <span class="cmnt">//#error &quot;UMBA_DISABLE_DEPRECATED defined&quot;</span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DECLARE_DEPRECATED_FN</span><span class="round">(</span> <span class="op">...</span> <span class="round">)</span></span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DECLARE_DEPRECATED_FN_MSG</span><span class="round">(</span> <span class="ident">msg</span><span class="op">,</span> <span class="op">...</span> <span class="round">)</span></span>
+<span class="pp">#<span class="kwd2">else</span></span>
+    <span class="cmnt">//#error &quot;UMBA_DISABLE_DEPRECATED - NOT defined!!!&quot;</span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DECLARE_DEPRECATED_FN</span><span class="round">(</span> <span class="op">...</span> <span class="round">)</span>             <span class="ident">UMBA_DEPRECATED</span> <span class="ident">__VA_ARGS__</span></span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DECLARE_DEPRECATED_FN_MSG</span><span class="round">(</span> <span class="ident">msg</span><span class="op">,</span> <span class="op">...</span> <span class="round">)</span>    <span class="ident">UMBA_DEPRECATED_MSG</span><span class="round">(</span><span class="ident">msg</span><span class="round">)</span> <span class="ident">__VA_ARGS__</span></span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">/*! \def UMBA_FORCE_INLINE
     \brief Принудительный инлайнинг. Оно даже работает, по крайней мере, для Кейла оно работает
 */</span>
-<span class="pp">#<span class="ident">ifndef</span> <span class="ident">UMBA_FORCE_INLINE</span>
-</span>
-    <span class="pp">#<span class="ident">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_ARMCC_COMPILER_USED</span><span class="round">)</span>
-</span>
-        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_FORCE_INLINE</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__forceinline</span> <span class="ident">funcFullSignature</span>
-</span>
-    <span class="pp">#<span class="ident">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_GCC_COMPILER_USED</span><span class="round">)</span> <span class="op">||</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_CLANG_COMPILER_USED</span><span class="round">)</span>
-</span>
-        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_FORCE_INLINE</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">inline</span> <span class="ident">__attribute__</span> <span class="round">(</span><span class="round">(</span><span class="ident">always_inline</span><span class="round">)</span><span class="round">)</span> <span class="ident">funcFullSignature</span>
-</span>
-    <span class="pp">#<span class="ident">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MSVC_COMPILER_USED</span><span class="round">)</span>
-</span>
-        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_FORCE_INLINE</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__forceinline</span> <span class="ident">funcFullSignature</span>
-</span>
-    <span class="pp">#<span class="ident">else</span>
-</span>
-        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_FORCE_INLINE</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">inline</span> <span class="ident">funcFullSignature</span>
-</span>
-    <span class="pp">#<span class="ident">endif</span>
-</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">ifndef</span> <span class="ident">UMBA_FORCE_INLINE</span></span>
+
+    <span class="pp">#<span class="kwd2">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_ARMCC_COMPILER_USED</span><span class="round">)</span></span>
+
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_FORCE_INLINE</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__forceinline</span> <span class="ident">funcFullSignature</span></span>
+
+    <span class="pp">#<span class="kwd2">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_GCC_COMPILER_USED</span><span class="round">)</span> <span class="op">||</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_CLANG_COMPILER_USED</span><span class="round">)</span></span>
+
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_FORCE_INLINE</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="kwd1">inline</span> <span class="ident">__attribute__</span> <span class="round">(</span><span class="round">(</span><span class="ident">always_inline</span><span class="round">)</span><span class="round">)</span> <span class="ident">funcFullSignature</span></span>
+
+    <span class="pp">#<span class="kwd2">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MSVC_COMPILER_USED</span><span class="round">)</span></span>
+
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_FORCE_INLINE</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__forceinline</span> <span class="ident">funcFullSignature</span></span>
+
+    <span class="pp">#<span class="kwd2">else</span></span>
+
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_FORCE_INLINE</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="kwd1">inline</span> <span class="ident">funcFullSignature</span></span>
+
+    <span class="pp">#<span class="kwd2">endif</span></span>
+
+<span class="pp">#<span class="kwd2">endif</span></span>
+
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">/*! \def UMBA_FORCE_INLINE_MEMBER
     \brief Принудительный инлайнинг мембера класса. Оно даже работает, по крайней мере, для Кейла оно работает
 */</span>
-<span class="pp">#<span class="ident">ifndef</span> <span class="ident">UMBA_FORCE_INLINE_MEMBER</span>
-</span>
-    <span class="pp">#<span class="ident">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_ARMCC_COMPILER_USED</span><span class="round">)</span>
-</span>
-        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_FORCE_INLINE_MEMBER</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__forceinline</span> <span class="ident">funcFullSignature</span>
-</span>
-    <span class="pp">#<span class="ident">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_GCC_COMPILER_USED</span><span class="round">)</span> <span class="op">||</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_CLANG_COMPILER_USED</span><span class="round">)</span>
-</span>
-        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_FORCE_INLINE_MEMBER</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__attribute__</span> <span class="round">(</span><span class="round">(</span><span class="ident">always_inline</span><span class="round">)</span><span class="round">)</span> <span class="ident">funcFullSignature</span>
-</span>
-    <span class="pp">#<span class="ident">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MSVC_COMPILER_USED</span><span class="round">)</span>
-</span>
-        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_FORCE_INLINE_MEMBER</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__forceinline</span> <span class="ident">funcFullSignature</span>
-</span>
-    <span class="pp">#<span class="ident">else</span>
-</span>
-        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_FORCE_INLINE_MEMBER</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">funcFullSignature</span>
-</span>
-    <span class="pp">#<span class="ident">endif</span>
-</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">ifndef</span> <span class="ident">UMBA_FORCE_INLINE_MEMBER</span></span>
+
+    <span class="pp">#<span class="kwd2">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_ARMCC_COMPILER_USED</span><span class="round">)</span></span>
+
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_FORCE_INLINE_MEMBER</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__forceinline</span> <span class="ident">funcFullSignature</span></span>
+
+    <span class="pp">#<span class="kwd2">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_GCC_COMPILER_USED</span><span class="round">)</span> <span class="op">||</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_CLANG_COMPILER_USED</span><span class="round">)</span></span>
+
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_FORCE_INLINE_MEMBER</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__attribute__</span> <span class="round">(</span><span class="round">(</span><span class="ident">always_inline</span><span class="round">)</span><span class="round">)</span> <span class="ident">funcFullSignature</span></span>
+
+    <span class="pp">#<span class="kwd2">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MSVC_COMPILER_USED</span><span class="round">)</span></span>
+
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_FORCE_INLINE_MEMBER</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__forceinline</span> <span class="ident">funcFullSignature</span></span>
+
+    <span class="pp">#<span class="kwd2">else</span></span>
+
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_FORCE_INLINE_MEMBER</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">funcFullSignature</span></span>
+
+    <span class="pp">#<span class="kwd2">endif</span></span>
+
+<span class="pp">#<span class="kwd2">endif</span></span>
+
 <span class="cmnt">/*
 #ifndef UMBA_FORCE_INLINE_DECLARATION
 
@@ -423,35 +432,35 @@ body {
 <span class="cmnt">/*! \def UMBA_DECLARE_WEAK_FUNCTION
     \brief Декларирует WEAK-функцию - &quot;слабую&quot;, при линковке, функцию
 */</span>
-<span class="pp">#<span class="ident">ifndef</span> <span class="ident">UMBA_DECLARE_WEAK_FUNCTION</span>
-</span>
-    <span class="pp">#<span class="ident">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_ARMCC_COMPILER_USED</span><span class="round">)</span>
-</span>
-        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DECLARE_WEAK_FUNCTION</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__weak</span> <span class="ident">funcFullSignature</span>
-</span>
-    <span class="pp">#<span class="ident">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_GCC_COMPILER_USED</span><span class="round">)</span> <span class="op">||</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_CLANG_COMPILER_USED</span><span class="round">)</span>
-</span>
-        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DECLARE_WEAK_FUNCTION</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__attribute__</span> <span class="round">(</span><span class="round">(</span><span class="ident">weakref</span><span class="round">)</span><span class="round">)</span> <span class="ident">funcFullSignature</span>
-</span>
-    <span class="pp">#<span class="ident">else</span>
-</span>
-        <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DECLARE_WEAK_FUNCTION</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">funcFullSignature</span>
-</span>
-    <span class="pp">#<span class="ident">endif</span>
-</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">ifndef</span> <span class="ident">UMBA_DECLARE_WEAK_FUNCTION</span></span>
+
+    <span class="pp">#<span class="kwd2">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_ARMCC_COMPILER_USED</span><span class="round">)</span></span>
+
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DECLARE_WEAK_FUNCTION</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__weak</span> <span class="ident">funcFullSignature</span></span>
+
+    <span class="pp">#<span class="kwd2">elif</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_GCC_COMPILER_USED</span><span class="round">)</span> <span class="op">||</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_KEIL_CLANG_COMPILER_USED</span><span class="round">)</span></span>
+
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DECLARE_WEAK_FUNCTION</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">__attribute__</span> <span class="round">(</span><span class="round">(</span><span class="ident">weakref</span><span class="round">)</span><span class="round">)</span> <span class="ident">funcFullSignature</span></span>
+
+    <span class="pp">#<span class="kwd2">else</span></span>
+
+        <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DECLARE_WEAK_FUNCTION</span><span class="round">(</span> <span class="ident">funcFullSignature</span> <span class="round">)</span>   <span class="ident">funcFullSignature</span></span>
+
+    <span class="pp">#<span class="kwd2">endif</span></span>
+
+<span class="pp">#<span class="kwd2">endif</span></span>
+
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">//! Декларирует WEAK-функцию - обработчик прерывания</span>
-<span class="pp">#<span class="ident">ifndef</span> <span class="ident">UMBA_DECLARE_WEAK_IRQ_HANDLER</span>
-</span>    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_DECLARE_WEAK_IRQ_HANDLER</span><span class="round">(</span> <span class="ident">funcName</span> <span class="round">)</span>     <span class="ident">extern</span> <span class="str">&quot;C&quot;</span> <span class="ident">UMBA_DECLARE_WEAK_FUNCTION</span><span class="round">(</span> <span class="ident">void</span> <span class="ident">funcName</span><span class="round">(</span><span class="round">)</span> <span class="round">)</span>
-</span><span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">ifndef</span> <span class="ident">UMBA_DECLARE_WEAK_IRQ_HANDLER</span></span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_DECLARE_WEAK_IRQ_HANDLER</span><span class="round">(</span> <span class="ident">funcName</span> <span class="round">)</span>     <span class="kwd1">extern</span> <span class="str">&quot;C&quot;</span> <span class="ident">UMBA_DECLARE_WEAK_FUNCTION</span><span class="round">(</span> <span class="kwd1">void</span> <span class="ident">funcName</span><span class="round">(</span><span class="round">)</span> <span class="round">)</span></span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
 <span class="cmnt">//! Декларирует WEAK-функцию - обработчик прерывания</span>
-<span class="pp">#<span class="ident">ifndef</span> <span class="ident">UMBA_WEAK_IRQ_HANDLER</span>
-</span>    <span class="pp">#<span class="ident">define</span> <span class="ident">UMBA_WEAK_IRQ_HANDLER</span><span class="round">(</span> <span class="ident">funcName</span> <span class="round">)</span>             <span class="ident">UMBA_DECLARE_WEAK_IRQ_HANDLER</span><span class="round">(</span><span class="ident">funcName</span><span class="round">)</span>
-</span><span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">ifndef</span> <span class="ident">UMBA_WEAK_IRQ_HANDLER</span></span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">UMBA_WEAK_IRQ_HANDLER</span><span class="round">(</span> <span class="ident">funcName</span> <span class="round">)</span>             <span class="ident">UMBA_DECLARE_WEAK_IRQ_HANDLER</span><span class="round">(</span><span class="ident">funcName</span><span class="round">)</span></span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
 
 
 </pre>

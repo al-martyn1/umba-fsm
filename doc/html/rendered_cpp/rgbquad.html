@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8"/>
@@ -65,7 +66,15 @@ body {
 }
 
 .pp .num{
-  color:#004200;
+  color:#006400; /* #004200 */
+}
+
+.pp .kwd1{
+  color:#006400; /* #004200 */
+}
+
+.pp .kwd1{
+  color:#006400; /* #004200 */
 }
 
 .pp .cmnt{
@@ -109,17 +118,17 @@ body {
  */</span>
 <span class="cmnt">//-----------------------------------------------------------------------------</span>
 
-<span class="pp">#<span class="ident">pragma</span> <span class="ident">once</span>
-</span>
+<span class="pp">#<span class="kwd2">pragma</span> <span class="ident">once</span></span>
+
 <span class="cmnt">//-----------------------------------------------------------------------------</span>
 
-<span class="pp">#<span class="ident">include</span> <span class="str">&quot;format_utils.h&quot;</span>
-</span><span class="pp">#<span class="ident">include</span> <span class="str">&quot;umba.h&quot;</span>
-</span>
-<span class="pp">#<span class="ident">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_USED</span><span class="round">)</span>
-</span>    <span class="pp">#<span class="ident">include</span> <span class="str">&quot;string_plus.h&quot;</span>
-</span><span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">include</span> <span class="str">&quot;format_utils.h&quot;</span></span>
+<span class="pp">#<span class="kwd2">include</span> <span class="str">&quot;umba.h&quot;</span></span>
+
+<span class="pp">#<span class="kwd2">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_USED</span><span class="round">)</span></span>
+    <span class="pp">#<span class="kwd2">include</span> <span class="str">&quot;string_plus.h&quot;</span></span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
 
 <span class="cmnt">//-----------------------------------------------------------------------------</span>
 
@@ -134,16 +143,16 @@ Must be included before this file
 #include &lt;QColor&gt;
 */</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_USED</span><span class="round">)</span>
-</span>    <span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">string</span><span class="op">&gt;</span>
-</span><span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_USED</span><span class="round">)</span></span>
+    <span class="pp">#<span class="kwd2">include</span> <span class="op">&lt;</span><span class="ident">string</span><span class="op">&gt;</span></span>
+<span class="pp">#<span class="kwd2">endif</span></span>
 
-<span class="pp">#<span class="ident">include</span> <span class="str">&quot;const_string.h&quot;</span>
-</span><span class="pp">#<span class="ident">include</span> <span class="str">&quot;parse_utils.h&quot;</span>
-</span>
-<span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">cstring</span><span class="op">&gt;</span>
-</span>
+
+<span class="pp">#<span class="kwd2">include</span> <span class="str">&quot;const_string.h&quot;</span></span>
+<span class="pp">#<span class="kwd2">include</span> <span class="str">&quot;parse_utils.h&quot;</span></span>
+
+<span class="pp">#<span class="kwd2">include</span> <span class="op">&lt;</span><span class="ident">cstring</span><span class="op">&gt;</span></span>
+
 <span class="cmnt">//-----------------------------------------------------------------------------</span>
 
 
@@ -176,8 +185,8 @@ Must be included before this file
 
 
 <span class="cmnt">//-----------------------------------------------------------------------------</span>
-<span class="pp">#<span class="ident">include</span> <span class="str">&quot;pushpack1.h&quot;</span>
-</span><span class="cmnt">//! RGB четвертяк, хранит компоненты цвета</span>
+<span class="pp">#<span class="kwd2">include</span> <span class="str">&quot;pushpack1.h&quot;</span></span>
+<span class="cmnt">//! RGB четвертяк, хранит компоненты цвета</span>
 <span class="cmnt">/*! Не привязываемся как какому-либо фреймворку, вполне может использоваться и на MCU.
 
     Иныалидный цвет - RGBA(1,1,1,1). Хотя, теоретически, цвет RGBA(1,1,1,1) - вполне валидный, но, так-то,
@@ -349,8 +358,8 @@ Must be included before this file
                  <span class="round">)</span> <span class="kwd1">const</span><span class="op">;</span>
 
 
-    <span class="pp">#<span class="ident">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_USED</span><span class="round">)</span>
-</span>
+    <span class="pp">#<span class="kwd2">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_USED</span><span class="round">)</span></span>
+
     <span class="cmnt">//! Конвертирует из строки std::string</span>
     <span class="kwd1">bool</span> <span class="ident">fromString</span><span class="round">(</span> <span class="kwd1">const</span> <span class="ident">std</span><span class="op">::</span><span class="ident">string</span> <span class="op">&amp;</span><span class="ident">s</span> <span class="round">)</span>
     <span class="curly">{</span>
@@ -372,11 +381,11 @@ Must be included before this file
         <span class="kwd1">return</span> <span class="ident">umba</span><span class="op">::</span><span class="ident">string_plus</span><span class="op">::</span><span class="ident">make_string</span><span class="op">&lt;</span><span class="ident">std</span><span class="op">::</span><span class="ident">string</span><span class="op">&gt;</span><span class="round">(</span> <span class="op">&amp;</span><span class="ident">buf</span><span class="square">[</span><span class="num">0</span><span class="square">]</span> <span class="round">)</span><span class="op">;</span>
     <span class="curly">}</span>
 
-    <span class="pp">#<span class="ident">endif</span>
-</span>
+    <span class="pp">#<span class="kwd2">endif</span></span>
 
-    <span class="pp">#<span class="ident">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">QCOLOR_H</span><span class="round">)</span>
-</span>    <span class="cmnt">/* Qt guard name */</span>
+
+    <span class="pp">#<span class="kwd2">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">QCOLOR_H</span><span class="round">)</span></span>
+    <span class="cmnt">/* Qt guard name */</span>
 
     <span class="cmnt">//! Преобразование в QColor - совместимость с Qt</span>
     <span class="kwd1">operator</span> <span class="ident">QColor</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span>
@@ -387,24 +396,24 @@ Must be included before this file
             <span class="kwd1">return</span> <span class="ident">QColor</span><span class="round">(</span> <span class="round">(</span><span class="kwd1">int</span><span class="round">)</span><span class="round">(</span><span class="kwd1">unsigned</span><span class="round">)</span><span class="ident">red</span><span class="op">,</span> <span class="round">(</span><span class="kwd1">int</span><span class="round">)</span><span class="round">(</span><span class="kwd1">unsigned</span><span class="round">)</span><span class="ident">green</span><span class="op">,</span> <span class="round">(</span><span class="kwd1">int</span><span class="round">)</span><span class="round">(</span><span class="kwd1">unsigned</span><span class="round">)</span><span class="ident">blue</span><span class="op">,</span> <span class="round">(</span><span class="kwd1">int</span><span class="round">)</span><span class="round">(</span><span class="kwd1">unsigned</span><span class="round">)</span><span class="ident">alpha</span> <span class="round">)</span><span class="op">;</span>
     <span class="curly">}</span>
 
-    <span class="pp">#<span class="ident">endif</span>
-</span>
+    <span class="pp">#<span class="kwd2">endif</span></span>
 
-    <span class="pp">#<span class="ident">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">QBRUSH_H</span><span class="round">)</span> <span class="cmnt">/* Qt guard name */</span>
-</span>
+
+    <span class="pp">#<span class="kwd2">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">QBRUSH_H</span><span class="round">)</span> <span class="cmnt">/* Qt guard name */</span></span>
+
     <span class="cmnt">//! Преобразование в QBrush - совместимость с Qt и упрощение использования для рисования</span>
     <span class="kwd1">operator</span> <span class="ident">QBrush</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span>
     <span class="curly">{</span>
         <span class="kwd1">return</span> <span class="ident">QBrush</span><span class="round">(</span> <span class="ident">QColor</span><span class="round">(</span><span class="op">*</span><span class="kwd1">this</span><span class="round">)</span> <span class="round">)</span><span class="op">;</span> <span class="cmnt">// Qt::SolidPattern as second args</span>
     <span class="curly">}</span>
 
-    <span class="pp">#<span class="ident">endif</span>
-</span>
+    <span class="pp">#<span class="kwd2">endif</span></span>
+
 
 
 <span class="curly">}</span><span class="op">;</span> <span class="cmnt">// struct RgbQuad</span>
-<span class="pp">#<span class="ident">include</span> <span class="str">&quot;packpop.h&quot;</span>
-</span>
+<span class="pp">#<span class="kwd2">include</span> <span class="str">&quot;packpop.h&quot;</span></span>
+
 <span class="cmnt">//-----------------------------------------------------------------------------</span>
 
 
@@ -453,8 +462,8 @@ Must be included before this file
     <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;darkyellow&quot;</span> <span class="op">,</span> <span class="num">0x808000u</span> <span class="curly">}</span>
 
     <span class="cmnt">// Advanced color names (not for MCU)</span>
-    <span class="pp">#<span class="ident">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_USED</span><span class="round">)</span> <span class="op">||</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_ADVANCED_RGBQUAD_NAMES</span><span class="round">)</span>
-</span>    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;dimgray&quot;</span>    <span class="op">,</span> <span class="num">0x909090u</span> <span class="curly">}</span>
+    <span class="pp">#<span class="kwd2">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_USED</span><span class="round">)</span> <span class="op">||</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_MCU_ADVANCED_RGBQUAD_NAMES</span><span class="round">)</span></span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;dimgray&quot;</span>    <span class="op">,</span> <span class="num">0x909090u</span> <span class="curly">}</span>
     <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;dimgrey&quot;</span>    <span class="op">,</span> <span class="num">0x909090u</span> <span class="curly">}</span>
     <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;aliceblue&quot;</span>            <span class="op">,</span> <span class="curly">{</span> <span class="num">240</span><span class="op">,</span> <span class="num">248</span><span class="op">,</span> <span class="num">255</span> <span class="curly">}</span> <span class="curly">}</span>
     <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;antiquewhite&quot;</span>         <span class="op">,</span> <span class="curly">{</span> <span class="num">250</span><span class="op">,</span> <span class="num">235</span><span class="op">,</span> <span class="num">215</span> <span class="curly">}</span> <span class="curly">}</span>
@@ -590,8 +599,8 @@ Must be included before this file
     <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;wheat&quot;</span>                <span class="op">,</span> <span class="curly">{</span> <span class="num">245</span><span class="op">,</span> <span class="num">222</span><span class="op">,</span> <span class="num">179</span> <span class="curly">}</span> <span class="curly">}</span>
     <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;whitesmoke&quot;</span>           <span class="op">,</span> <span class="curly">{</span> <span class="num">245</span><span class="op">,</span> <span class="num">245</span><span class="op">,</span> <span class="num">245</span> <span class="curly">}</span> <span class="curly">}</span>
     <span class="op">,</span> <span class="curly">{</span> <span class="str">&quot;yellowgreen&quot;</span>          <span class="op">,</span> <span class="curly">{</span> <span class="num">154</span><span class="op">,</span> <span class="num">205</span><span class="op">,</span>  <span class="num">50</span> <span class="curly">}</span> <span class="curly">}</span>
-    <span class="pp">#<span class="ident">endif</span>
-</span>    <span class="op">,</span> <span class="curly">{</span> <span class="num">0</span>                      <span class="op">,</span> <span class="num">0</span> <span class="curly">}</span>
+    <span class="pp">#<span class="kwd2">endif</span></span>
+    <span class="op">,</span> <span class="curly">{</span> <span class="num">0</span>                      <span class="op">,</span> <span class="num">0</span> <span class="curly">}</span>
     <span class="curly">}</span><span class="op">;</span>
 
     <span class="kwd1">return</span> <span class="op">&amp;</span><span class="ident">names</span><span class="square">[</span><span class="num">0</span><span class="square">]</span><span class="op">;</span>

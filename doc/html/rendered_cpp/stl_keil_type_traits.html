@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8"/>
@@ -65,7 +66,15 @@ body {
 }
 
 .pp .num{
-  color:#004200;
+  color:#006400; /* #004200 */
+}
+
+.pp .kwd1{
+  color:#006400; /* #004200 */
+}
+
+.pp .kwd1{
+  color:#006400; /* #004200 */
 }
 
 .pp .cmnt{
@@ -108,11 +117,11 @@ body {
     \brief Перетащенное под старый Кейл type_traits из GCC
  */</span>
 
-<span class="pp">#<span class="ident">pragma</span> <span class="ident">once</span>
-</span>
-<span class="pp">#<span class="ident">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_CXX_HAS_STD11</span><span class="round">)</span>
-</span>    <span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">cstdint</span><span class="op">&gt;</span>
-</span>
+<span class="pp">#<span class="kwd2">pragma</span> <span class="ident">once</span></span>
+
+<span class="pp">#<span class="kwd2">if</span> <span class="kwd2">defined</span><span class="round">(</span><span class="ident">UMBA_CXX_HAS_STD11</span><span class="round">)</span></span>
+    <span class="pp">#<span class="kwd2">include</span> <span class="op">&lt;</span><span class="ident">cstdint</span><span class="op">&gt;</span></span>
+
 <span class="kwd1">namespace</span> <span class="ident">std</span>
 <span class="curly">{</span>
 
@@ -126,13 +135,13 @@ body {
       <span class="kwd1">typedef</span> <span class="ident">_Tp</span>                           <span class="ident">value_type</span><span class="op">;</span>
       <span class="kwd1">typedef</span> <span class="ident">integral_constant</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">,</span> <span class="ident">__v</span><span class="op">&gt;</span>   <span class="ident">type</span><span class="op">;</span>
       <span class="kwd1">constexpr</span> <span class="kwd1">operator</span> <span class="ident">value_type</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span> <span class="curly">{</span> <span class="kwd1">return</span> <span class="ident">value</span><span class="op">;</span> <span class="curly">}</span>
-<span class="pp">#<span class="ident">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span>
-</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">__cpp_lib_integral_constant_callable</span> <span class="num">201304</span>
-</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span></span>
+
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">__cpp_lib_integral_constant_callable</span> <span class="num">201304</span></span>
+
       <span class="kwd1">constexpr</span> <span class="ident">value_type</span> <span class="kwd1">operator</span><span class="round">(</span><span class="round">)</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">const</span> <span class="curly">{</span> <span class="kwd1">return</span> <span class="ident">value</span><span class="op">;</span> <span class="curly">}</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>    <span class="curly">}</span><span class="op">;</span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+    <span class="curly">}</span><span class="op">;</span>
 
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">,</span> <span class="ident">_Tp</span> <span class="ident">__v</span><span class="op">&gt;</span>
     <span class="kwd1">constexpr</span> <span class="ident">_Tp</span> <span class="ident">integral_constant</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">,</span> <span class="ident">__v</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">value</span><span class="op">;</span>
@@ -146,12 +155,12 @@ body {
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">bool</span> <span class="ident">__v</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">__bool_constant</span> <span class="op">=</span> <span class="ident">integral_constant</span><span class="op">&lt;</span><span class="kwd1">bool</span><span class="op">,</span> <span class="ident">__v</span><span class="op">&gt;</span><span class="op">;</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201402L</span>
-</span><span class="pp"># <span class="ident">define</span> <span class="ident">__cpp_lib_bool_constant</span> <span class="num">201505</span>
-</span>  <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">bool</span> <span class="ident">__v</span><span class="op">&gt;</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201402L</span></span>
+<span class="pp"># <span class="kwd2">define</span> <span class="ident">__cpp_lib_bool_constant</span> <span class="num">201505</span></span>
+  <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">bool</span> <span class="ident">__v</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">bool_constant</span> <span class="op">=</span> <span class="ident">integral_constant</span><span class="op">&lt;</span><span class="kwd1">bool</span><span class="op">,</span> <span class="ident">__v</span><span class="op">&gt;</span><span class="op">;</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
   <span class="cmnt">// Meta programming helper types.</span>
 
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">bool</span><span class="op">,</span> <span class="kwd1">typename</span><span class="op">,</span> <span class="kwd1">typename</span><span class="op">&gt;</span>
@@ -215,10 +224,10 @@ body {
     <span class="kwd1">void</span> <span class="kwd1">operator</span><span class="op">=</span><span class="round">(</span><span class="ident">__nonesuch</span> <span class="kwd1">const</span><span class="op">&amp;</span><span class="round">)</span> <span class="op">=</span> <span class="kwd1">delete</span><span class="op">;</span>
   <span class="curly">}</span><span class="op">;</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201402L</span>
-</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">__cpp_lib_logical_traits</span> <span class="num">201510</span>
-</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201402L</span></span>
+
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">__cpp_lib_logical_traits</span> <span class="num">201510</span></span>
+
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span><span class="op">...</span> <span class="ident">_Bn</span><span class="op">&gt;</span>
     <span class="kwd1">struct</span> <span class="ident">conjunction</span>
     <span class="op">:</span> <span class="ident">__and_</span><span class="op">&lt;</span><span class="ident">_Bn</span><span class="op">...</span><span class="op">&gt;</span>
@@ -233,8 +242,8 @@ body {
     <span class="kwd1">struct</span> <span class="ident">negation</span>
     <span class="op">:</span> <span class="ident">__not_</span><span class="op">&lt;</span><span class="ident">_Pp</span><span class="op">&gt;</span>
     <span class="curly">{</span> <span class="curly">}</span><span class="op">;</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
   <span class="cmnt">// For several sfinae-friendly trait implementations we transport both the</span>
   <span class="cmnt">// result information (as the member type) and the failure information (no</span>
   <span class="cmnt">// member type). This is very similar to std::enable_if, but we cannot use</span>
@@ -557,8 +566,8 @@ body {
     <span class="kwd1">struct</span> <span class="ident">is_function</span><span class="op">&lt;</span><span class="ident">_Res</span><span class="round">(</span><span class="ident">_ArgTypes</span><span class="op">...</span><span class="op">...</span><span class="round">)</span> <span class="kwd1">const</span> <span class="kwd1">volatile</span> <span class="op">&amp;&amp;</span><span class="op">&gt;</span>
     <span class="op">:</span> <span class="kwd1">public</span> <span class="ident">true_type</span> <span class="curly">{</span> <span class="curly">}</span><span class="op">;</span>
 
-<span class="pp">#<span class="ident">define</span> <span class="ident">__cpp_lib_is_null_pointer</span> <span class="num">201309</span>
-</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">__cpp_lib_is_null_pointer</span> <span class="num">201309</span></span>
+
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span><span class="op">&gt;</span>
     <span class="kwd1">struct</span> <span class="ident">__is_null_pointer_helper</span>
     <span class="op">:</span> <span class="kwd1">public</span> <span class="ident">false_type</span> <span class="curly">{</span> <span class="curly">}</span><span class="op">;</span>
@@ -717,15 +726,15 @@ body {
     <span class="op">:</span> <span class="kwd1">public</span> <span class="ident">integral_constant</span><span class="op">&lt;</span><span class="kwd1">bool</span><span class="op">,</span> <span class="ident">__is_polymorphic</span><span class="round">(</span><span class="ident">_Tp</span><span class="round">)</span><span class="op">&gt;</span>
     <span class="curly">{</span> <span class="curly">}</span><span class="op">;</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;=</span> <span class="num">201402L</span>
-</span><span class="pp">#<span class="ident">define</span> <span class="ident">__cpp_lib_is_final</span> <span class="num">201402L</span>
-</span>  <span class="cmnt">/// is_final</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;=</span> <span class="num">201402L</span></span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">__cpp_lib_is_final</span> <span class="num">201402L</span></span>
+  <span class="cmnt">/// is_final</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">struct</span> <span class="ident">is_final</span>
     <span class="op">:</span> <span class="kwd1">public</span> <span class="ident">integral_constant</span><span class="op">&lt;</span><span class="kwd1">bool</span><span class="op">,</span> <span class="ident">__is_final</span><span class="round">(</span><span class="ident">_Tp</span><span class="round">)</span><span class="op">&gt;</span>
     <span class="curly">{</span> <span class="curly">}</span><span class="op">;</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
   <span class="cmnt">/// is_abstract</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">struct</span> <span class="ident">is_abstract</span>
@@ -1616,10 +1625,10 @@ body {
       <span class="ident">add_const</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">add_volatile</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span>     <span class="ident">type</span><span class="op">;</span>
     <span class="curly">}</span><span class="op">;</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span>
-</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">__cpp_lib_transformation_trait_aliases</span> <span class="num">201304</span>
-</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span></span>
+
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">__cpp_lib_transformation_trait_aliases</span> <span class="num">201304</span></span>
+
   <span class="cmnt">/// Alias template for remove_const</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">remove_const_t</span> <span class="op">=</span> <span class="kwd1">typename</span> <span class="ident">remove_const</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span><span class="op">;</span>
@@ -1643,8 +1652,8 @@ body {
   <span class="cmnt">/// Alias template for add_cv</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">add_cv_t</span> <span class="op">=</span> <span class="kwd1">typename</span> <span class="ident">add_cv</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span><span class="op">;</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
   <span class="cmnt">// Reference transformations.</span>
 
 <span class="cmnt">/*
@@ -1690,8 +1699,8 @@ body {
     <span class="op">:</span> <span class="kwd1">public</span> <span class="ident">__add_rvalue_reference_helper</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="curly">{</span> <span class="curly">}</span><span class="op">;</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span>
-</span>  <span class="cmnt">/// Alias template for remove_reference</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span></span>
+  <span class="cmnt">/// Alias template for remove_reference</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">remove_reference_t</span> <span class="op">=</span> <span class="kwd1">typename</span> <span class="ident">remove_reference</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span><span class="op">;</span>
 
@@ -1702,8 +1711,8 @@ body {
   <span class="cmnt">/// Alias template for add_rvalue_reference</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">add_rvalue_reference_t</span> <span class="op">=</span> <span class="kwd1">typename</span> <span class="ident">add_rvalue_reference</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span><span class="op">;</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
   <span class="cmnt">// Sign modifications.</span>
 
   <span class="cmnt">// Utility for constructing identically cv-qualified types.</span>
@@ -1889,16 +1898,16 @@ body {
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="op">&gt;</span>
     <span class="kwd1">struct</span> <span class="ident">make_signed</span><span class="op">&lt;</span><span class="kwd1">bool</span><span class="op">&gt;</span><span class="op">;</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span>
-</span>  <span class="cmnt">/// Alias template for make_signed</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span></span>
+  <span class="cmnt">/// Alias template for make_signed</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">make_signed_t</span> <span class="op">=</span> <span class="kwd1">typename</span> <span class="ident">make_signed</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span><span class="op">;</span>
 
   <span class="cmnt">/// Alias template for make_unsigned</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">make_unsigned_t</span> <span class="op">=</span> <span class="kwd1">typename</span> <span class="ident">make_unsigned</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span><span class="op">;</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
   <span class="cmnt">// Array modifications.</span>
 
   <span class="cmnt">/// remove_extent</span>
@@ -1927,16 +1936,16 @@ body {
     <span class="kwd1">struct</span> <span class="ident">remove_all_extents</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="square">[</span><span class="square">]</span><span class="op">&gt;</span>
     <span class="curly">{</span> <span class="kwd1">typedef</span> <span class="kwd1">typename</span> <span class="ident">remove_all_extents</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span>     <span class="ident">type</span><span class="op">;</span> <span class="curly">}</span><span class="op">;</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span>
-</span>  <span class="cmnt">/// Alias template for remove_extent</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span></span>
+  <span class="cmnt">/// Alias template for remove_extent</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">remove_extent_t</span> <span class="op">=</span> <span class="kwd1">typename</span> <span class="ident">remove_extent</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span><span class="op">;</span>
 
   <span class="cmnt">/// Alias template for remove_all_extents</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">remove_all_extents_t</span> <span class="op">=</span> <span class="kwd1">typename</span> <span class="ident">remove_all_extents</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span><span class="op">;</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
   <span class="cmnt">// Pointer modifications.</span>
 
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">,</span> <span class="kwd1">typename</span><span class="op">&gt;</span>
@@ -1968,16 +1977,16 @@ body {
     <span class="op">:</span> <span class="kwd1">public</span> <span class="ident">__add_pointer_helper</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="curly">{</span> <span class="curly">}</span><span class="op">;</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span>
-</span>  <span class="cmnt">/// Alias template for remove_pointer</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span></span>
+  <span class="cmnt">/// Alias template for remove_pointer</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">remove_pointer_t</span> <span class="op">=</span> <span class="kwd1">typename</span> <span class="ident">remove_pointer</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span><span class="op">;</span>
 
   <span class="cmnt">/// Alias template for add_pointer</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">add_pointer_t</span> <span class="op">=</span> <span class="kwd1">typename</span> <span class="ident">add_pointer</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span><span class="op">;</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
 <span class="cmnt">/*
   template&lt;std::size_t _Len&gt;
     struct __aligned_storage_msa
@@ -2234,8 +2243,8 @@ body {
 
   <span class="cmnt">// Sfinae-friendly result_of implementation:</span>
 
-<span class="pp">#<span class="ident">define</span> <span class="ident">__cpp_lib_result_of_sfinae</span> <span class="num">201210</span>
-</span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">__cpp_lib_result_of_sfinae</span> <span class="num">201210</span></span>
+
   <span class="kwd1">struct</span> <span class="ident">__invoke_memfun_ref</span> <span class="curly">{</span> <span class="curly">}</span><span class="op">;</span>
   <span class="kwd1">struct</span> <span class="ident">__invoke_memfun_deref</span> <span class="curly">{</span> <span class="curly">}</span><span class="op">;</span>
   <span class="kwd1">struct</span> <span class="ident">__invoke_memobj_ref</span> <span class="curly">{</span> <span class="curly">}</span><span class="op">;</span>
@@ -2461,8 +2470,8 @@ body {
       <span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span>
     <span class="curly">{</span> <span class="curly">}</span><span class="op">;</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span>
-</span>  <span class="cmnt">/// Alias template for aligned_storage</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201103L</span></span>
+  <span class="cmnt">/// Alias template for aligned_storage</span>
 <span class="cmnt">/*
   template&lt;size_t _Len, size_t _Align =
         __alignof__(typename __aligned_storage_msa&lt;_Len&gt;::__type)&gt;
@@ -2494,16 +2503,16 @@ body {
   <span class="cmnt">/// Alias template for result_of</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Tp</span><span class="op">&gt;</span>
     <span class="kwd1">using</span> <span class="ident">result_of_t</span> <span class="op">=</span> <span class="kwd1">typename</span> <span class="ident">result_of</span><span class="op">&lt;</span><span class="ident">_Tp</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">type</span><span class="op">;</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span><span class="op">...</span><span class="op">&gt;</span> <span class="kwd1">using</span> <span class="ident">__void_t</span> <span class="op">=</span> <span class="kwd1">void</span><span class="op">;</span>
 
-<span class="pp">#<span class="ident">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201402L</span> <span class="op">||</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">__STRICT_ANSI__</span><span class="round">)</span> <span class="cmnt">// c++1z or gnu++11</span>
-</span><span class="pp">#<span class="ident">define</span> <span class="ident">__cpp_lib_void_t</span> <span class="num">201411</span>
-</span>  <span class="cmnt">/// A metafunction that always yields void, used for detecting valid types.</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="ident">__cplusplus</span> <span class="op">&gt;</span> <span class="num">201402L</span> <span class="op">||</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">__STRICT_ANSI__</span><span class="round">)</span> <span class="cmnt">// c++1z or gnu++11</span></span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">__cpp_lib_void_t</span> <span class="num">201411</span></span>
+  <span class="cmnt">/// A metafunction that always yields void, used for detecting valid types.</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span><span class="op">...</span><span class="op">&gt;</span> <span class="kwd1">using</span> <span class="ident">void_t</span> <span class="op">=</span> <span class="kwd1">void</span><span class="op">;</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">endif</span></span>
+
   <span class="cmnt">/// Implementation of the detection idiom (negative case).</span>
   <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span> <span class="ident">_Default</span><span class="op">,</span> <span class="kwd1">typename</span> <span class="ident">_AlwaysVoid</span><span class="op">,</span>
         <span class="kwd1">template</span><span class="op">&lt;</span><span class="kwd1">typename</span><span class="op">...</span><span class="op">&gt;</span> <span class="kwd1">class</span> <span class="ident">_Op</span><span class="op">,</span> <span class="kwd1">typename</span><span class="op">...</span> <span class="ident">_Args</span><span class="op">&gt;</span>
@@ -2629,8 +2638,8 @@ body {
 <span class="curly">}</span><span class="op">;</span> <span class="cmnt">// namespace std</span>
 
 
-<span class="pp">#<span class="ident">endif</span> <span class="cmnt">//#if defined(UMBA_CXX_HAS_STD11)</span>
-</span>
+<span class="pp">#<span class="kwd2">endif</span> <span class="cmnt">//#if defined(UMBA_CXX_HAS_STD11)</span></span>
+
 </pre>
 </body>
 </html>

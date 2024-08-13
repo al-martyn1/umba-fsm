@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8"/>
@@ -65,7 +66,15 @@ body {
 }
 
 .pp .num{
-  color:#004200;
+  color:#006400; /* #004200 */
+}
+
+.pp .kwd1{
+  color:#006400; /* #004200 */
+}
+
+.pp .kwd1{
+  color:#006400; /* #004200 */
 }
 
 .pp .cmnt{
@@ -108,31 +117,31 @@ body {
 
  */</span>
 
-<span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">iostream</span><span class="op">&gt;</span>
-</span><span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">exception</span><span class="op">&gt;</span>
-</span><span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">stdexcept</span><span class="op">&gt;</span>
-</span><span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">sstream</span><span class="op">&gt;</span>
-</span><span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">iomanip</span><span class="op">&gt;</span>
-</span>
-<span class="pp">#<span class="ident">define</span> <span class="ident">MARTY_NO_QT</span>
-</span>
-<span class="pp">#<span class="ident">include</span> <span class="str">&quot;safe_main.h&quot;</span>
-</span><span class="pp">#<span class="ident">include</span> <span class="str">&quot;../../marty_decimal.h&quot;</span>
-</span><span class="pp">#<span class="ident">include</span> <span class="str">&quot;../../undef_min_max.h&quot;</span>
-</span>
+<span class="pp">#<span class="kwd2">include</span> <span class="op">&lt;</span><span class="ident">iostream</span><span class="op">&gt;</span></span>
+<span class="pp">#<span class="kwd2">include</span> <span class="op">&lt;</span><span class="ident">exception</span><span class="op">&gt;</span></span>
+<span class="pp">#<span class="kwd2">include</span> <span class="op">&lt;</span><span class="ident">stdexcept</span><span class="op">&gt;</span></span>
+<span class="pp">#<span class="kwd2">include</span> <span class="op">&lt;</span><span class="ident">sstream</span><span class="op">&gt;</span></span>
+<span class="pp">#<span class="kwd2">include</span> <span class="op">&lt;</span><span class="ident">iomanip</span><span class="op">&gt;</span></span>
+
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">MARTY_NO_QT</span></span>
+
+<span class="pp">#<span class="kwd2">include</span> <span class="str">&quot;safe_main.h&quot;</span></span>
+<span class="pp">#<span class="kwd2">include</span> <span class="str">&quot;../../marty_decimal.h&quot;</span></span>
+<span class="pp">#<span class="kwd2">include</span> <span class="str">&quot;../../undef_min_max.h&quot;</span></span>
+
 
 <span class="cmnt">// #define MARTY_DECIMAL_MULLER_TEST_NO_BOOST</span>
 
 
-<span class="pp">#<span class="ident">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">MARTY_DECIMAL_MULLER_TEST_NO_BOOST</span><span class="round">)</span>
-</span>
-    <span class="pp">#<span class="ident">include</span> <span class="op">&lt;</span><span class="ident">boost</span><span class="op">/</span><span class="ident">multiprecision</span><span class="op">/</span><span class="ident">cpp_dec_float</span><span class="op">.</span><span class="ident">hpp</span><span class="op">&gt;</span>
-</span>
-<span class="pp">#<span class="ident">endif</span>
-</span>
+<span class="pp">#<span class="kwd2">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">MARTY_DECIMAL_MULLER_TEST_NO_BOOST</span><span class="round">)</span></span>
 
-<span class="pp">#<span class="ident">define</span> <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span> <span class="ident">do</span><span class="curly">{</span> <span class="ident">throw</span> <span class="ident">std</span><span class="op">::</span><span class="ident">runtime_error</span><span class="round">(</span><span class="str">&quot;Test failed&quot;</span><span class="round">)</span><span class="op">;</span> <span class="curly">}</span> <span class="ident">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span>
-</span><span class="cmnt">//#define THROW_ERROR() do{ } while(0)</span>
+    <span class="pp">#<span class="kwd2">include</span> <span class="op">&lt;</span><span class="ident">boost</span><span class="op">/</span><span class="ident">multiprecision</span><span class="op">/</span><span class="ident">cpp_dec_float</span><span class="op">.</span><span class="ident">hpp</span><span class="op">&gt;</span></span>
+
+<span class="pp">#<span class="kwd2">endif</span></span>
+
+
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span> <span class="kwd1">do</span><span class="curly">{</span> <span class="kwd1">throw</span> <span class="ident">std</span><span class="op">::</span><span class="ident">runtime_error</span><span class="round">(</span><span class="str">&quot;Test failed&quot;</span><span class="round">)</span><span class="op">;</span> <span class="curly">}</span> <span class="kwd1">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span></span>
+<span class="cmnt">//#define THROW_ERROR() do{ } while(0)</span>
 
 
 
@@ -140,8 +149,8 @@ body {
 <span class="cmnt">// #include &quot;invest_openapi/qt_helpers.h&quot;</span>
 
 
-<span class="pp">#<span class="ident">include</span> <span class="str">&quot;cpp.h&quot;</span>
-</span>
+<span class="pp">#<span class="kwd2">include</span> <span class="str">&quot;cpp.h&quot;</span></span>
+
 
 <span class="cmnt">//----------------------------------------------------------------------------</span>
 <span class="cmnt">// int - удобнее</span>
@@ -406,9 +415,9 @@ body {
     <span class="cmnt">// using marty::toString;</span>
     <span class="cmnt">// using marty::fromString;</span>
 
-    <span class="pp">#<span class="ident">define</span> <span class="ident">TEST_QUOTE_ONLY_STRING</span><span class="round">(</span><span class="ident">param</span><span class="round">)</span> \
-                 <span class="ident">cout</span> <span class="op">&lt;&lt;</span> #<span class="ident">param</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;: &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">param</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
-</span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">TEST_QUOTE_ONLY_STRING</span><span class="round">(</span><span class="ident">param</span><span class="round">)</span> \
+                 <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="op">#</span><span class="ident">param</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;: &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">param</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span></span>
+
     <span class="cmnt">/*
     TEST_QUOTE_ONLY_STRING( quoteOnlyString(7) );
     TEST_QUOTE_ONLY_STRING( quoteOnlyString(&quot;7c&quot;) );
@@ -496,18 +505,18 @@ body {
     <span class="curly">}</span>
 
 
-    <span class="pp">#<span class="ident">define</span> <span class="ident">RAW_BCD_FROM_STRING_TEST</span><span class="round">(</span> <span class="ident">strVal</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span>                            \
-                <span class="ident">do</span>                                                                          \
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">RAW_BCD_FROM_STRING_TEST</span><span class="round">(</span> <span class="ident">strVal</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span>                            \
+                <span class="kwd1">do</span>                                                                          \
                 <span class="curly">{</span>                                                                           \
                     <span class="op">++</span><span class="ident">totalRawBcdFromStringConvertTests</span><span class="op">;</span>                                    \
                     <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">raw_bcd_number_t</span> <span class="ident">bcdNumber</span><span class="op">;</span>                                 \
-                    <span class="ident">int</span>                          <span class="ident">bcdNumberPrecision</span><span class="op">;</span>                        \
+                    <span class="kwd1">int</span>                          <span class="ident">bcdNumberPrecision</span><span class="op">;</span>                        \
                                                                                             \
                     <span class="ident">bcdNumberPrecision</span> <span class="op">=</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">makeRawBcdNumber</span><span class="round">(</span> <span class="ident">bcdNumber</span><span class="op">,</span> <span class="ident">strVal</span> <span class="round">)</span><span class="op">;</span> \
                                                                                             \
                     <span class="ident">std</span><span class="op">::</span><span class="ident">string</span> <span class="ident">bcdStrFormatted</span> <span class="op">=</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">formatRawBcdNumber</span><span class="round">(</span> <span class="ident">bcdNumber</span><span class="op">,</span> <span class="ident">bcdNumberPrecision</span> <span class="round">)</span>\
                                                                                             \
-                    <span class="ident">bool</span> <span class="ident">bGood</span> <span class="op">=</span> <span class="ident">bcdStrFormatted</span><span class="op">==</span><span class="ident">strResForCompare</span><span class="op">;</span>                         \
+                    <span class="kwd1">bool</span> <span class="ident">bGood</span> <span class="op">=</span> <span class="ident">bcdStrFormatted</span><span class="op">==</span><span class="ident">strResForCompare</span><span class="op">;</span>                         \
                                                                                             \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                        <span class="op">++</span><span class="ident">totalRawBcdFromStringConvertTestsFailed</span><span class="op">;</span>                           \
@@ -523,24 +532,24 @@ body {
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                         <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                      \
                                                                                             \
-                <span class="curly">}</span> <span class="ident">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span>
-</span>
+                <span class="curly">}</span> <span class="kwd1">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span></span>
 
-    <span class="pp">#<span class="ident">define</span> <span class="ident">RAW_BCD_COMPARE_TEST</span><span class="round">(</span> <span class="ident">strVal1</span><span class="op">,</span> <span class="ident">strVal2</span><span class="op">,</span> <span class="ident">cmpResForCompare</span> <span class="round">)</span>                      \
-                <span class="ident">do</span>                                                                          \
+
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">RAW_BCD_COMPARE_TEST</span><span class="round">(</span> <span class="ident">strVal1</span><span class="op">,</span> <span class="ident">strVal2</span><span class="op">,</span> <span class="ident">cmpResForCompare</span> <span class="round">)</span>                      \
+                <span class="kwd1">do</span>                                                                          \
                 <span class="curly">{</span>                                                                           \
                     <span class="op">++</span><span class="ident">totalRawBcdCompareTests</span><span class="op">;</span>                                              \
                     <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">raw_bcd_number_t</span> <span class="ident">bcdNumber1</span><span class="op">;</span>                                \
-                    <span class="ident">int</span>                          <span class="ident">bcdNumberPrecision1</span><span class="op">;</span>                       \
+                    <span class="kwd1">int</span>                          <span class="ident">bcdNumberPrecision1</span><span class="op">;</span>                       \
                     <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">raw_bcd_number_t</span> <span class="ident">bcdNumber2</span><span class="op">;</span>                                \
-                    <span class="ident">int</span>                          <span class="ident">bcdNumberPrecision2</span><span class="op">;</span>                       \
+                    <span class="kwd1">int</span>                          <span class="ident">bcdNumberPrecision2</span><span class="op">;</span>                       \
                                                                                             \
                     <span class="ident">bcdNumberPrecision1</span> <span class="op">=</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">makeRawBcdNumber</span><span class="round">(</span> <span class="ident">bcdNumber1</span><span class="op">,</span> <span class="ident">strVal1</span> <span class="round">)</span><span class="op">;</span> \
                     <span class="ident">bcdNumberPrecision2</span> <span class="op">=</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">makeRawBcdNumber</span><span class="round">(</span> <span class="ident">bcdNumber2</span><span class="op">,</span> <span class="ident">strVal2</span> <span class="round">)</span><span class="op">;</span> \
                                                                                             \
-                    <span class="ident">int</span> <span class="ident">cmpRes</span> <span class="op">=</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">compareRaws</span><span class="round">(</span> <span class="ident">bcdNumber1</span><span class="op">,</span> <span class="ident">bcdNumberPrecision1</span><span class="op">,</span> <span class="ident">bcdNumber2</span><span class="op">,</span> <span class="ident">bcdNumberPrecision2</span> <span class="round">)</span>\
+                    <span class="kwd1">int</span> <span class="ident">cmpRes</span> <span class="op">=</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">compareRaws</span><span class="round">(</span> <span class="ident">bcdNumber1</span><span class="op">,</span> <span class="ident">bcdNumberPrecision1</span><span class="op">,</span> <span class="ident">bcdNumber2</span><span class="op">,</span> <span class="ident">bcdNumberPrecision2</span> <span class="round">)</span>\
                                                                                             \
-                    <span class="ident">bool</span> <span class="ident">bGood</span> <span class="op">=</span> <span class="ident">cmpRes</span><span class="op">==</span><span class="ident">cmpResForCompare</span><span class="op">;</span>                                  \
+                    <span class="kwd1">bool</span> <span class="ident">bGood</span> <span class="op">=</span> <span class="ident">cmpRes</span><span class="op">==</span><span class="ident">cmpResForCompare</span><span class="op">;</span>                                  \
                                                                                             \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                        <span class="op">++</span><span class="ident">totalRawBcdCompareTestsFailed</span><span class="op">;</span>                                     \
@@ -556,20 +565,20 @@ body {
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                         <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                      \
                                                                                             \
-                <span class="curly">}</span> <span class="ident">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span>
-</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">RAW_BCD_ZERO_TEST</span><span class="round">(</span> <span class="ident">strVal1</span><span class="op">,</span> <span class="ident">cmpResForCompare</span> <span class="round">)</span>                                  \
-                <span class="ident">do</span>                                                                          \
+                <span class="curly">}</span> <span class="kwd1">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span></span>
+
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">RAW_BCD_ZERO_TEST</span><span class="round">(</span> <span class="ident">strVal1</span><span class="op">,</span> <span class="ident">cmpResForCompare</span> <span class="round">)</span>                                  \
+                <span class="kwd1">do</span>                                                                          \
                 <span class="curly">{</span>                                                                           \
                     <span class="op">++</span><span class="ident">totalRawBcdZeroTests</span><span class="op">;</span>                                                 \
                     <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">raw_bcd_number_t</span> <span class="ident">bcdNumber1</span><span class="op">;</span>                                \
-                    <span class="ident">int</span>                          <span class="ident">bcdNumberPrecision1</span><span class="op">;</span>                       \
+                    <span class="kwd1">int</span>                          <span class="ident">bcdNumberPrecision1</span><span class="op">;</span>                       \
                                                                                             \
                     <span class="ident">bcdNumberPrecision1</span> <span class="op">=</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">makeRawBcdNumber</span><span class="round">(</span> <span class="ident">bcdNumber1</span><span class="op">,</span> <span class="ident">strVal1</span> <span class="round">)</span><span class="op">;</span> \
                                                                                             \
-                    <span class="ident">bool</span> <span class="ident">zeroRes</span> <span class="op">=</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">checkForZero</span><span class="round">(</span> <span class="ident">bcdNumber1</span> <span class="round">)</span><span class="op">;</span>                  \
+                    <span class="kwd1">bool</span> <span class="ident">zeroRes</span> <span class="op">=</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">checkForZero</span><span class="round">(</span> <span class="ident">bcdNumber1</span> <span class="round">)</span><span class="op">;</span>                  \
                                                                                             \
-                    <span class="ident">bool</span> <span class="ident">bGood</span> <span class="op">=</span> <span class="ident">zeroRes</span><span class="op">==</span><span class="ident">cmpResForCompare</span><span class="op">;</span>                                 \
+                    <span class="kwd1">bool</span> <span class="ident">bGood</span> <span class="op">=</span> <span class="ident">zeroRes</span><span class="op">==</span><span class="ident">cmpResForCompare</span><span class="op">;</span>                                 \
                                                                                             \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                        <span class="op">++</span><span class="ident">totalRawBcdZeroTestsFailed</span><span class="op">;</span>                                        \
@@ -585,19 +594,19 @@ body {
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                         <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                      \
                                                                                             \
-                <span class="curly">}</span> <span class="ident">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span>
-</span>
+                <span class="curly">}</span> <span class="kwd1">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span></span>
 
-    <span class="pp">#<span class="ident">define</span> <span class="ident">RAW_BCD_OP_TEST</span><span class="round">(</span> <span class="ident">strVal1</span><span class="op">,</span> <span class="ident">strVal2</span><span class="op">,</span> <span class="ident">op</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span>                       \
-                <span class="ident">do</span>                                                                          \
+
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">RAW_BCD_OP_TEST</span><span class="round">(</span> <span class="ident">strVal1</span><span class="op">,</span> <span class="ident">strVal2</span><span class="op">,</span> <span class="ident">op</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span>                       \
+                <span class="kwd1">do</span>                                                                          \
                 <span class="curly">{</span>                                                                           \
                     <span class="op">++</span><span class="ident">totalRawBcdOpTests</span><span class="op">;</span>                                                   \
                     <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">raw_bcd_number_t</span> <span class="ident">bcdNumber1</span><span class="op">;</span>                                \
-                    <span class="ident">int</span>                          <span class="ident">bcdNumberPrecision1</span><span class="op">;</span>                       \
+                    <span class="kwd1">int</span>                          <span class="ident">bcdNumberPrecision1</span><span class="op">;</span>                       \
                     <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">raw_bcd_number_t</span> <span class="ident">bcdNumber2</span><span class="op">;</span>                                \
-                    <span class="ident">int</span>                          <span class="ident">bcdNumberPrecision2</span><span class="op">;</span>                       \
+                    <span class="kwd1">int</span>                          <span class="ident">bcdNumberPrecision2</span><span class="op">;</span>                       \
                     <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">raw_bcd_number_t</span> <span class="ident">bcdNumberRes</span><span class="op">;</span>                                 \
-                    <span class="ident">int</span>                          <span class="ident">bcdNumberPrecisionRes</span><span class="op">;</span>                        \
+                    <span class="kwd1">int</span>                          <span class="ident">bcdNumberPrecisionRes</span><span class="op">;</span>                        \
                                                                                                \
                     <span class="ident">bcdNumberPrecision1</span> <span class="op">=</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">makeRawBcdNumber</span><span class="round">(</span> <span class="ident">bcdNumber1</span><span class="op">,</span> <span class="ident">strVal1</span> <span class="round">)</span><span class="op">;</span> \
                     <span class="ident">bcdNumberPrecision2</span> <span class="op">=</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">makeRawBcdNumber</span><span class="round">(</span> <span class="ident">bcdNumber2</span><span class="op">,</span> <span class="ident">strVal2</span> <span class="round">)</span><span class="op">;</span> \
@@ -606,13 +615,13 @@ body {
                                                                                             \
                     <span class="ident">std</span><span class="op">::</span><span class="ident">string</span> <span class="ident">bcdStrFormatted</span> <span class="op">=</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">bcd</span><span class="op">::</span><span class="ident">formatRawBcdNumber</span><span class="round">(</span> <span class="ident">bcdNumberRes</span><span class="op">,</span> <span class="ident">bcdNumberPrecisionRes</span> <span class="round">)</span>\
                                                                                             \
-                    <span class="ident">bool</span> <span class="ident">bGood</span> <span class="op">=</span> <span class="ident">bcdStrFormatted</span><span class="op">==</span><span class="ident">strResForCompare</span><span class="op">;</span>                         \
+                    <span class="kwd1">bool</span> <span class="ident">bGood</span> <span class="op">=</span> <span class="ident">bcdStrFormatted</span><span class="op">==</span><span class="ident">strResForCompare</span><span class="op">;</span>                         \
                                                                                             \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                        <span class="op">++</span><span class="ident">totalRawBcdOpTestsFailed</span><span class="op">;</span>                                          \
                                                                                             \
                                                                                             \
-                    <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;[&quot;</span> <span class="op">&lt;&lt;</span> <span class="round">(</span><span class="ident">bGood</span> <span class="op">?</span> <span class="str">&quot;+&quot;</span> <span class="op">:</span> <span class="str">&quot;-&quot;</span><span class="round">)</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;]  &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">strVal1</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; &quot;</span> <span class="op">&lt;&lt;</span> #<span class="ident">op</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">strVal2</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; = &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">bcdStrFormatted</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;&quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span> \
+                    <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;[&quot;</span> <span class="op">&lt;&lt;</span> <span class="round">(</span><span class="ident">bGood</span> <span class="op">?</span> <span class="str">&quot;+&quot;</span> <span class="op">:</span> <span class="str">&quot;-&quot;</span><span class="round">)</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;]  &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">strVal1</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; &quot;</span> <span class="op">&lt;&lt;</span> <span class="op">#</span><span class="ident">op</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">strVal2</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; = &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">bcdStrFormatted</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;&quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span> \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                     <span class="curly">{</span>                                                                       \
                         <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;    expected &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">strResForCompare</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;&quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>          \
@@ -622,8 +631,8 @@ body {
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                         <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                      \
                                                                                             \
-                <span class="curly">}</span> <span class="ident">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span>
-</span>
+                <span class="curly">}</span> <span class="kwd1">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span></span>
+
 
     <span class="kwd1">unsigned</span> <span class="ident">totalRawBcdFromStringConvertTests</span>        <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
     <span class="kwd1">unsigned</span> <span class="ident">totalRawBcdFromStringConvertTestsFailed</span>  <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
@@ -818,14 +827,14 @@ body {
 
 
 
-    <span class="pp">#<span class="ident">define</span> <span class="ident">DECIMAL_CTOR_TEST</span><span class="round">(</span> <span class="ident">val</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span>                                      \
-                <span class="ident">do</span>                                                                          \
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">DECIMAL_CTOR_TEST</span><span class="round">(</span> <span class="ident">val</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span>                                      \
+                <span class="kwd1">do</span>                                                                          \
                 <span class="curly">{</span>                                                                           \
                     <span class="op">++</span><span class="ident">totalCtorTests</span><span class="op">;</span>                                                       \
                     <span class="ident">Decimal</span>     <span class="ident">decimal</span>    <span class="op">=</span> <span class="ident">Decimal</span><span class="round">(</span><span class="ident">val</span><span class="round">)</span><span class="op">;</span>                                  \
                     <span class="ident">std</span><span class="op">::</span><span class="ident">string</span> <span class="ident">strDecimal</span> <span class="op">=</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">toString</span><span class="round">(</span> <span class="cmnt">/* precision - auto */</span> <span class="round">)</span><span class="op">;</span>    \
                                                                                             \
-                    <span class="ident">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span> <span class="op">=</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strResForCompare</span><span class="round">)</span><span class="op">;</span>        \
+                    <span class="kwd1">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span> <span class="op">=</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strResForCompare</span><span class="round">)</span><span class="op">;</span>        \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                        <span class="op">++</span><span class="ident">totalCtorTestsFailed</span><span class="op">;</span>                                              \
                                                                                             \
@@ -840,17 +849,17 @@ body {
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                         <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                      \
                                                                                             \
-                <span class="curly">}</span> <span class="ident">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span>
-</span>
+                <span class="curly">}</span> <span class="kwd1">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span></span>
 
-    <span class="pp">#<span class="ident">define</span> <span class="ident">DECIMAL_CTOR_TEST_WITH_PREC</span><span class="round">(</span> <span class="ident">val</span><span class="op">,</span> <span class="ident">prec</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span>                      \
-                <span class="ident">do</span>                                                                          \
+
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">DECIMAL_CTOR_TEST_WITH_PREC</span><span class="round">(</span> <span class="ident">val</span><span class="op">,</span> <span class="ident">prec</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span>                      \
+                <span class="kwd1">do</span>                                                                          \
                 <span class="curly">{</span>                                                                           \
                     <span class="op">++</span><span class="ident">totalCtorTests</span><span class="op">;</span>                                                       \
                     <span class="ident">Decimal</span>     <span class="ident">decimal</span>    <span class="op">=</span> <span class="ident">Decimal</span><span class="round">(</span><span class="ident">val</span><span class="op">,</span>  <span class="cmnt">/* marty::DecimalPrecision */</span> <span class="ident">prec</span><span class="round">)</span><span class="op">;</span>   \
                     <span class="ident">std</span><span class="op">::</span><span class="ident">string</span> <span class="ident">strDecimal</span> <span class="op">=</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">toString</span><span class="round">(</span> <span class="cmnt">/* precision - auto */</span> <span class="round">)</span><span class="op">;</span>    \
                                                                                             \
-                    <span class="ident">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span> <span class="op">=</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strResForCompare</span><span class="round">)</span><span class="op">;</span>        \
+                    <span class="kwd1">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span> <span class="op">=</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strResForCompare</span><span class="round">)</span><span class="op">;</span>        \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                        <span class="op">++</span><span class="ident">totalCtorTestsFailed</span><span class="op">;</span>                                              \
                                                                                             \
@@ -865,8 +874,8 @@ body {
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                         <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                      \
                                                                                             \
-                <span class="curly">}</span> <span class="ident">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span>
-</span>
+                <span class="curly">}</span> <span class="kwd1">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span></span>
+
 
     <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;double precision: &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">std</span><span class="op">::</span><span class="ident">numeric_limits</span><span class="op">&lt;</span><span class="kwd1">double</span><span class="op">&gt;</span><span class="op">::</span><span class="ident">digits10</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
     <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;float precision : &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">std</span><span class="op">::</span><span class="ident">numeric_limits</span><span class="op">&lt;</span><span class="kwd1">float</span><span class="op">&gt;</span> <span class="op">::</span><span class="ident">digits10</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
@@ -907,13 +916,13 @@ body {
 
 
 
-    <span class="pp">#<span class="ident">define</span> <span class="ident">DECIMAL_OP_TEST</span><span class="round">(</span> <span class="ident">val1</span><span class="op">,</span> <span class="ident">op</span><span class="op">,</span> <span class="ident">val2</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span>                             \
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">DECIMAL_OP_TEST</span><span class="round">(</span> <span class="ident">val1</span><span class="op">,</span> <span class="ident">op</span><span class="op">,</span> <span class="ident">val2</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span>                             \
                     <span class="ident">decimalOpTest</span><span class="round">(</span> <span class="ident">totalOpTests</span><span class="op">,</span> <span class="ident">totalOpTestsFailed</span>                         \
                                  <span class="op">,</span> <span class="ident">val1</span><span class="op">,</span> <span class="ident">val2</span><span class="op">,</span> <span class="ident">strResForCompare</span>                             \
-                                 <span class="op">,</span> #<span class="ident">op</span>                                                      \
+                                 <span class="op">,</span> <span class="op">#</span><span class="ident">op</span>                                                      \
                                  <span class="op">,</span> <span class="ident">__FILE__</span><span class="op">,</span> <span class="ident">__LINE__</span>                                       \
-                                 <span class="round">)</span>
-</span>
+                                 <span class="round">)</span></span>
+
 
     <span class="kwd1">unsigned</span> <span class="ident">totalOpTests</span>       <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
     <span class="kwd1">unsigned</span> <span class="ident">totalOpTestsFailed</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
@@ -1337,16 +1346,16 @@ body {
 
 
 
-    <span class="pp">#<span class="ident">define</span> <span class="ident">DECIMAL_MSP_TEST</span><span class="round">(</span> <span class="ident">val</span><span class="op">,</span> <span class="ident">resForCompare</span> <span class="round">)</span>                                          \
-                <span class="ident">do</span>                                                                          \
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">DECIMAL_MSP_TEST</span><span class="round">(</span> <span class="ident">val</span><span class="op">,</span> <span class="ident">resForCompare</span> <span class="round">)</span>                                          \
+                <span class="kwd1">do</span>                                                                          \
                 <span class="curly">{</span>                                                                           \
                     <span class="cmnt">/*++totalCtorTests;*/</span>                                                   \
                     <span class="ident">Decimal</span>     <span class="ident">decimal</span>    <span class="op">=</span> <span class="ident">Decimal</span><span class="round">(</span><span class="ident">val</span><span class="round">)</span><span class="op">;</span>                                  \
                     <span class="ident">std</span><span class="op">::</span><span class="ident">string</span> <span class="ident">strDecimal</span> <span class="op">=</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">toString</span><span class="round">(</span> <span class="cmnt">/* precision - auto */</span> <span class="round">)</span><span class="op">;</span>    \
                                                                                             \
-                    <span class="ident">int</span> <span class="ident">pwr</span> <span class="op">=</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">msp</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                \
+                    <span class="kwd1">int</span> <span class="ident">pwr</span> <span class="op">=</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">msp</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                \
                                                                                             \
-                    <span class="ident">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span> <span class="op">=</span> <span class="round">(</span><span class="ident">pwr</span><span class="op">==</span><span class="ident">resForCompare</span><span class="round">)</span><span class="op">;</span>                          \
+                    <span class="kwd1">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span> <span class="op">=</span> <span class="round">(</span><span class="ident">pwr</span><span class="op">==</span><span class="ident">resForCompare</span><span class="round">)</span><span class="op">;</span>                          \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                     <span class="curly">{</span>                                                                       \
                         <span class="cmnt">/* ++totalCtorTestsFailed; */</span>                                       \
@@ -1370,8 +1379,8 @@ body {
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                         <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                      \
                                                                                             \
-                <span class="curly">}</span> <span class="ident">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span>
-</span>
+                <span class="curly">}</span> <span class="kwd1">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span></span>
+
 
     <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;DECIMAL_MSP_TEST test suite&quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
 
@@ -1395,15 +1404,15 @@ body {
     <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;------------------------------&quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
 
 
-    <span class="pp">#<span class="ident">define</span> <span class="ident">DECIMAL_PERCENT_TEST</span><span class="round">(</span> <span class="ident">val</span><span class="op">,</span> <span class="ident">valPercentOf</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span>                     \
-                <span class="ident">do</span>                                                                          \
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">DECIMAL_PERCENT_TEST</span><span class="round">(</span> <span class="ident">val</span><span class="op">,</span> <span class="ident">valPercentOf</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span>                     \
+                <span class="kwd1">do</span>                                                                          \
                 <span class="curly">{</span>                                                                           \
                      <span class="cmnt">/* ++totalCtorTests; */</span>                                                \
                     <span class="ident">Decimal</span>  <span class="ident">decVal</span>           <span class="op">=</span> <span class="ident">Decimal</span><span class="round">(</span><span class="ident">val</span><span class="round">)</span><span class="op">;</span>                               \
                     <span class="ident">Decimal</span>  <span class="ident">decValPercentOf</span>  <span class="op">=</span> <span class="ident">Decimal</span><span class="round">(</span><span class="ident">valPercentOf</span><span class="round">)</span><span class="op">;</span>                      \
                     <span class="ident">Decimal</span>  <span class="ident">decRes</span>           <span class="op">=</span> <span class="ident">decVal</span><span class="op">.</span><span class="ident">getPercentOf</span><span class="round">(</span><span class="ident">decValPercentOf</span><span class="round">)</span><span class="op">;</span>       \
                     <span class="ident">std</span><span class="op">::</span><span class="ident">string</span> <span class="ident">strRes</span>        <span class="op">=</span> <span class="ident">decRes</span><span class="op">.</span><span class="ident">toString</span><span class="round">(</span> <span class="cmnt">/* precision - auto */</span> <span class="round">)</span><span class="op">;</span>  \
-                    <span class="ident">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span>    <span class="op">=</span> <span class="ident">decRes</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strResForCompare</span><span class="round">)</span><span class="op">;</span>      \
+                    <span class="kwd1">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span>    <span class="op">=</span> <span class="ident">decRes</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strResForCompare</span><span class="round">)</span><span class="op">;</span>      \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                     <span class="curly">{</span>                                                                       \
                         <span class="cmnt">/* ++totalCtorTestsFailed; */</span>                                       \
@@ -1418,17 +1427,17 @@ body {
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                         <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                      \
                                                                                             \
-                <span class="curly">}</span> <span class="ident">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span>
-</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">DECIMAL_PERCENT_EX_TEST</span><span class="round">(</span> <span class="ident">val</span><span class="op">,</span> <span class="ident">valPercentOf</span><span class="op">,</span> <span class="ident">precision</span><span class="op">,</span> <span class="ident">numSignificantDigits</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span> \
-                <span class="ident">do</span>                                                                          \
+                <span class="curly">}</span> <span class="kwd1">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span></span>
+
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">DECIMAL_PERCENT_EX_TEST</span><span class="round">(</span> <span class="ident">val</span><span class="op">,</span> <span class="ident">valPercentOf</span><span class="op">,</span> <span class="ident">precision</span><span class="op">,</span> <span class="ident">numSignificantDigits</span><span class="op">,</span> <span class="ident">strResForCompare</span> <span class="round">)</span> \
+                <span class="kwd1">do</span>                                                                          \
                 <span class="curly">{</span>                                                                           \
                      <span class="cmnt">/* ++totalCtorTests; */</span>                                                \
                     <span class="ident">Decimal</span>  <span class="ident">decVal</span>           <span class="op">=</span> <span class="ident">Decimal</span><span class="round">(</span><span class="ident">val</span><span class="round">)</span><span class="op">;</span>                               \
                     <span class="ident">Decimal</span>  <span class="ident">decValPercentOf</span>  <span class="op">=</span> <span class="ident">Decimal</span><span class="round">(</span><span class="ident">valPercentOf</span><span class="round">)</span><span class="op">;</span>                      \
                     <span class="ident">Decimal</span>  <span class="ident">decRes</span>           <span class="op">=</span> <span class="ident">decVal</span><span class="op">.</span><span class="ident">getExPercentOf</span><span class="round">(</span><span class="ident">decValPercentOf</span><span class="op">,</span> <span class="ident">precision</span><span class="op">,</span> <span class="ident">numSignificantDigits</span><span class="round">)</span><span class="op">;</span> \
                     <span class="ident">std</span><span class="op">::</span><span class="ident">string</span> <span class="ident">strRes</span>        <span class="op">=</span> <span class="ident">decRes</span><span class="op">.</span><span class="ident">toString</span><span class="round">(</span> <span class="cmnt">/* precision - auto */</span> <span class="round">)</span><span class="op">;</span>  \
-                    <span class="ident">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span>    <span class="op">=</span> <span class="ident">decRes</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strResForCompare</span><span class="round">)</span><span class="op">;</span>      \
+                    <span class="kwd1">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span>    <span class="op">=</span> <span class="ident">decRes</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strResForCompare</span><span class="round">)</span><span class="op">;</span>      \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                     <span class="curly">{</span>                                                                       \
                         <span class="cmnt">/* ++totalCtorTestsFailed; */</span>                                       \
@@ -1443,8 +1452,8 @@ body {
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                         <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                      \
                                                                                             \
-                <span class="curly">}</span> <span class="ident">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span>
-</span>
+                <span class="curly">}</span> <span class="kwd1">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span></span>
+
 
     <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;DECIMAL_PERCENT_TEST test suite&quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
 
@@ -1491,8 +1500,8 @@ body {
 
 
 
-    <span class="pp">#<span class="ident">define</span> <span class="ident">DECIMAL_MIN_PART_TEST</span><span class="round">(</span> <span class="ident">val</span><span class="op">,</span> <span class="ident">strMinOne</span><span class="op">,</span> <span class="ident">strMinTwo</span><span class="op">,</span> <span class="ident">strMinFive</span> <span class="round">)</span>                  \
-                <span class="ident">do</span>                                                                          \
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">DECIMAL_MIN_PART_TEST</span><span class="round">(</span> <span class="ident">val</span><span class="op">,</span> <span class="ident">strMinOne</span><span class="op">,</span> <span class="ident">strMinTwo</span><span class="op">,</span> <span class="ident">strMinFive</span> <span class="round">)</span>                  \
+                <span class="kwd1">do</span>                                                                          \
                 <span class="curly">{</span>                                                                           \
                     <span class="op">++</span><span class="ident">totalMinPartTests</span><span class="op">;</span>                                                    \
                     <span class="ident">Decimal</span>     <span class="ident">d</span>        <span class="op">=</span> <span class="ident">Decimal</span><span class="round">(</span><span class="ident">val</span><span class="round">)</span><span class="op">;</span>                                    \
@@ -1501,7 +1510,7 @@ body {
                     <span class="ident">Decimal</span>     <span class="ident">min2</span>     <span class="op">=</span> <span class="ident">d</span><span class="op">.</span><span class="ident">makeMinimalPrecisionTwo</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                     \
                     <span class="ident">Decimal</span>     <span class="ident">min5</span>     <span class="op">=</span> <span class="ident">d</span><span class="op">.</span><span class="ident">makeMinimalPrecisionFive</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                    \
                                                                                             \
-                    <span class="ident">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span> <span class="op">=</span> <span class="ident">min1</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strMinOne</span><span class="round">)</span> <span class="op">&amp;&amp;</span> <span class="ident">min2</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strMinTwo</span><span class="round">)</span> <span class="op">&amp;&amp;</span> <span class="ident">min5</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strMinFive</span><span class="round">)</span><span class="op">;</span>  \
+                    <span class="kwd1">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span> <span class="op">=</span> <span class="ident">min1</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strMinOne</span><span class="round">)</span> <span class="op">&amp;&amp;</span> <span class="ident">min2</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strMinTwo</span><span class="round">)</span> <span class="op">&amp;&amp;</span> <span class="ident">min5</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strMinFive</span><span class="round">)</span><span class="op">;</span>  \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                        <span class="op">++</span><span class="ident">totalMinPartTestsFailed</span><span class="op">;</span>                                                \
                                                                                             \
@@ -1516,8 +1525,8 @@ body {
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                         <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                      \
                                                                                             \
-                <span class="curly">}</span> <span class="ident">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span>
-</span>
+                <span class="curly">}</span> <span class="kwd1">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span></span>
+
 
     <span class="kwd1">unsigned</span> <span class="ident">totalMinPartTests</span>       <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
     <span class="kwd1">unsigned</span> <span class="ident">totalMinPartTestsFailed</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
@@ -1594,8 +1603,8 @@ body {
     cout &lt;&lt; divideRes.toString() &lt;&lt; endl;
     */</span>
 
-    <span class="pp">#<span class="ident">if</span> <span class="num">1</span>
-</span>
+    <span class="pp">#<span class="kwd2">if</span> <span class="num">1</span></span>
+
     <span class="kwd1">unsigned</span> <span class="ident">totalRoundingTests</span>       <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
     <span class="kwd1">unsigned</span> <span class="ident">totalRoundingTestsFailed</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span>
 
@@ -1625,9 +1634,9 @@ body {
                         
                         <span class="curly">}</span><span class="op">;</span>
 
-    <span class="pp">#<span class="ident">if</span> <span class="num">0</span>
-</span>    <span class="pp">#<span class="ident">define</span> <span class="ident">ROUNDING_TEST</span><span class="round">(</span> <span class="ident">dblVal</span><span class="op">,</span> <span class="ident">strResForCompare</span><span class="op">,</span> <span class="ident">roundingPrecision</span><span class="op">,</span> <span class="ident">roundingMethod</span> <span class="round">)</span> \
-                <span class="ident">do</span>                                                                       \
+    <span class="pp">#<span class="kwd2">if</span> <span class="num">0</span></span>
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">ROUNDING_TEST</span><span class="round">(</span> <span class="ident">dblVal</span><span class="op">,</span> <span class="ident">strResForCompare</span><span class="op">,</span> <span class="ident">roundingPrecision</span><span class="op">,</span> <span class="ident">roundingMethod</span> <span class="round">)</span> \
+                <span class="kwd1">do</span>                                                                       \
                 <span class="curly">{</span>                                                                        \
                     <span class="op">++</span><span class="ident">totalRoundingTests</span><span class="op">;</span>                                                \
                     <span class="ident">Decimal</span> <span class="ident">decimal</span>    <span class="op">=</span> <span class="ident">Decimal</span><span class="round">(</span><span class="ident">dblVal</span><span class="round">)</span><span class="op">;</span>                                \
@@ -1635,12 +1644,12 @@ body {
                     <span class="cmnt">/*std::ostringstream os;*/</span>                                           \
                     <span class="ident">std</span><span class="op">::</span><span class="ident">string</span> <span class="ident">strRes</span> <span class="op">=</span> <span class="ident">roundedVal</span><span class="op">.</span><span class="ident">toString</span><span class="round">(</span><span class="ident">roundingPrecision</span><span class="round">)</span><span class="op">;</span>         \
                                                                                          \
-                    <span class="ident">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span> <span class="op">=</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strResForCompare</span><span class="round">)</span><span class="op">;</span>        \
+                    <span class="kwd1">bool</span> <span class="ident">bGood</span> <span class="cmnt">/* Johny */</span> <span class="op">=</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">checkIsExact</span><span class="round">(</span><span class="ident">strResForCompare</span><span class="round">)</span><span class="op">;</span>        \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                          \
                        <span class="op">++</span><span class="ident">totalRoundingTestsFailed</span><span class="op">;</span>                                       \
                                                                                          \
                                                                                          \
-                    <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;[&quot;</span> <span class="op">&lt;&lt;</span> <span class="round">(</span><span class="ident">bGood</span> <span class="op">?</span> <span class="str">&quot;+&quot;</span> <span class="op">:</span> <span class="str">&quot;-&quot;</span><span class="round">)</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;]  &quot;</span> <span class="op">&lt;&lt;</span> <span class="round">(</span><span class="ident">decimal</span><span class="op">&lt;</span><span class="num">0</span> <span class="op">?</span> <span class="str">&quot;&quot;</span> <span class="op">:</span> <span class="str">&quot; &quot;</span><span class="round">)</span> <span class="op">&lt;&lt;</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">toString</span><span class="round">(</span> <span class="cmnt">/* roundingPrecision+1 */</span> <span class="round">)</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; rounded to &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">roundingPrecision</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; signs with &quot;</span> <span class="op">&lt;&lt;</span> #<span class="ident">roundingMethod</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; rounding method is &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">strRes</span><span class="op">;</span> \
+                    <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;[&quot;</span> <span class="op">&lt;&lt;</span> <span class="round">(</span><span class="ident">bGood</span> <span class="op">?</span> <span class="str">&quot;+&quot;</span> <span class="op">:</span> <span class="str">&quot;-&quot;</span><span class="round">)</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;]  &quot;</span> <span class="op">&lt;&lt;</span> <span class="round">(</span><span class="ident">decimal</span><span class="op">&lt;</span><span class="num">0</span> <span class="op">?</span> <span class="str">&quot;&quot;</span> <span class="op">:</span> <span class="str">&quot; &quot;</span><span class="round">)</span> <span class="op">&lt;&lt;</span> <span class="ident">decimal</span><span class="op">.</span><span class="ident">toString</span><span class="round">(</span> <span class="cmnt">/* roundingPrecision+1 */</span> <span class="round">)</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; rounded to &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">roundingPrecision</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; signs with &quot;</span> <span class="op">&lt;&lt;</span> <span class="op">#</span><span class="ident">roundingMethod</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; rounding method is &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">strRes</span><span class="op">;</span> \
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                          \
                     <span class="curly">{</span>                                                                    \
                         <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot; (expected &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">strResForCompare</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;)&quot;</span><span class="op">;</span>                \
@@ -1650,15 +1659,15 @@ body {
                     <span class="kwd2">if</span> <span class="round">(</span><span class="op">!</span><span class="ident">bGood</span><span class="round">)</span>                                                             \
                         <span class="ident">THROW_ERROR</span><span class="round">(</span><span class="round">)</span><span class="op">;</span>                                                      \
                                                                                             \
-                <span class="curly">}</span> <span class="ident">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span>
-</span>
-    <span class="pp">#<span class="ident">else</span>
-</span>
-    <span class="pp">#<span class="ident">define</span> <span class="ident">ROUNDING_TEST</span><span class="round">(</span> <span class="ident">dblVal</span><span class="op">,</span> <span class="ident">strResForCompare</span><span class="op">,</span> <span class="ident">roundingPrecision</span><span class="op">,</span> <span class="ident">roundingMethod</span> <span class="round">)</span> \
-             <span class="ident">roundingTest</span><span class="round">(</span> <span class="ident">dblVal</span><span class="op">,</span> <span class="ident">strResForCompare</span><span class="op">,</span> <span class="ident">roundingPrecision</span><span class="op">,</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">Decimal</span><span class="op">::</span><span class="ident">RoundingMethod</span><span class="op">::</span> <span class="ident">roundingMethod</span> <span class="round">)</span>
-</span>
-    <span class="pp">#<span class="ident">endif</span>
-</span>
+                <span class="curly">}</span> <span class="kwd1">while</span><span class="round">(</span><span class="num">0</span><span class="round">)</span></span>
+
+    <span class="pp">#<span class="kwd2">else</span></span>
+
+    <span class="pp">#<span class="kwd2">define</span> <span class="ident">ROUNDING_TEST</span><span class="round">(</span> <span class="ident">dblVal</span><span class="op">,</span> <span class="ident">strResForCompare</span><span class="op">,</span> <span class="ident">roundingPrecision</span><span class="op">,</span> <span class="ident">roundingMethod</span> <span class="round">)</span> \
+             <span class="ident">roundingTest</span><span class="round">(</span> <span class="ident">dblVal</span><span class="op">,</span> <span class="ident">strResForCompare</span><span class="op">,</span> <span class="ident">roundingPrecision</span><span class="op">,</span> <span class="ident">marty</span><span class="op">::</span><span class="ident">Decimal</span><span class="op">::</span><span class="ident">RoundingMethod</span><span class="op">::</span> <span class="ident">roundingMethod</span> <span class="round">)</span></span>
+
+    <span class="pp">#<span class="kwd2">endif</span></span>
+
     <span class="cmnt">// https://en.wikipedia.org/wiki/Rounding#Round_half_to_odd</span>
 
     <span class="cmnt">//cout &lt;&lt; endl;</span>
@@ -1967,8 +1976,8 @@ body {
     <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;------------------------------&quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
 
 
-    <span class="pp">#<span class="ident">endif</span> <span class="cmnt">// Rounding tests</span>
-</span>
+    <span class="pp">#<span class="kwd2">endif</span> <span class="cmnt">// Rounding tests</span></span>
+
     <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;***********************&quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
     <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;* For sweet&quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
     <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;***********************&quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
@@ -1976,16 +1985,16 @@ body {
     
     <span class="cmnt">// return marty::for_decimal_tests::getMillisecTick();</span>
 
-    <span class="pp">#<span class="ident">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">MARTY_DECIMAL_MULLER_TEST_NO_BOOST</span><span class="round">)</span>
-</span>
+    <span class="pp">#<span class="kwd2">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">MARTY_DECIMAL_MULLER_TEST_NO_BOOST</span><span class="round">)</span></span>
+
         <span class="kwd1">typedef</span> <span class="ident">boost</span><span class="op">::</span><span class="ident">multiprecision</span><span class="op">::</span><span class="ident">number</span><span class="op">&lt;</span><span class="ident">boost</span><span class="op">::</span><span class="ident">multiprecision</span><span class="op">::</span><span class="ident">cpp_dec_float</span><span class="op">&lt;</span><span class="num">50</span><span class="op">&gt;</span> <span class="op">&gt;</span>    <span class="ident">cpp_float_normal</span><span class="op">;</span>
         <span class="kwd1">typedef</span> <span class="ident">boost</span><span class="op">::</span><span class="ident">multiprecision</span><span class="op">::</span><span class="ident">number</span><span class="op">&lt;</span><span class="ident">boost</span><span class="op">::</span><span class="ident">multiprecision</span><span class="op">::</span><span class="ident">cpp_dec_float</span><span class="op">&lt;</span><span class="num">200</span><span class="op">&gt;</span> <span class="op">&gt;</span>   <span class="ident">cpp_float_long</span>  <span class="op">;</span> <span class="cmnt">// Стандартно есть только cpp_dec_float_100</span>
 
         <span class="ident">std</span><span class="op">::</span><span class="ident">uint32_t</span> <span class="ident">cppFloatT1</span>     <span class="op">=</span> <span class="ident">mullersRecurrenceFunctionTest</span><span class="op">&lt;</span><span class="ident">cpp_float_normal</span><span class="op">&gt;</span><span class="round">(</span> <span class="num">64</span><span class="op">,</span> <span class="str">&quot;cpp_float_normal&quot;</span> <span class="round">)</span><span class="op">;</span> 
         <span class="ident">std</span><span class="op">::</span><span class="ident">uint32_t</span> <span class="ident">cppFloatT2</span>     <span class="op">=</span> <span class="ident">mullersRecurrenceFunctionTest</span><span class="op">&lt;</span><span class="ident">cpp_float_long</span><span class="op">&gt;</span>  <span class="round">(</span> <span class="num">176</span><span class="op">,</span> <span class="str">&quot;cpp_float_long&quot;</span> <span class="round">)</span><span class="op">;</span> 
 
-    <span class="pp">#<span class="ident">endif</span>
-</span>
+    <span class="pp">#<span class="kwd2">endif</span></span>
+
     <span class="cmnt">// Достаточно 20 итераций, и процесс сходится в ошибочной точке</span>
     <span class="cmnt">// В расколбас же активно начинает сваливаться на 15ом шаге</span>
     <span class="ident">std</span><span class="op">::</span><span class="ident">uint32_t</span> <span class="ident">doubleT</span>     <span class="op">=</span> <span class="ident">mullersRecurrenceFunctionTest</span><span class="op">&lt;</span><span class="kwd1">double</span><span class="op">&gt;</span><span class="round">(</span> <span class="num">24</span><span class="op">,</span> <span class="str">&quot;double&quot;</span> <span class="round">)</span><span class="op">;</span> 
@@ -2024,13 +2033,13 @@ body {
     <span class="ident">marty</span><span class="op">::</span><span class="ident">Decimal</span><span class="op">::</span><span class="ident">setDivisionPrecision</span><span class="round">(</span><span class="num">200</span><span class="round">)</span><span class="op">;</span>
     <span class="ident">std</span><span class="op">::</span><span class="ident">uint32_t</span> <span class="ident">decimalT200</span> <span class="op">=</span> <span class="ident">mullersRecurrenceFunctionTest</span><span class="op">&lt;</span><span class="ident">marty</span><span class="op">::</span><span class="ident">Decimal</span><span class="op">&gt;</span><span class="round">(</span> <span class="num">170</span><span class="op">,</span> <span class="str">&quot;marty::Decimal with precision 200&quot;</span> <span class="round">)</span><span class="op">;</span>
 
-    <span class="pp">#<span class="ident">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">MARTY_DECIMAL_MULLER_TEST_NO_BOOST</span><span class="round">)</span>
-</span>
+    <span class="pp">#<span class="kwd2">if</span> <span class="op">!</span><span class="kwd2">defined</span><span class="round">(</span><span class="ident">MARTY_DECIMAL_MULLER_TEST_NO_BOOST</span><span class="round">)</span></span>
+
         <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;Elapsed for cpp_float_normal   : &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">cppFloatT1</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
         <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;Elapsed for cpp_float_long     : &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">cppFloatT2</span> <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
 
-    <span class="pp">#<span class="ident">endif</span>
-</span>    
+    <span class="pp">#<span class="kwd2">endif</span></span>
+    
     <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;Muller&apos;s Recurrence Test: Elapsed for double             : &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">doubleT</span>     <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
     <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;Muller&apos;s Recurrence Test: Elapsed for marty::Decimal(3)  : &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">decimalT3</span>   <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
     <span class="ident">cout</span> <span class="op">&lt;&lt;</span> <span class="str">&quot;Muller&apos;s Recurrence Test: Elapsed for marty::Decimal(6)  : &quot;</span> <span class="op">&lt;&lt;</span> <span class="ident">decimalT6</span>   <span class="op">&lt;&lt;</span> <span class="ident">endl</span><span class="op">;</span>
