@@ -1,0 +1,17 @@
+invalid,unknown         =-1
+
+none                    = 0
+
+base
+prefix
+suffix
+tokenId
+name
+kind
+value
+open
+close
+position
+beginning
+any
+
