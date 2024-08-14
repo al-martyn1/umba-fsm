@@ -36,7 +36,7 @@
 // #define PRINT_ONLY_NUMBERS
 #define USE_TRY_CATCH
 
-#define DUPLICATE_TO_STD_OUT
+// #define DUPLICATE_TO_STD_OUT
 
 
 
@@ -461,6 +461,8 @@ int main(int argc, char* argv[])
     payload_type numberTokenId = UMBA_TOKENIZER_TOKEN_NUMBER_USER_LITERAL_FIRST;
 
     umba::tokenizer::CppEscapedSimpleQuotedStringLiteralParser<char>  cppEscapedSimpleQuotedStringLiteralParser;
+    umba::tokenizer::SimpleQuotedStringLiteralParser<char>            simpleQuotedStringLiteralParser;
+    
 
     auto tokenizer = TokenizerBuilder<char>().generateStandardCharClassTable()
 
@@ -501,7 +503,8 @@ int main(int argc, char* argv[])
 
                                              .addStringLiteralParser("\'", &cppEscapedSimpleQuotedStringLiteralParser)
                                              .addStringLiteralParser("\"", &cppEscapedSimpleQuotedStringLiteralParser)
-
+                                             .addStringLiteralParser("<" , &simpleQuotedStringLiteralParser)
+                                             
 
                                              .makeTokenizer();
 
@@ -589,6 +592,10 @@ int main(int argc, char* argv[])
     bool inPreprocessor = false;
 
     tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::opchar); // Ничего не устанавливаем, сбрасываем opchar
+    tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::string_literal_prefix); // По дефолту символ '<' не является маркером строкового литерала
+    bool isStartAngleBracketIsOperator = (tokenizer.getCharClass('<') & umba::tokenizer::CharClass::opchar) != 0;
+    bool isEndAngleBracketIsOperator   = (tokenizer.getCharClass('>') & umba::tokenizer::CharClass::opchar) != 0;
+
 
     tokenizer.tokenHandler = [&]( tokenizer_type &tokenizer
                                 , bool bLineStart, payload_type tokenType
@@ -619,13 +626,33 @@ int main(int argc, char* argv[])
 #if defined(DUPLICATE_TO_STD_OUT)
                                      std::cout << "</span>";
 #endif
+
                                      tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::opchar); // Ничего не устанавливаем, сбрасываем opchar
+
+                                     if (isStartAngleBracketIsOperator)
+                                     {
+                                         tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::opchar, umba::tokenizer::CharClass::none); // Устанавливаем признак оператора обратно
+                                     }
+                                     if (isEndAngleBracketIsOperator)
+                                     {
+                                         tokenizer.setResetCharClassFlags('>', umba::tokenizer::CharClass::opchar, umba::tokenizer::CharClass::none); // Устанавливаем признак оператора обратно
+                                     }
+
+                                     tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::string_literal_prefix); // Ничего не устанавливаем, сбрасываем string_literal_prefix
+                                     tokenizer.setResetCharClassFlags('>', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::string_literal_prefix); // Ничего не устанавливаем, сбрасываем string_literal_prefix
+
                                      inPreprocessor = false;
                                      return true;
                                  }
                                  else if (tokenType==UMBA_TOKENIZER_TOKEN_PP_DEFINE)
                                  {
                                      tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::opchar, umba::tokenizer::CharClass::none); // устанавливаем opchar, ничего не сбрасываем 
+                                     // inDefine = false;
+                                     return true;
+                                 }
+                                 else if (tokenType==UMBA_TOKENIZER_TOKEN_PP_INCLUDE)
+                                 {
+                                     tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::string_literal_prefix, umba::tokenizer::CharClass::opchar); // устанавливаем string_literal_prefix, сбрасываем opchar
                                      // inDefine = false;
                                      return true;
                                  }
