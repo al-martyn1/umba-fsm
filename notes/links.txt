@@ -12,3 +12,11 @@ Modern Embedded Software - Quantum Leaps - https://www.state-machine.com/
 AVR. Учебный курс. Конечный автомат - http://easyelectronics.ru/avr-uchebnyj-kurs-konechnyj-avtomat.html
   Тут в коментах про Вову
 
+Метод Даффа - https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%82%D0%BE%D0%B4_%D0%94%D0%B0%D1%84%D1%84%D0%B0
+
+Heredoc-синтаксис - https://ru.wikipedia.org/wiki/Heredoc-%D1%81%D0%B8%D0%BD%D1%82%D0%B0%D0%BA%D1%81%D0%B8%D1%81
+  https://ru.perlmaven.com/here-documenty
+  https://www.tutorialspoint.com/perl/perl_operators.htm
+  Надо как-то добавить
+
+Про трассировку - https://ru.wikipedia.org/wiki/DTrace

@@ -1,0 +1,27 @@
+Сделать фильтр склейки строкового литерала и следующего за ним литерала, также, как происходит склейка чисел с суффиксами
+
+Далее, для TBNF:
+Сделать генерацию enum для:
+1) идентификаторов встроенных категорий/типов токенов
+   @ integral | integral-number
+   @ float | float-number
+   @ operator-seq
+   @ literal | string-literal
+   @ identifier
+   @ brackets
+   @ comment | s-comment | single-line-comment
+   @ m-comment | multiline-comment
+
+2) параметров
+  
+base
+prefix
+token-id
+name
+kind
+prefix
+value
+open
+close
+position beginning any
+suffix
