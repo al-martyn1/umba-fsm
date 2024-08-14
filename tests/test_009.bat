@@ -12,7 +12,7 @@
 %LIB_UMBA%\stl_keil_type_traits.h ^
 %LIB_UMBA%\string_plus.h ^
 %LIB_UMBA%\rgbquad.h ^
-%LIB_MARTY_DECIMAL%\tests\src\regression_tests.cpp     > test_008.log
+%LIB_MARTY_DECIMAL%\tests\src\regression_tests.cpp     > test_009.log
 
 
 
