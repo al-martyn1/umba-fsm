@@ -6,6 +6,7 @@
 @set LIB_MARTY_DECIMAL=%LIB_ROOT%\marty_decimal
 
 @%TEST_EXE% ^
+%~dp0\suffix_gluing_sample.h ^
 %LIB_UMBA%\preprocessor.h ^
 %LIB_UMBA%\the.h ^
 %LIB_UMBA%\stl_keil_initializer_list.h ^

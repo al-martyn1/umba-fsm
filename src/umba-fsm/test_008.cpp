@@ -835,7 +835,7 @@ int main(int argc, char* argv[])
     // };
 
     #if defined(USE_SIMPLE_NUMBER_SUFFIX_GLUING_FILTER)
-    tokenizer.installTokenFilter<umba::tokenizer::filters::SimpleNumberSuffixGluingFilter<tokenizer_type> >();
+    tokenizer.installTokenFilter<umba::tokenizer::filters::SimpleSuffixGluingFilter<tokenizer_type> >();
     #endif
 
 

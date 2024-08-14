@@ -764,7 +764,7 @@ int main(int argc, char* argv[])
     // Фильтры, установленные позже, отрабатывают раньше
 
     #if defined(USE_SIMPLE_NUMBER_SUFFIX_GLUING_FILTER)
-    tokenizer.installTokenFilter<umba::tokenizer::filters::SimpleNumberSuffixGluingFilter<tokenizer_type> >();
+    tokenizer.installTokenFilter<umba::tokenizer::filters::SimpleSuffixGluingFilter<tokenizer_type> >();
     #endif
 
     tokenizer.installTokenFilter<umba::tokenizer::filters::CcPreprocessorFilter<tokenizer_type> >();
