@@ -16,14 +16,20 @@
 
 Пока можно посмотреть:
 
- - [Раскрашиватель плюсового кода - сорс](src/umba-fsm/test_008.cpp)
- - [Пример рендеринга 1](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/preprocessor.html)
- - [Пример рендеринга 2](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/rgbquad.html)
- - [Пример рендеринга 3](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/stl_keil_initializer_list.html)
- - [Пример рендеринга 4](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/stl_keil_type_traits.html)
- - [Пример рендеринга 5](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/string_plus.html)
- - [Пример рендеринга 6](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/the.html)
- - [Пример рендеринга 7](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/regression_tests.html)
+ - [Раскрашиватель плюсового кода v1 (test_008)](src/umba-fsm/test_008.cpp) - препроцессор обрабатывается в конечном обработчике
+ - [Раскрашиватель плюсового кода v2 (test_009)](src/umba-fsm/test_009.cpp)  - препроцессор обрабатывается в фильтре CcPreprocessorFilter
+
+
+Примеры рендеринга плюсового кода:
+
+ - [Склейка литералов и суффиксов (SimpleSuffixGluingFilter)](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/suffix_gluing_sample.html)
+ - [Пример 1](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/preprocessor.html)
+ - [Пример 2](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/rgbquad.html)
+ - [Пример 3](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/stl_keil_initializer_list.html)
+ - [Пример 4](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/stl_keil_type_traits.html)
+ - [Пример 5](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/string_plus.html)
+ - [Пример 6](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/the.html)
+ - [Пример 7](https://raw.githack.com/al-martyn1/umba-fsm/main/doc/html/rendered_cpp/regression_tests.html)
 
 
 

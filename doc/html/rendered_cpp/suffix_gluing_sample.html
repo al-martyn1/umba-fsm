@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<style>
+
+
+body {
+  color:#1F377F;
+}
+
+.unxp{
+}
+
+.ident{
+}
+
+/********************/
+.curly{
+  color:black;
+}
+
+.round{
+  color:black;
+}
+
+.angle{
+  color:black;
+}
+
+.square{
+  color:black;
+}
+
+.op{
+  color:black;
+  /* font-weight: bold; */
+}
+
+/********************/
+.pp{
+  color:green;
+}
+
+/********************/
+.pp .curly{
+  /*color:#004400;*/
+  /*color:#003F00;*/
+  color:#004200;
+}
+
+.pp .round{
+  color:#004200;
+}
+
+.pp .angle{
+  color:#004200;
+}
+
+.pp .square{
+  color:#004200;
+}
+
+.pp .op{
+  color:#004200;
+}
+
+.pp .num{
+  color:#006400; /* #004200 */
+}
+
+.pp .kwd1{
+  color:#006400; /* #004200 */
+}
+
+.pp .kwd1{
+  color:#006400; /* #004200 */
+}
+
+.pp .cmnt{
+  color:#79AF79;
+}
+
+/********************/
+.cmnt{
+  //color:olive;
+  color:#808080;
+  font-style: italic;
+}
+
+.num{
+  /* color:DarkRed; */
+  /*color:#7A0000;*/
+  color:#6A0000;
+}
+
+.str{
+  /* color:Red; */
+  color:#E21F1F;
+}
+
+.kwd1{
+  color:blue;
+}
+
+.kwd2{
+  color:green;
+}
+
+
+</style>
+</head>
+<body>
+<pre>
+<span class="pp">#<span class="kwd2">pragma</span> <span class="ident">once</span></span>
+
+
+<span class="pp">#<span class="kwd2">ifndef</span> <span class="ident">TEST_H_INCLUDED</span></span>
+<span class="pp">#<span class="kwd2">define</span> <span class="ident">TEST_H_INCLUDED</span></span>
+
+<span class="cmnt">/* add this lines to your source
+#ifndef TEST_H_INCLUDED
+    #include &quot;test.h&quot;
+#endif
+*/</span>
+
+<span class="kwd1">void</span> <span class="ident">func</span><span class="round">(</span><span class="round">)</span>
+<span class="curly">{</span>
+    <span class="kwd1">auto</span> <span class="ident">hexFloat</span> <span class="op">=</span> <span class="num">0x123.456l</span><span class="op">;</span>
+    <span class="kwd1">auto</span> <span class="ident">str</span> <span class="op">=</span> <span class="str">&quot;literal_with_suffix&quot;_s</span><span class="op">;</span>
+    <span class="kwd1">auto</span> <span class="ident">i</span>   <span class="op">=</span> <span class="str">&quot;literal_with_suffix&quot;i</span><span class="op">;</span>
+<span class="curly">}</span>
+
+<span class="pp">#<span class="kwd2">endif</span> <span class="cmnt">/* TEST_H_INCLUDED */</span></span>
+
+</pre>
+</body>
+</html>
