@@ -932,7 +932,7 @@ int main(int argc, char* argv[])
 
                         if (!prefixIsNumber)
                             return unexpectedHandlerLambda(it, __FILE__, __LINE__);
-                        //parsingHandlerLambda(UMBA_TOKENIZER_TOKEN_NUMBER, tokenStartIt, it); // выплёвываем накопленное число как число без префикса, с системой счисления по умолчанию
+                        //parsingHandlerLambda(UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER, tokenStartIt, it); // выплёвываем накопленное число как число без префикса, с системой счисления по умолчанию
                         //st = stInitial; // на всякий случай, если в stInitial обрабтчике состояние не переустанавливается, а подразумевается, что уже такое и есть
                         //goto explicit_initial;
 
@@ -1007,7 +1007,7 @@ int main(int argc, char* argv[])
                 }
 
                 if (numberTokenId==0 || numberTokenId==payload_invalid)
-                    parsingHandlerLambda(UMBA_TOKENIZER_TOKEN_NUMBER, tokenStartIt, it); // выплёвываем накопленное число как число без префикса, с системой счисления по умолчанию
+                    parsingHandlerLambda(UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER, tokenStartIt, it); // выплёвываем накопленное число как число без префикса, с системой счисления по умолчанию
                 else
                     parsingHandlerLambda(numberTokenId, tokenStartIt, it); // выплёвываем накопленное число с явно указанной системой счисления
 
@@ -1076,7 +1076,7 @@ int main(int argc, char* argv[])
                 }
 
                 if (numberTokenId==0 || numberTokenId==payload_invalid)
-                    parsingHandlerLambda(UMBA_TOKENIZER_TOKEN_NUMBER|UMBA_TOKENIZER_TOKEN_FLOAT_FLAG, tokenStartIt, it); // выплёвываем накопленное число с системой счисления по умолчанию
+                    parsingHandlerLambda(UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER|UMBA_TOKENIZER_TOKEN_FLOAT_FLAG, tokenStartIt, it); // выплёвываем накопленное число с системой счисления по умолчанию
                 else
                     parsingHandlerLambda(numberTokenId|UMBA_TOKENIZER_TOKEN_FLOAT_FLAG, tokenStartIt, it); // выплёвываем накопленное число с явно указанной системой счисления
 
