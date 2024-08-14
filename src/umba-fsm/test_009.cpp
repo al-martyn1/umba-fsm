@@ -462,7 +462,7 @@ int main(int argc, char* argv[])
 
     umba::tokenizer::CppEscapedSimpleQuotedStringLiteralParser<char>  cppEscapedSimpleQuotedStringLiteralParser;
     umba::tokenizer::SimpleQuotedStringLiteralParser<char>            simpleQuotedStringLiteralParser;
-    
+
 
     auto tokenizer = TokenizerBuilder<char>().generateStandardCharClassTable()
 
@@ -495,7 +495,7 @@ int main(int argc, char* argv[])
 
 
                                              // Операторы # и ## доступны только внутри директивы define препроцессора.
-                                             // Для этого вначале работы мы сбрасываем признак umba::tokenizer::CharClass::opchar, 
+                                             // Для этого вначале работы мы сбрасываем признак umba::tokenizer::CharClass::opchar,
                                              // при получении маркера директивы define - устанавливаем его,
                                              // и при окончании блока препроцессора опять сбрасываем
                                              .addOperators(UMBA_TOKENIZER_TOKEN_OPERATOR_FIRST_GENERIC, std::vector<std::string>{".","#","##","...",".*","+","-","*","/","%","^","&","|","~","!","=","<",">","+=","-=","*=","/=","%=","^=","&=","|=","<<",">>",">>=","<<=","==","!=","<=",">=","<=>","&&","||","++","--",",","->*","->",":","::",";","?"})
@@ -504,7 +504,7 @@ int main(int argc, char* argv[])
                                              .addStringLiteralParser("\'", &cppEscapedSimpleQuotedStringLiteralParser)
                                              .addStringLiteralParser("\"", &cppEscapedSimpleQuotedStringLiteralParser)
                                              .addStringLiteralParser("<" , &simpleQuotedStringLiteralParser)
-                                             
+
 
                                              .makeTokenizer();
 
@@ -646,7 +646,7 @@ int main(int argc, char* argv[])
                                  }
                                  else if (tokenType==UMBA_TOKENIZER_TOKEN_PP_DEFINE)
                                  {
-                                     tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::opchar, umba::tokenizer::CharClass::none); // устанавливаем opchar, ничего не сбрасываем 
+                                     tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::opchar, umba::tokenizer::CharClass::none); // устанавливаем opchar, ничего не сбрасываем
                                      // inDefine = false;
                                      return true;
                                  }
@@ -706,7 +706,7 @@ int main(int argc, char* argv[])
                                              oss << "overflow ";
                                          #endif
                                      }
-                                 }    
+                                 }
 
                                  return true;
                              };
@@ -768,7 +768,7 @@ int main(int argc, char* argv[])
     #endif
 
     tokenizer.installTokenFilter<umba::tokenizer::filters::CcPreprocessorFilter<tokenizer_type> >();
-    
+
 
 
     if (inputFiles.empty())
@@ -844,11 +844,11 @@ int main(int argc, char* argv[])
             {
                 bOk = tokenizer.tokenizeFinalize(itEnd);
             }
-    
+
             if (bOk)
             {
                 oss<<"</pre>\n</body>\n</html>\n";
-    
+
                 if (inputFilename.empty())
                 {
                     std::cout << oss.str() << "\n";
@@ -864,7 +864,7 @@ int main(int argc, char* argv[])
                         std::cout << "Success";
                     std::cout << "\n";
                 }
-    
+
             }
 
 #if defined(USE_TRY_CATCH)
