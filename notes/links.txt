@@ -19,4 +19,9 @@ Heredoc-синтаксис - https://ru.wikipedia.org/wiki/Heredoc-%D1%81%D0%B8%
   https://www.tutorialspoint.com/perl/perl_operators.htm
   Надо как-то добавить
 
+PHP - https://ru.wikipedia.org/wiki/PHP
+
 Про трассировку - https://ru.wikipedia.org/wiki/DTrace
+
+re2c -  свободная утилита–генератор, с открытым исходным кодом, генерирует быстрые и легко встраиваемые лексеры - https://ru.wikipedia.org/wiki/Re2c
+
