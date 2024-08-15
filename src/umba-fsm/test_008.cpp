@@ -747,7 +747,7 @@ int main(int argc, char* argv[])
                                              oss << "overflow ";
                                          #endif
                                      }
-                                 }    
+                                 }
 
 
                                  return true;
@@ -835,7 +835,7 @@ int main(int argc, char* argv[])
     // };
 
     #if defined(USE_SIMPLE_NUMBER_SUFFIX_GLUING_FILTER)
-    tokenizer.installTokenFilter<umba::tokenizer::filters::SimpleNumberSuffixGluingFilter<tokenizer_type> >();
+    tokenizer.installTokenFilter<umba::tokenizer::filters::SimpleSuffixGluingFilter<tokenizer_type> >();
     #endif
 
 
@@ -912,11 +912,11 @@ int main(int argc, char* argv[])
             {
                 bOk = tokenizer.tokenizeFinalize(itEnd);
             }
-    
+
             if (bOk)
             {
                 oss<<"</pre>\n</body>\n</html>\n";
-    
+
                 if (inputFilename.empty())
                 {
                     std::cout << oss.str() << "\n";
@@ -932,7 +932,7 @@ int main(int argc, char* argv[])
                         std::cout << "Success";
                     std::cout << "\n";
                 }
-    
+
             }
 
 #if defined(USE_TRY_CATCH)

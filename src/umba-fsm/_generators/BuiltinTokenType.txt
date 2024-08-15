@@ -1,0 +1,13 @@
+invalid,unknown         =-1
+
+none                    = 0
+
+integral,integralNumber
+float,floatNumber
+operator,operatorSeq,operatorSequence
+literal,stringLiteral
+identifier
+brackets
+comment,sComment,singleLineComment
+mComment,multilineComment
+
