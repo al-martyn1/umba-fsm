@@ -13,6 +13,8 @@
 void func()
 {
     auto hexFloat = 0x123.456l;
+    auto quatUnsigned = 4x123l;
+    auto duodUnsigned = 12x123l;
     auto str = "literal_with_suffix"_s;
     auto i   = "literal_with_suffix"i;
 }
