@@ -499,7 +499,7 @@ int main(int argc, char* argv[])
     PosCountingIterator tokenStartIt;
     trie_index_type     operatorIdx = trie_index_invalid;
 
-    const bool numbersAllowDigitsSeparator = true; // apos ' (39/0x27) only can be used, это пока const, а вообще - это внешне задаваемая опция
+    const bool numbersAllowRankSeparator = true; // apos ' (39/0x27) only can be used, это пока const, а вообще - это внешне задаваемая опция
     const int numberDefaultBase = 10; // это пока const, а вообще - это внешне задаваемая опция
     int numberExplicitBase      =  0;
     trie_index_type numberPrefixIdx = trie_index_invalid;
@@ -1001,7 +1001,7 @@ int main(int argc, char* argv[])
                     break; // Тут у нас годная цифра
                 }
 
-                if (numbersAllowDigitsSeparator && ch==(std::decay_t<decltype(ch)>)'\'')
+                if (numbersAllowRankSeparator && ch==(std::decay_t<decltype(ch)>)'\'')
                 {
                     break; // Тут у нас разделитель разрядов
                 }

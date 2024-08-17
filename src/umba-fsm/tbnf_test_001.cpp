@@ -120,6 +120,27 @@ StreamType& printToken(StreamType &ss, umba::tokenizer::payload_type tokenType, 
     return ss;
 }
 
+inline
+auto makeTokenText(umba::tokenizer::payload_type tokenType, umba::iterator::TextPositionCountingIterator<char> b, umba::iterator::TextPositionCountingIterator<char> e)
+{
+    if (tokenType==UMBA_TOKENIZER_TOKEN_LINEFEED)
+    {
+        return std::string("\n");
+    }
+
+    if (tokenType==UMBA_TOKENIZER_TOKEN_LINE_CONTINUATION)
+    {
+        return std::string("\\\n");
+    }
+
+    if (tokenType==UMBA_TOKENIZER_TOKEN_OPERATOR_MULTI_LINE_COMMENT_START)
+    {
+        return marty_cpp::normalizeCrLfToLf(umba::iterator::makeString(b, e));
+    }
+
+    return umba::iterator::makeString(b, e);
+}
+
 
 std::string inputFilename;
 
@@ -174,10 +195,10 @@ int main(int argc, char* argv[])
 
     if (argc>1)
     {
-        inputFile = argv[1];
+        inputFilename = argv[1];
     }
 
-    if (umba::isDebuggerPresent() || inputFiles.empty())
+    if (umba::isDebuggerPresent())
     {
         std::string cwd = umba::filesys::getCurrentDirectory<std::string>();
         std::cout << "Working Dir: " << cwd << "\n";
@@ -212,17 +233,17 @@ int main(int argc, char* argv[])
         #endif
 
 
-        inputFile = "_libs/umba/preprocessor.h";
+        inputFilename = rootPath + "tests/tbnf_test_001.tbnf";
     }
 
-    if (inputFile.empty())
+    if (inputFilename.empty())
     {
         std::cerr << "Not input file taken\n";
         return 1;
     }
 
 
-    payload_type numberTokenId = UMBA_TOKENIZER_TOKEN_NUMBER_USER_LITERAL_FIRST;
+    // payload_type numberTokenId = UMBA_TOKENIZER_TOKEN_NUMBER_USER_LITERAL_FIRST;
 
     umba::tokenizer::CppEscapedSimpleQuotedStringLiteralParser<char>  cppEscapedSimpleQuotedStringLiteralParser;
     umba::tokenizer::SimpleQuotedStringLiteralParser<char>            simpleQuotedStringLiteralParser;
@@ -230,17 +251,19 @@ int main(int argc, char* argv[])
 
     auto tokenizer = TokenizerBuilder<char>().generateStandardCharClassTable()
 
+                                             .setCharClassFlags('-', umba::tokenizer::CharClass::identifier) // делаем минус валидным символом для идентификатора - имена атрибутов могут иметь тире/дефис в середине имени
+
                                              // Числа с плавающей точкой отличаются только флагом UMBA_TOKENIZER_TOKEN_FLOAT_FLAG
                                              .addNumbersPrefix("0b", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_BIN)
-                                             .addNumbersPrefix("0B", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_BIN)
+                                             .addNumbersPrefix("0B", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_BIN, true) // allow token usage for multiple sequences
 
                                              .addNumbersPrefix("0d", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_DEC)
-                                             .addNumbersPrefix("0D", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_DEC)
+                                             .addNumbersPrefix("0D", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_DEC, true)
 
                                              .addNumbersPrefix("0" , UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_OCT | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_FLAG_MISS_DIGIT)
 
                                              .addNumbersPrefix("0x", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_HEX)
-                                             .addNumbersPrefix("0X", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_HEX)
+                                             .addNumbersPrefix("0X", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_HEX, true)
 
 
                                              .addBrackets("{}", UMBA_TOKENIZER_TOKEN_CURLY_BRACKETS )
@@ -249,8 +272,8 @@ int main(int argc, char* argv[])
                                              .addBrackets("[]", UMBA_TOKENIZER_TOKEN_SQUARE_BRACKETS)
 
 
-                                             .addSingleLineComment("//", UMBA_TOKENIZER_TOKEN_OPERATOR_SINGLE_LINE_COMMENT_FIRST)
-                                             .addSingleLineComment("//", UMBA_TOKENIZER_TOKEN_OPERATOR_SINGLE_LINE_COMMENT_FIRST)
+                                             .addSingleLineComment("//", UMBA_TOKENIZER_TOKEN_OPERATOR_SINGLE_LINE_COMMENT)
+                                             .addSingleLineComment("#" , UMBA_TOKENIZER_TOKEN_OPERATOR_SINGLE_LINE_COMMENT, true) // allow token usage for multiple sequences
                                              .setMultiLineComment("/*", "*/")
 
 
@@ -259,7 +282,9 @@ int main(int argc, char* argv[])
                                              .addOperator("?", UMBA_TOKENIZER_TOKEN_OPERATOR_ZERO_OR_ONE)         // ? - ноль или одно
                                              .addOperator(":", UMBA_TOKENIZER_TOKEN_OPERATOR_COLON)
                                              .addOperator("@", UMBA_TOKENIZER_TOKEN_OPERATOR_AT)
-                                             
+
+                                             .addOperator("|", UMBA_TOKENIZER_TOKEN_OPERATOR_BNF_ALTER)
+                                             .addOperator("/", UMBA_TOKENIZER_TOKEN_OPERATOR_BNF_ALTER, true) // allow token usage for multiple sequences
 
                                              .addStringLiteralParser("\'", &cppEscapedSimpleQuotedStringLiteralParser, UMBA_TOKENIZER_TOKEN_CHAR_LITERAL)
                                              .addStringLiteralParser("\"", &cppEscapedSimpleQuotedStringLiteralParser, UMBA_TOKENIZER_TOKEN_STRING_LITERAL)
@@ -268,7 +293,7 @@ int main(int argc, char* argv[])
                                              .makeTokenizer();
 
 
-    std::ostringstream oss;
+    // std::ostringstream oss;
     bool bOk = true;
 
     //using tokenizer_type      = std::decay<decltype(tokenizer)>;
@@ -339,10 +364,7 @@ int main(int argc, char* argv[])
 
     // Фильтры, установленные позже, отрабатывают раньше
 
-    #if defined(USE_SIMPLE_NUMBER_SUFFIX_GLUING_FILTER)
     tokenizer.installTokenFilter<umba::tokenizer::filters::SimpleSuffixGluingFilter<tokenizer_type> >();
-    #endif
-
 
 
     #if defined(WIN32) || defined(_WIN32)
@@ -351,8 +373,6 @@ int main(int argc, char* argv[])
         marty_cpp::ELinefeedType outputLinefeed = marty_cpp::ELinefeedType::lf;
     #endif
 
-
-    inputFilename = fn;
 
     std::string text;
 
@@ -372,13 +392,15 @@ int main(int argc, char* argv[])
     if (!umba::filesys::readFile(inputFilename, text))
     {
         std::cout << "Failed to read input file '" << inputFilename << "'\n";
-        continue;
+        // continue;
+        return 2;
     }
 #endif
     if (text.empty())
     {
         std::cout << "Input file '" << inputFilename << "' empty\n";
-        continue;
+        // continue;
+        return 3;
     }
 
     if (text.back()!='\n' && text.back()!='\r')
@@ -386,7 +408,7 @@ int main(int argc, char* argv[])
         std::cout << "Warning: file '" << inputFilename << "': no linefeed at end of file\n";
     }
 
-    oss = std::ostringstream();
+    // oss = std::ostringstream();
     bOk = true;
 
 #if defined(USE_TRY_CATCH)
@@ -435,8 +457,10 @@ int main(int argc, char* argv[])
     }
 #endif
 
-
-    return bOk ? 0 : 1;
+    if (bOk)
+        return 0;
+    else
+        return 100;
 
 }
 
