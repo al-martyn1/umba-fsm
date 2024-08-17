@@ -10,6 +10,8 @@
 #endif
 */
 
+#include<iostream>
+
 void func()
 {
     auto hexFloat = 0x123.456l;

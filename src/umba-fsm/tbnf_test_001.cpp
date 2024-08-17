@@ -22,6 +22,8 @@
 //
 #include "utils.h"
 //
+#include "tbnf.h"
+//
 
 #include <iostream>
 #include <map>
@@ -102,53 +104,17 @@ int main(int argc, char* argv[])
 
     // payload_type numberTokenId = UMBA_TOKENIZER_TOKEN_NUMBER_USER_LITERAL_FIRST;
 
-    umba::tokenizer::CppEscapedSimpleQuotedStringLiteralParser<char>  cppEscapedSimpleQuotedStringLiteralParser;
-    umba::tokenizer::SimpleQuotedStringLiteralParser<char>            simpleQuotedStringLiteralParser;
+    // umba::tokenizer::CppEscapedSimpleQuotedStringLiteralParser<char>  cppEscapedSimpleQuotedStringLiteralParser;
+    // umba::tokenizer::SimpleQuotedStringLiteralParser<char>            simpleQuotedStringLiteralParser;
 
 
-    auto tokenizer = TokenizerBuilder<char>().generateStandardCharClassTable()
-
-                                             .setCharClassFlags('-', umba::tokenizer::CharClass::identifier) // делаем минус валидным символом для идентификатора - имена атрибутов могут иметь тире/дефис в середине имени
-
-                                             // Числа с плавающей точкой отличаются только флагом UMBA_TOKENIZER_TOKEN_FLOAT_FLAG
-                                             .addNumbersPrefix("0b", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_BIN)
-                                             .addNumbersPrefix("0B", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_BIN, true) // allow token usage for multiple sequences
-
-                                             .addNumbersPrefix("0d", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_DEC)
-                                             .addNumbersPrefix("0D", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_DEC, true)
-
-                                             .addNumbersPrefix("0" , UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_OCT | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_FLAG_MISS_DIGIT)
-
-                                             .addNumbersPrefix("0x", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_HEX)
-                                             .addNumbersPrefix("0X", UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_HEX, true)
-
-
-                                             .addBrackets("{}", UMBA_TOKENIZER_TOKEN_CURLY_BRACKETS )
-                                             .addBrackets("()", UMBA_TOKENIZER_TOKEN_ROUND_BRACKETS )
-                                             //.addBrackets("<>", UMBA_TOKENIZER_TOKEN_ANGLE_BRACKETS )
-                                             .addBrackets("[]", UMBA_TOKENIZER_TOKEN_SQUARE_BRACKETS)
-
-
-                                             .addSingleLineComment("//", UMBA_TOKENIZER_TOKEN_OPERATOR_SINGLE_LINE_COMMENT)
-                                             .addSingleLineComment("#" , UMBA_TOKENIZER_TOKEN_OPERATOR_SINGLE_LINE_COMMENT, true) // allow token usage for multiple sequences
-                                             .setMultiLineComment("/*", "*/")
-
-
-                                             .addOperator("*", UMBA_TOKENIZER_TOKEN_OPERATOR_ANY_NUM_REPETITIONS) // * - от нуля повторений до бесконечности
-                                             .addOperator("+", UMBA_TOKENIZER_TOKEN_OPERATOR_ONE_MORE_REPETITION) // + - от одного повторения до бесконечности
-                                             .addOperator("?", UMBA_TOKENIZER_TOKEN_OPERATOR_ZERO_OR_ONE)         // ? - ноль или одно
-                                             .addOperator(":", UMBA_TOKENIZER_TOKEN_OPERATOR_COLON)
-                                             .addOperator("@", UMBA_TOKENIZER_TOKEN_OPERATOR_AT)
-
-                                             .addOperator("|", UMBA_TOKENIZER_TOKEN_OPERATOR_BNF_ALTER)
-                                             .addOperator("/", UMBA_TOKENIZER_TOKEN_OPERATOR_BNF_ALTER, true) // allow token usage for multiple sequences
-
-                                             .addStringLiteralParser("\'", &cppEscapedSimpleQuotedStringLiteralParser, UMBA_TOKENIZER_TOKEN_CHAR_LITERAL)
-                                             .addStringLiteralParser("\"", &cppEscapedSimpleQuotedStringLiteralParser, UMBA_TOKENIZER_TOKEN_STRING_LITERAL)
-
-
-                                             .makeTokenizer();
-
+    // Литерал парсеры надо как-то добавлять, чтобы они хранились и в билдере, и в токенизере, и удалялись вместе с ними
+    // Но это потом
+    auto tokenizerBuilder = umba::tbnf::makeTokenizerBuilder();
+    // auto tokenizer = tokenizerBuilder.addStringLiteralParser("\'", &cppEscapedSimpleQuotedStringLiteralParser, UMBA_TOKENIZER_TOKEN_CHAR_LITERAL)
+    //                                  .addStringLiteralParser("\"", &cppEscapedSimpleQuotedStringLiteralParser, UMBA_TOKENIZER_TOKEN_STRING_LITERAL)
+    //                                  .makeTokenizer();
+    auto tokenizer = tokenizerBuilder.makeTokenizer();
 
     // std::ostringstream oss;
     bool bOk = true;

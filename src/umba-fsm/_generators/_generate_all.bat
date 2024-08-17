@@ -34,5 +34,5 @@
 
 umba-enum-gen %GEN_OPTS% %HEX2% %TPL_OVERRIDE% %SNIPPETOPTIONS_GEN_FLAGS% ^
     %UINT32% %HEX4% -E=BuiltinTokenType              -F=@BuiltinTokenType.txt               ^
-    %UINT32% %HEX4% -E=BuiltinTokenTypeParams        -F=@BuiltinTokenTypeParams.txt         ^
+    %UINT32% %HEX4% -E=BuiltinTokenTypeParam         -F=@BuiltinTokenTypeParam.txt          ^
 ..\enums.h

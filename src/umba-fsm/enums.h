@@ -11,7 +11,7 @@
 
 
 namespace umba{
-namespace fsm{
+namespace tbnf{
 
 enum class BuiltinTokenType : std::uint32_t
 {
@@ -93,7 +93,7 @@ MARTY_CPP_ENUM_CLASS_DESERIALIZE_BEGIN( BuiltinTokenType, std::map, 1 )
 MARTY_CPP_ENUM_CLASS_DESERIALIZE_END( BuiltinTokenType, std::map, 1 )
 
 
-enum class BuiltinTokenTypeParams : std::uint32_t
+enum class BuiltinTokenTypeParam : std::uint32_t
 {
     invalid     = (std::uint32_t)(-1),
     unknown     = (std::uint32_t)(-1),
@@ -108,50 +108,58 @@ enum class BuiltinTokenTypeParams : std::uint32_t
     open        = 0x0008,
     close       = 0x0009,
     position    = 0x000A,
+    beginOnly   = 0x000B,
     beginning   = 0x000B,
+    startOnly   = 0x000B,
     any         = 0x000C
 
-}; // enum class BuiltinTokenTypeParams : std::uint32_t
+}; // enum class BuiltinTokenTypeParam : std::uint32_t
 
-MARTY_CPP_MAKE_ENUM_IS_FLAGS_FOR_NON_FLAGS_ENUM(BuiltinTokenTypeParams)
+MARTY_CPP_MAKE_ENUM_IS_FLAGS_FOR_NON_FLAGS_ENUM(BuiltinTokenTypeParam)
 
-MARTY_CPP_ENUM_CLASS_SERIALIZE_BEGIN( BuiltinTokenTypeParams, std::map, 1 )
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::beginning   , "Beginning" );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::base        , "Base"      );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::invalid     , "Invalid"   );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::close       , "Close"     );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::kind        , "Kind"      );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::none        , "None"      );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::open        , "Open"      );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::prefix      , "Prefix"    );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::suffix      , "Suffix"    );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::tokenId     , "TokenId"   );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::name        , "Name"      );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::value       , "Value"     );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::position    , "Position"  );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParams::any         , "Any"       );
-MARTY_CPP_ENUM_CLASS_SERIALIZE_END( BuiltinTokenTypeParams, std::map, 1 )
+MARTY_CPP_ENUM_CLASS_SERIALIZE_BEGIN( BuiltinTokenTypeParam, std::map, 1 )
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::base        , "Base"         );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::invalid     , "Invalid"      );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::close       , "Close"        );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::kind        , "Kind"         );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::none        , "None"         );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::open        , "Open"         );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::prefix      , "Prefix"       );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::suffix      , "Suffix"       );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::tokenId     , "TokenId"      );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::name        , "Name"         );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::value       , "Value"        );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::position    , "Position"     );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::beginOnly   , "Begin___Only" );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenTypeParam::any         , "Any"          );
+MARTY_CPP_ENUM_CLASS_SERIALIZE_END( BuiltinTokenTypeParam, std::map, 1 )
 
-MARTY_CPP_ENUM_CLASS_DESERIALIZE_BEGIN( BuiltinTokenTypeParams, std::map, 1 )
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::beginning   , "beginning" );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::base        , "base"      );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::invalid     , "invalid"   );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::invalid     , "unknown"   );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::close       , "close"     );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::kind        , "kind"      );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::none        , "none"      );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::open        , "open"      );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::prefix      , "prefix"    );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::suffix      , "suffix"    );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::tokenId     , "token-id"  );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::tokenId     , "token_id"  );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::tokenId     , "tokenid"   );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::name        , "name"      );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::value       , "value"     );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::position    , "position"  );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParams::any         , "any"       );
-MARTY_CPP_ENUM_CLASS_DESERIALIZE_END( BuiltinTokenTypeParams, std::map, 1 )
+MARTY_CPP_ENUM_CLASS_DESERIALIZE_BEGIN( BuiltinTokenTypeParam, std::map, 1 )
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::base        , "base"          );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::invalid     , "invalid"       );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::invalid     , "unknown"       );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::close       , "close"         );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::kind        , "kind"          );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::none        , "none"          );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::open        , "open"          );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::prefix      , "prefix"        );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::suffix      , "suffix"        );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::tokenId     , "token-id"      );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::tokenId     , "token_id"      );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::tokenId     , "tokenid"       );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::name        , "name"          );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::value       , "value"         );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::position    , "position"      );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::beginOnly   , "start____only" );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::beginOnly   , "begin---only"  );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::beginOnly   , "begin____only" );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::beginOnly   , "begin___only"  );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::beginOnly   , "start___only"  );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::beginOnly   , "beginning"     );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::beginOnly   , "start---only"  );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenTypeParam::any         , "any"           );
+MARTY_CPP_ENUM_CLASS_DESERIALIZE_END( BuiltinTokenTypeParam, std::map, 1 )
 
-} // namespace fsm
+} // namespace tbnf
 } // namespace umba
 

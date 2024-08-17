@@ -19,6 +19,6 @@
 --enum-flags=type-decl,serialize,deserialize,lowercase,enum-class
 #--enum-flags=enum-class
 
---namespace=umba/fsm
+--namespace=umba/tbnf
 --override-template-parameter=EnumNameFormat:E$(ENAMNAME)
 #--override-template-parameter=EnumFlagsNameFormat:E$(ENAMNAME)

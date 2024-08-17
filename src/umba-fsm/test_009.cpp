@@ -466,6 +466,12 @@ int main(int argc, char* argv[])
     bool isStartAngleBracketIsOperator = (tokenizer.getCharClass('<') & umba::tokenizer::CharClass::opchar) != 0;
     bool isEndAngleBracketIsOperator   = (tokenizer.getCharClass('>') & umba::tokenizer::CharClass::opchar) != 0;
 
+    // Как в HTML делать раскрывающиеся фрагменты
+    // https://htmlacademy.ru/blog/html-tags/sup
+    // <details>
+    //   <summary>Заголовок</summary>
+    //   Здесь располагается скрытый контент, который будет отображен после клика по заголовку.
+    // </details>
 
     tokenizer.tokenHandler = [&]( tokenizer_type &tokenizer
                                 , bool bLineStart, payload_type tokenType

@@ -1,0 +1,36 @@
+Наброски
+
+Писать языки - легко и приятно, я сам делал это много раз
+
+Далека дорога твоя, далека, дика и пустынна.
+Эта даль и глушь, не для слабых душ,
+Далека дорога твоя.
+http://bards.ru/archives/part.php?id=6142
+https://www.notarhiv.ru/ruskomp/gladkov/stranizi/Dalekadorogatvoya.html
+
+Далека дорога твоя,
+Далека, дика и пустынна.
+Эта даль и глушь
+Не для слабых душ.
+
+Подробнее на Кино-Театр.РУ https://www.kino-teatr.ru/kino/movie/sov/7783/song/
+
+
+Богомерзская Java
+
+"Нет", сказал я себе, "мы пойдём другим путём".
+
+
+Первый раз я писал язык методом рекурсивного спуска, который увидел в какой-то книге Герберта Шилдта, по C или C++, уже точно не помню.
+Книга досталась мне в электронном виде в виде текстового файла, и была распечатана на матричном принтере CPF-136
+
+Герберт Шилдт. Искусство программирования на С++ - https://www.koob.ru/gerbert_shildt/iskusstvo_programmirovaniya_na_c
+интерпретатор Mini C++ - интересно
+Скачать - https://coollib.cc/b/549416-gerbert-shildt-iskusstvo-programmirovaniya-na-c
+Читать онлайн - https://coollib.cc/b/549416-g-shildt-iskusstvo-programmirovaniya-na-c/readp?p=1&cnt=9000
+ISBN: 5-94157-544-0
+Прикольный коммент - http://nabatchikov.com/blog/view/Schildt_ArtOfCpp
+  https://forum.boolean.name/showpost.php?p=263712&postcount=87
+
+Ещё Шилдта
+https://www.ozon.ru/product/c-polnoe-rukovodstvo-shildt-gerbert-149325719/?advert=zXd1ZtzoQVg5RNTagUD-t18mbF1P0qZwmuaqWaFek19f0etie-_j3L7g58lk0XXZqjxegasRpJ_AkGNKpUaNmR9KgY2QFNqWbK_pExn9IQJY9G4jFc9iMNPdgXHgLmCZjChFgjYKLsYWmfwgRpp0mqRIZynEA-haBWEzztVTZ7PcdLiCOgkEf1xd3s-PsW6ZhTrM2_AnV_Xzfam8imfwAkC9HK3Jk7NRz0X88pzKSaMwNyodSlXzWZanVXt_46sKabnezZSzIGk8awwZHmUtG4Vr5Adn6sxRuusglkyWa52QxSnUU0ke4D4J0zGaV9BN_CXENUS58cvsee3fTtGE8Ow&avtc=1&avte=2&avts=1723903205&keywords=%D0%B3%D0%B5%D1%80%D0%B1%D0%B5%D1%80%D1%82+%D1%88%D0%B8%D0%BB%D0%B4%D1%82
