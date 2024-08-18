@@ -113,8 +113,8 @@ StreamType& printToken(StreamType &ss, umba::tokenizer::payload_type tokenType, 
     return ss;
 }
 
-template<typename StreamType>
-void printError(StreamType &ss, const std::string &inputFilename, umba::tokenizer::payload_type tokenType, umba::iterator::TextPositionCountingIterator<char> it, umba::iterator::TextPositionCountingIterator<char> itEnd)
+template<typename StreamType, typename MsgType>
+void printError(StreamType &ss, const std::string &inputFilename, umba::tokenizer::payload_type tokenType, umba::iterator::TextPositionCountingIterator<char> it, umba::iterator::TextPositionCountingIterator<char> itEnd, MsgType msg=MsgType())
 {
      UMBA_USED(tokenType);
 
@@ -124,28 +124,33 @@ void printError(StreamType &ss, const std::string &inputFilename, umba::tokenize
          return;
      }
 
+     if (msg.empty())
+     {
+         msg = "Unexpected symbol";
+     }
+
      auto errPos = it.getPosition(true); // с поиском конца строки (а вообще не надо пока, но пусть)
      std::string erroneousLineText = umba::iterator::makeString(it.getLineStartIterator(), it.getLineEndIterator());
-     ss << "Unexpected at " << inputFilename << ":" << errPos.toString<std::string>() << "\n";
-     ss << "Line:" << erroneousLineText << "\n";
+     ss << inputFilename << ":" << errPos.toString<std::string>() << ": " << msg << "\n";
+     ss << "Line: " << erroneousLineText << "\n";
      auto errMarkerStr = std::string(erroneousLineText.size(), ' ');
      if (errPos.symbolOffset>=errMarkerStr.size())
          errMarkerStr.append(1,'^');
      else
          errMarkerStr[errPos.symbolOffset] = '^';
-     ss << "    |" << errMarkerStr << "|\n";
+     ss << "     |" << errMarkerStr << "|\n";
 
      if (it!=itEnd)
      {
-         char ch = *it;
-         ss << "ch: " << umba::escapeStringC(std::string(1,ch)) << "\n";
+         // char ch = *it;
+         // ss << "ch: " << umba::escapeStringC(std::string(1,ch)) << "\n";
      }
 }
 
-template<typename StreamType>
-void printError(StreamType &ss, const std::string &inputFilename, umba::tokenizer::payload_type tokenType, umba::iterator::TextPositionCountingIterator<char> it, umba::iterator::TextPositionCountingIterator<char> itEnd, const char* srcFile, int srcLine)
+template<typename StreamType, typename MsgType>
+void printError(StreamType &ss, const std::string &inputFilename, umba::tokenizer::payload_type tokenType, umba::iterator::TextPositionCountingIterator<char> it, umba::iterator::TextPositionCountingIterator<char> itEnd, const char* srcFile, int srcLine, MsgType msg=MsgType())
 {
-    printError(ss, inputFilename, tokenType, it, itEnd);
+    printError(ss, inputFilename, tokenType, it, itEnd, msg);
     ss << "At " << srcFile << ":" << srcLine << "\n";
 }
 

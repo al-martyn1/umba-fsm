@@ -119,6 +119,8 @@ int main(int argc, char* argv[])
     // std::ostringstream oss;
     bool bOk = true;
 
+    umba::tbnf::GrammaParser grammaParser;
+
     //using tokenizer_type      = std::decay<decltype(tokenizer)>;
     using tokenizer_type       = decltype(tokenizer);
     using InputIteratorType    = typename tokenizer_type::iterator_type;
@@ -133,56 +135,65 @@ int main(int argc, char* argv[])
     // bool isEndAngleBracketIsOperator   = (tokenizer.getCharClass('>') & umba::tokenizer::CharClass::opchar) != 0;
 
 
-    tokenizer.tokenHandler = [&]( tokenizer_type &tokenizer
+    tokenizer.tokenHandler = [&]( auto &tokenizer
                                 , bool bLineStart, payload_type tokenType
                                 , InputIteratorType b, InputIteratorType e
                                 , token_parsed_data parsedData // std::basic_string_view<tokenizer_char_type> parsedData
                                 , messages_string_type &errMsg
                                 ) -> bool
-                             {
-                                 UMBA_USED(tokenizer);
-                                 UMBA_USED(bLineStart);
-                                 UMBA_USED(tokenType);
-                                 UMBA_USED(b);
-                                 UMBA_USED(e);
-                                 UMBA_USED(parsedData);
-                                 UMBA_USED(errMsg);
+    {
+        UMBA_USED(tokenizer);
+        UMBA_USED(bLineStart);
+        UMBA_USED(tokenType);
+        UMBA_USED(b);
+        UMBA_USED(e);
+        UMBA_USED(parsedData);
+        UMBA_USED(errMsg);
+   
+        //getTokenKindString(umba::tokenizer::payload_type p)
+        // printToken(oss, tokenType, b, e);
+        // printToken(std::cout, tokenType, b, e);
+   
+        return grammaParser.handleToken(tokenizer, bLineStart, tokenType, b, e, parsedData, errMsg);
+    };
 
-                                 //getTokenKindString(umba::tokenizer::payload_type p)
-                                 // printToken(oss, tokenType, b, e);
-                                 printToken(std::cout, tokenType, b, e);
+    tokenizer.unexpectedHandler = [&](auto &tokenizer, InputIteratorType it, InputIteratorType itEnd, const char* srcFile, int srcLine) -> bool
+    {
+        printError(std::cout, inputFilename, UMBA_TOKENIZER_TOKEN_UNEXPECTED, it, itEnd, srcFile, srcLine, messages_string_type());
+        return false;
+    };
 
-                                 return true;
-                             };
+    tokenizer.reportUnknownOperatorHandler = [&](auto &tokenizer, InputIteratorType b, InputIteratorType e)
+    {
+        //cout << "Possible unknown operator: '" << umba::iterator::makeString(b, e) << "'\n";
+        UMBA_USED(b); UMBA_USED(e);
+    };
 
-    tokenizer.unexpectedHandler = [&](tokenizer_type &tokenizer, InputIteratorType it, InputIteratorType itEnd, const char* srcFile, int srcLine) -> bool
-                             {
-                                 printError(std::cout, inputFilename, UMBA_TOKENIZER_TOKEN_UNEXPECTED, it, itEnd, srcFile, srcLine);
-                                 return false;
-                             };
+    tokenizer.reportStringLiteralMessageHandler = [&](auto &tokenizer, bool bErr, InputIteratorType it, const messages_string_type &msg)
+    {
+        //void printError(StreamType &ss, const std::string &inputFilename, umba::tokenizer::payload_type tokenType, umba::iterator::TextPositionCountingIterator<char> it, umba::iterator::TextPositionCountingIterator<char> itEnd, MsgType msg=MsgType())
+        #if 1
+        auto errPos = it.getPosition(true); // с поиском конца строки (а вообще не надо пока, но пусть)
+        std::string erroneousLineText = umba::iterator::makeString(it.getLineStartIterator(), it.getLineEndIterator());
+        std::cout << (bErr ? "Error: " : "Warning: ") << msg << " at " << inputFilename << ":" << errPos.toString<std::string>() << "\n";
+        std::cout << "Line:" << erroneousLineText << "\n";
+        auto errMarkerStr = std::string(erroneousLineText.size(), ' ');
+        if (errPos.symbolOffset>=errMarkerStr.size())
+            errMarkerStr.append(1,'^');
+        else
+            errMarkerStr[errPos.symbolOffset] = '^';
+        std::cout << "    |" << errMarkerStr << "|\n";
+        #endif
+        UMBA_USED(bErr); UMBA_USED(it); UMBA_USED(msg);
+    };
 
-    tokenizer.reportUnknownOperatorHandler = [&](tokenizer_type &tokenizer, InputIteratorType b, InputIteratorType e)
-                             {
-                                 //cout << "Possible unknown operator: '" << umba::iterator::makeString(b, e) << "'\n";
-                                 UMBA_USED(b); UMBA_USED(e);
-                             };
+    tokenizer.reportHandleTokenErrorHandler = [&](auto &tokenizer, payload_type tokenType, InputIteratorType b, InputIteratorType e, const messages_string_type &msg)
+    {
+        printError(std::cout, inputFilename, tokenType, b, e, msg);
+    };
+    //using report_handle_token_error = std::function<bool(TBase &tokenizer, payload_type, InputIteratorType, InputIteratorType, const MessagesStringType &)>;
 
-    tokenizer.reportStringLiteralMessageHandler = [&](tokenizer_type &tokenizer, bool bErr, InputIteratorType it, const messages_string_type &msg)
-                             {
-                                 #if 0
-                                 auto errPos = it.getPosition(true); // с поиском конца строки (а вообще не надо пока, но пусть)
-                                 std::string erroneousLineText = umba::iterator::makeString(it.getLineStartIterator(), it.getLineEndIterator());
-                                 cout << (bErr ? "Error: " : "Warning: ") << msg << " at " << inputFilename << ":" << errPos.toString<std::string>() << "\n";
-                                 cout << "Line:" << erroneousLineText << "\n";
-                                 auto errMarkerStr = std::string(erroneousLineText.size(), ' ');
-                                 if (errPos.symbolOffset>=errMarkerStr.size())
-                                     errMarkerStr.append(1,'^');
-                                 else
-                                     errMarkerStr[errPos.symbolOffset] = '^';
-                                 cout << "    |" << errMarkerStr << "|\n";
-                                 #endif
-                                 UMBA_USED(bErr); UMBA_USED(it); UMBA_USED(msg);
-                             };
+
 
 
     // Фильтры, установленные позже, отрабатывают раньше

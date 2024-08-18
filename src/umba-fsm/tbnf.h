@@ -29,6 +29,10 @@ namespace tbnf {
 //----------------------------------------------------------------------------
 
 
+using TheValue = umba::TheValue;
+using TheFlags = umba::TheFlags;
+
+
 
 //----------------------------------------------------------------------------
 inline
@@ -234,17 +238,149 @@ using BuiltinNonTerminalInfo = std::variant<BuiltinEmptyInfo, BuiltinCommentInfo
 class GrammaParser
 {
 
+    std::string  currentRule;
+
+    enum State
+    {
+        stInitial,
+        stWaitAssignment,
+        stReadRule,
+        stWaitBultinRuleType
+    };
+
+    State st = stInitial;
+
+
+
+    void resetImpl()
+    {
+         // Тут неплохо бы сохранить состояние до ресета, для дальнейшего исследования того, как мы докатились до такой жизни
+
+         st = stInitial;
+    }
+
+    bool reset(bool res)
+    {
+        resetImpl();
+        return res;
+    }
+
+    template<typename MsgStringType>
+    bool reset(bool res, MsgStringType &msgSetTo, const MsgStringType &msg)
+    {
+        resetImpl();
+
+        if (!res)
+        {
+            msgSetTo = msg;
+        }
+
+        return res;
+    }
+
+    bool isCommentToken(payload_type tokenType)
+    {
+        if (tokenType>=UMBA_TOKENIZER_TOKEN_OPERATOR_SINGLE_LINE_COMMENT_FIRST && tokenType<=UMBA_TOKENIZER_TOKEN_OPERATOR_SINGLE_LINE_COMMENT_LAST)
+            return true;
+
+        if (tokenType==UMBA_TOKENIZER_TOKEN_OPERATOR_MULTI_LINE_COMMENT_START || tokenType==UMBA_TOKENIZER_TOKEN_OPERATOR_MULTI_LINE_COMMENT_END)
+            return true;
+
+        return false;
+    }
+
+    // template<typename TokenizerType, typename SrcMessageType>
+    // typename TokenizerType::messages_string_type
+    // msg(SrcMessageType m)
+    // {
+    //     return typename TokenizerType::messages_string_type(m);
+    // }
+
 
 public:
 
     template<typename TokenizerType>
-    bool handleInput( TokenizerType &tokenizer
+    bool handleToken( TokenizerType &tokenizer
                     , bool bLineStart, payload_type tokenType
-                    , typename tokenizer_type::iterator_type b, typename tokenizer_type::iterator_type e
-                    , const typename tokenizer_type::token_parsed_data &parsedData // std::basic_string_view<tokenizer_char_type> parsedData
-                    , typename tokenizer_type::messages_string_type &errMsg
+                    , typename TokenizerType::iterator_type b, typename TokenizerType::iterator_type e
+                    , const typename TokenizerType::token_parsed_data &parsedData // std::basic_string_view<tokenizer_char_type> parsedData
+                    , typename TokenizerType::messages_string_type &errMsg
                     )
     {
+        using msgt = TokenizerType::messages_string_type;
+
+
+        if (tokenType==UMBA_TOKENIZER_TOKEN_FIN)
+        {
+            // Пока просто ресетим, но потом тут могут быть ошибки, в зависимости от текущего состояния
+            return reset(true);
+        }
+
+        if (isCommentToken(tokenType))
+        {
+            return true;
+        }
+
+
+        switch(st)
+        {
+            case stInitial:
+            {
+                if (TheValue(tokenType).oneOf(UMBA_TOKENIZER_TOKEN_SPACE, UMBA_TOKENIZER_TOKEN_TAB, UMBA_TOKENIZER_TOKEN_LINEFEED))
+                    return true; // Ничего не делаем
+
+                if (tokenType==UMBA_TOKENIZER_TOKEN_IDENTIFIER)
+                {
+                    auto identifierData = std::get<typename TokenizerType::IdentifierData>(parsedData);
+                    currentRule = identifierData.data; // из string_view в строку
+                    st = stWaitAssignment;
+                    return true;
+                }
+
+                return reset(false, errMsg, msgt("Unexpected ") + umba::tokenizer::getTokenizerTokenStr<msgt>(tokenType));
+            }
+
+            case stWaitAssignment:
+            {
+                if (TheValue(tokenType).oneOf(UMBA_TOKENIZER_TOKEN_SPACE, UMBA_TOKENIZER_TOKEN_TAB))
+                    return true; // Ничего не делаем
+
+                //if (TheValue(tokenType).oneOf(UMBA_TOKENIZER_TOKEN_OPERATOR_ASSIGNMENT))
+                if (tokenType==UMBA_TOKENIZER_TOKEN_OPERATOR_ASSIGNMENT)
+                {
+                    st = stReadRule;
+                    return true;
+                }
+
+                return reset(false, errMsg, msgt("Unexpected ") + umba::tokenizer::getTokenizerTokenStr<msgt>(tokenType));
+            }
+
+            case stReadRule:
+            {
+                if (TheValue(tokenType).oneOf(UMBA_TOKENIZER_TOKEN_SPACE, UMBA_TOKENIZER_TOKEN_TAB))
+                    return true; // Ничего не делаем
+
+                if (tokenType==UMBA_TOKENIZER_TOKEN_OPERATOR_AT)
+                {
+                    st = stWaitBultinRuleType;
+                    return true;
+                }
+
+                return reset(false, errMsg, msgt("User rules not currently implemented") );
+            }
+        
+            default:
+            {
+                return reset(false, errMsg, msgt("Parser state not currently handled") );
+            }
+
+        } // switch(st)
+
+
+
+        // UMBA_TOKENIZER_TOKEN_OPERATOR_ASSIGNMENT
+    
+
         UMBA_USED(tokenizer);
         UMBA_USED(bLineStart);
         UMBA_USED(tokenType);
