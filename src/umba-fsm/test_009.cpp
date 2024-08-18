@@ -473,7 +473,7 @@ int main(int argc, char* argv[])
     //   Здесь располагается скрытый контент, который будет отображен после клика по заголовку.
     // </details>
 
-    tokenizer.tokenHandler = [&]( tokenizer_type &tokenizer
+    tokenizer.tokenHandler = [&]( auto &tokenizer
                                 , bool bLineStart, payload_type tokenType
                                 , InputIteratorType b, InputIteratorType e
                                 , token_parsed_data parsedData // std::basic_string_view<tokenizer_char_type> parsedData
@@ -587,19 +587,19 @@ int main(int argc, char* argv[])
                                  return true;
                              };
 
-    tokenizer.unexpectedHandler = [&](tokenizer_type &tokenizer, InputIteratorType it, InputIteratorType itEnd, const char* srcFile, int srcLine) -> bool
+    tokenizer.unexpectedHandler = [&](auto &tokenizer, InputIteratorType it, InputIteratorType itEnd, const char* srcFile, int srcLine) -> bool
                              {
                                  printError(std::cout, inputFilename, UMBA_TOKENIZER_TOKEN_UNEXPECTED, it, itEnd, srcFile, srcLine);
                                  return false;
                              };
 
-    tokenizer.reportUnknownOperatorHandler = [&](tokenizer_type &tokenizer, InputIteratorType b, InputIteratorType e)
+    tokenizer.reportUnknownOperatorHandler = [&](auto &tokenizer, InputIteratorType b, InputIteratorType e)
                              {
                                  //cout << "Possible unknown operator: '" << umba::iterator::makeString(b, e) << "'\n";
                                  UMBA_USED(b); UMBA_USED(e);
                              };
 
-    tokenizer.reportStringLiteralMessageHandler = [&](tokenizer_type &tokenizer, bool bErr, InputIteratorType it, const messages_string_type &msg)
+    tokenizer.reportStringLiteralMessageHandler = [&](auto &tokenizer, bool bErr, InputIteratorType it, const messages_string_type &msg)
                              {
                                  #if 0
                                  auto errPos = it.getPosition(true); // с поиском конца строки (а вообще не надо пока, но пусть)

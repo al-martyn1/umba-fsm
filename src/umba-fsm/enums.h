@@ -28,7 +28,7 @@ enum class BuiltinTokenType : std::uint32_t
     literal             = 0x0004,
     stringLiteral       = 0x0004,
     identifier          = 0x0005,
-    brackets            = 0x0006,
+    bracket             = 0x0006,
     comment             = 0x0007,
     sComment            = 0x0007,
     singleLineComment   = 0x0007,
@@ -40,8 +40,8 @@ enum class BuiltinTokenType : std::uint32_t
 MARTY_CPP_MAKE_ENUM_IS_FLAGS_FOR_NON_FLAGS_ENUM(BuiltinTokenType)
 
 MARTY_CPP_ENUM_CLASS_SERIALIZE_BEGIN( BuiltinTokenType, std::map, 1 )
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::brackets     , "Brackets"   );
     MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::invalid      , "Invalid"    );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::bracket      , "Bracket"    );
     MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::none         , "None"       );
     MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::integral     , "Integral"   );
     MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::_float       , "Float"      );
@@ -53,9 +53,9 @@ MARTY_CPP_ENUM_CLASS_SERIALIZE_BEGIN( BuiltinTokenType, std::map, 1 )
 MARTY_CPP_ENUM_CLASS_SERIALIZE_END( BuiltinTokenType, std::map, 1 )
 
 MARTY_CPP_ENUM_CLASS_DESERIALIZE_BEGIN( BuiltinTokenType, std::map, 1 )
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::brackets     , "brackets"            );
     MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::invalid      , "invalid"             );
     MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::invalid      , "unknown"             );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::bracket      , "bracket"             );
     MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::none         , "none"                );
     MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::integral     , "integral"            );
     MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::integral     , "integral-number"     );

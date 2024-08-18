@@ -114,7 +114,7 @@ StreamType& printToken(StreamType &ss, umba::tokenizer::payload_type tokenType, 
 }
 
 template<typename StreamType, typename MsgType>
-void printError(StreamType &ss, const std::string &inputFilename, umba::tokenizer::payload_type tokenType, umba::iterator::TextPositionCountingIterator<char> it, umba::iterator::TextPositionCountingIterator<char> itEnd, MsgType msg=MsgType())
+void printError(StreamType &ss, const std::string &inputFilename, umba::tokenizer::payload_type tokenType, umba::iterator::TextPositionCountingIterator<char> it, umba::iterator::TextPositionCountingIterator<char> itEnd, MsgType msg)
 {
      UMBA_USED(tokenType);
 
@@ -147,10 +147,23 @@ void printError(StreamType &ss, const std::string &inputFilename, umba::tokenize
      }
 }
 
+template<typename StreamType>
+void printError(StreamType &ss, const std::string &inputFilename, umba::tokenizer::payload_type tokenType, umba::iterator::TextPositionCountingIterator<char> it, umba::iterator::TextPositionCountingIterator<char> itEnd)
+{
+    printError(ss, inputFilename, tokenType, it, itEnd, std::string());
+}
+
 template<typename StreamType, typename MsgType>
-void printError(StreamType &ss, const std::string &inputFilename, umba::tokenizer::payload_type tokenType, umba::iterator::TextPositionCountingIterator<char> it, umba::iterator::TextPositionCountingIterator<char> itEnd, const char* srcFile, int srcLine, MsgType msg=MsgType())
+void printError(StreamType &ss, const std::string &inputFilename, umba::tokenizer::payload_type tokenType, umba::iterator::TextPositionCountingIterator<char> it, umba::iterator::TextPositionCountingIterator<char> itEnd, const char* srcFile, int srcLine, const MsgType &msg)
 {
     printError(ss, inputFilename, tokenType, it, itEnd, msg);
+    ss << "At " << srcFile << ":" << srcLine << "\n";
+}
+
+template<typename StreamType>
+void printError(StreamType &ss, const std::string &inputFilename, umba::tokenizer::payload_type tokenType, umba::iterator::TextPositionCountingIterator<char> it, umba::iterator::TextPositionCountingIterator<char> itEnd, const char* srcFile, int srcLine)
+{
+    printError(ss, inputFilename, tokenType, it, itEnd);
     ss << "At " << srcFile << ":" << srcLine << "\n";
 }
 

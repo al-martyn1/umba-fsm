@@ -7,7 +7,7 @@ float,floatNumber
 operator,operatorSeq,operatorSequence
 literal,stringLiteral
 identifier
-brackets
+bracket
 comment,sComment,singleLineComment
 mComment,multilineComment
 

@@ -193,7 +193,7 @@ int main(int argc, char* argv[])
     using messages_string_type = typename tokenizer_type::messages_string_type;
     using token_parsed_data    = typename tokenizer_type::token_parsed_data;
 
-    tokenizer.tokenHandler = [&](tokenizer_type &tokenizer, bool bLineStart, payload_type tokenType, InputIteratorType b, InputIteratorType e, token_parsed_data parsedData, messages_string_type &errMsg) -> bool
+    tokenizer.tokenHandler = [&](auto &tokenizer, bool bLineStart, payload_type tokenType, InputIteratorType b, InputIteratorType e, token_parsed_data parsedData, messages_string_type &errMsg) -> bool
                              {
                                  using namespace umba::iterator;
 
@@ -226,7 +226,7 @@ int main(int argc, char* argv[])
                                  return true;
                              };
 
-    tokenizer.unexpectedHandler = [&](tokenizer_type &tokenizer, InputIteratorType it, InputIteratorType itEnd, const char* srcFile, int srcLine) -> bool
+    tokenizer.unexpectedHandler = [&](auto &tokenizer, InputIteratorType it, InputIteratorType itEnd, const char* srcFile, int srcLine) -> bool
                              {
                                  if (it==itEnd)
                                  {
@@ -255,12 +255,12 @@ int main(int argc, char* argv[])
                                  return false;
                              };
 
-    tokenizer.reportUnknownOperatorHandler = [&](tokenizer_type &tokenizer, InputIteratorType b, InputIteratorType e)
+    tokenizer.reportUnknownOperatorHandler = [&](auto &tokenizer, InputIteratorType b, InputIteratorType e)
                              {
                                  cout << "Possible unknown operator: '" << umba::iterator::makeString(b, e) << "'\n";
                              };
 
-    tokenizer.reportStringLiteralMessageHandler = [&](tokenizer_type &tokenizer, bool bErr, InputIteratorType it, const messages_string_type &msg)
+    tokenizer.reportStringLiteralMessageHandler = [&](auto &tokenizer, bool bErr, InputIteratorType it, const messages_string_type &msg)
                              {
                                  auto errPos = it.getPosition(true); // с поиском конца строки (а вообще не надо пока, но пусть)
                                  std::string erroneousLineText = umba::iterator::makeString(it.getLineStartIterator(), it.getLineEndIterator());
