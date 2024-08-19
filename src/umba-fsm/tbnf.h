@@ -460,7 +460,7 @@ public:
         using umba::string_plus::make_string;
 
 
-        if (tokenType==UMBA_TOKENIZER_TOKEN_FIN)
+        if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_FIN)
         {
             // Пока просто ресетим, но потом тут могут быть ошибки, в зависимости от текущего состояния
             return reset(true);

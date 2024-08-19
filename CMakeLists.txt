@@ -144,6 +144,11 @@ umba_add_target_options(test_009 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
 target_link_libraries(test_009 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
+add_executable(test_010 "${SRC_ROOT}/umba-fsm/test_010.cpp" "${headers}")
+umba_add_target_options(test_010 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
+target_link_libraries(test_010 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+
+
 add_executable(tbnf_test_001 "${SRC_ROOT}/umba-fsm/tbnf_test_001.cpp" "${headers}")
 umba_add_target_options(tbnf_test_001 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
 target_link_libraries(tbnf_test_001 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")

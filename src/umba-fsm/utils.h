@@ -32,8 +32,8 @@ StringType getTokenKindString(umba::tokenizer::payload_type p)
         case UMBA_TOKENIZER_TOKEN_SQUARE_BRACKET_CLOSE             : return umba::string_plus::make_string<StringType>("square");
         case UMBA_TOKENIZER_TOKEN_OPERATOR_MULTI_LINE_COMMENT_START: return umba::string_plus::make_string<StringType>("cmnt");
         case UMBA_TOKENIZER_TOKEN_OPERATOR_MULTI_LINE_COMMENT_END  : return umba::string_plus::make_string<StringType>("cmnt");
-        case UMBA_TOKENIZER_TOKEN_PP_START                         : return umba::string_plus::make_string<StringType>("pp");
-        case UMBA_TOKENIZER_TOKEN_PP_END                           : return umba::string_plus::make_string<StringType>("pp");
+        case UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_START                 : return umba::string_plus::make_string<StringType>("pp");
+        case UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_END                   : return umba::string_plus::make_string<StringType>("pp");
 
         //case : return umba::string_plus::make_string<StringType>("");
         default:
@@ -120,7 +120,8 @@ void printError(StreamType &ss, const std::string &inputFilename, umba::tokenize
 
      if (it==itEnd)
      {
-         ss << "Unexpected end of file\n";
+         ss << inputFilename << ": Unexpected end of file\n";
+         ss << "TokenType: " << tokenType << "\n";
          return;
      }
 

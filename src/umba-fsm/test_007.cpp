@@ -1,5 +1,5 @@
 /*! \file
-    \brief Тест финальной реализации TokenizerBuilder'а и Tokenizer'а
+    \brief Тест финальной реализации TokenizerBuilder'а и Tokenizer'а. Устаревший тест, может работать некорректно
  */
 
 #include "umba/umba.h"

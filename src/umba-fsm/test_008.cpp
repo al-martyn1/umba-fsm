@@ -1,5 +1,5 @@
 /*! \file
-    \brief Делаем для теста раскраску плюсового кода в HTML
+    \brief Делаем для теста раскраску плюсового кода в HTML. Устаревший тест, может работать некорректно
  */
 
 #include "umba/umba.h"
@@ -445,7 +445,7 @@ int main(int argc, char* argv[])
                                 , messages_string_type &errMsg
                                 ) -> bool
                              {
-                                 if (tokenType==UMBA_TOKENIZER_TOKEN_FIN)
+                                 if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_FIN)
                                  {
                                      oss << "<span class=\"pp\">";
                                      flushBufferedTokens();
