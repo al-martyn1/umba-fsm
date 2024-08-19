@@ -18,19 +18,19 @@ enum class BuiltinTokenType : std::uint32_t
     invalid             = (std::uint32_t)(-1),
     unknown             = (std::uint32_t)(-1),
     none                = 0x0000,
-    integral            = 0x0001,
     integralNumber      = 0x0001,
-    _float              = 0x0002,
+    integral            = 0x0001,
     floatNumber         = 0x0002,
+    _float              = 0x0002,
     _operator           = 0x0003,
     operatorSeq         = 0x0003,
     operatorSequence    = 0x0003,
-    literal             = 0x0004,
     stringLiteral       = 0x0004,
+    literal             = 0x0004,
     identifier          = 0x0005,
     bracket             = 0x0006,
-    comment             = 0x0007,
     sComment            = 0x0007,
+    comment             = 0x0007,
     singleLineComment   = 0x0007,
     mComment            = 0x0008,
     multilineComment    = 0x0008
@@ -40,56 +40,56 @@ enum class BuiltinTokenType : std::uint32_t
 MARTY_CPP_MAKE_ENUM_IS_FLAGS_FOR_NON_FLAGS_ENUM(BuiltinTokenType)
 
 MARTY_CPP_ENUM_CLASS_SERIALIZE_BEGIN( BuiltinTokenType, std::map, 1 )
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::invalid      , "Invalid"    );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::bracket      , "Bracket"    );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::none         , "None"       );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::integral     , "Integral"   );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::_float       , "Float"      );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::literal      , "Literal"    );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::identifier   , "Identifier" );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::comment      , "Comment"    );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::_operator    , "Operator"   );
-    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::mComment     , "MComment"   );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::floatNumber      , "FloatNumber"    );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::integralNumber   , "IntegralNumber" );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::invalid          , "Invalid"        );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::bracket          , "Bracket"        );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::none             , "None"           );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::identifier       , "Identifier"     );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::_operator        , "Operator"       );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::stringLiteral    , "StringLiteral"  );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::sComment         , "SComment"       );
+    MARTY_CPP_ENUM_CLASS_SERIALIZE_ITEM( BuiltinTokenType::mComment         , "MComment"       );
 MARTY_CPP_ENUM_CLASS_SERIALIZE_END( BuiltinTokenType, std::map, 1 )
 
 MARTY_CPP_ENUM_CLASS_DESERIALIZE_BEGIN( BuiltinTokenType, std::map, 1 )
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::invalid      , "invalid"             );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::invalid      , "unknown"             );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::bracket      , "bracket"             );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::none         , "none"                );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::integral     , "integral"            );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::integral     , "integral-number"     );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::integral     , "integral_number"     );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::integral     , "integralnumber"      );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_float       , "float"               );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_float       , "float-number"        );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_float       , "float_number"        );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_float       , "floatnumber"         );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::literal      , "string_literal"      );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::literal      , "literal"             );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::literal      , "string-literal"      );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::literal      , "stringliteral"       );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::identifier   , "identifier"          );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::comment      , "single_line_comment" );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::comment      , "s-comment"           );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::comment      , "comment"             );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::comment      , "s_comment"           );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::comment      , "scomment"            );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::comment      , "single-line-comment" );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::comment      , "singlelinecomment"   );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator    , "operator-sequence"   );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator    , "operator_seq"        );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator    , "operator"            );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator    , "operator_sequence"   );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator    , "operator-seq"        );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator    , "operatorseq"         );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator    , "operatorsequence"    );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::mComment     , "multiline-comment"   );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::mComment     , "m-comment"           );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::mComment     , "multiline_comment"   );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::mComment     , "m_comment"           );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::mComment     , "multilinecomment"    );
-    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::mComment     , "mcomment"            );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::floatNumber      , "float-number"        );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::floatNumber      , "float_number"        );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::floatNumber      , "floatnumber"         );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::floatNumber      , "float"               );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::integralNumber   , "integral-number"     );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::integralNumber   , "integral_number"     );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::integralNumber   , "integralnumber"      );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::integralNumber   , "integral"            );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::invalid          , "invalid"             );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::invalid          , "unknown"             );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::bracket          , "bracket"             );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::none             , "none"                );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::identifier       , "identifier"          );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator        , "operator-sequence"   );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator        , "operator_seq"        );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator        , "operator"            );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator        , "operator_sequence"   );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator        , "operator-seq"        );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator        , "operatorseq"         );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::_operator        , "operatorsequence"    );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::stringLiteral    , "string-literal"      );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::stringLiteral    , "literal"             );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::stringLiteral    , "string_literal"      );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::stringLiteral    , "stringliteral"       );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::sComment         , "single_line_comment" );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::sComment         , "comment"             );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::sComment         , "s-comment"           );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::sComment         , "s_comment"           );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::sComment         , "scomment"            );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::sComment         , "single-line-comment" );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::sComment         , "singlelinecomment"   );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::mComment         , "multiline-comment"   );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::mComment         , "m-comment"           );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::mComment         , "multiline_comment"   );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::mComment         , "m_comment"           );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::mComment         , "multilinecomment"    );
+    MARTY_CPP_ENUM_CLASS_DESERIALIZE_ITEM( BuiltinTokenType::mComment         , "mcomment"            );
 MARTY_CPP_ENUM_CLASS_DESERIALIZE_END( BuiltinTokenType, std::map, 1 )
 
 

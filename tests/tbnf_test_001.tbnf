@@ -16,21 +16,21 @@ EXPLICIT_OCT_INTEGRAL_NUMBER::= @integral base 8  prefix "0"
 EXPLICIT_HEX_INTEGRAL_NUMBER::= @integral base 16 prefix "0x"i
 
 DEFAULT_FLOAT_NUMBER     ::= @float base 10
-EXPLICIT_DEC_FLOAT_NUMBER::= @float base 10 prefix "0d"i token-id 0x2345 name OPERATOR_MULTIPLICATION
-EXPLICIT_BIN_FLOAT_NUMBER::= @float base 2  prefix "0b"i token-id UMBA_TOKENIZER_TOKEN_OPERATOR_MULTIPLICATION
+EXPLICIT_DEC_FLOAT_NUMBER::= @float base 10 prefix "0d"i
+EXPLICIT_BIN_FLOAT_NUMBER::= @float base 2  prefix "0b"i
 EXPLICIT_OCT_FLOAT_NUMBER::= @float base 8  prefix "0"
 EXPLICIT_HEX_FLOAT_NUMBER::= @float base 16 prefix "0x"i
 
 
-EXPRESSION_SEPARATOR::= @operator value ";" token-id 0x2345 name OPERATOR_MULTIPLICATION
+EXPRESSION_SEPARATOR::= @operator value ";"
 
 
-MUL_OP: @operator value "*" token-id UMBA_TOKENIZER_TOKEN_OPERATOR_MULTIPLICATION
-DIV_OP: @operator value "/" token-id 0x2345 name OPERATOR_MULTIPLICATION
+MUL_OP: @operator value "*" token-id OPERATOR_MULTIPLICATION
+DIV_OP: @operator value "/" token-id OPERATOR_DIVISION
 
-STRING_LITERAL            ::= @literal kind cpp prefix "\"" token-id 0x2345 name OPERATOR_MULTIPLICATION
-CHAR_LITERAL              ::= @literal kind cpp prefix "\'" token-id UMBA_TOKENIZER_TOKEN_OPERATOR_MULTIPLICATION
-INCLUDE_SYS_NAME_LITERAL  ::= @literal kind simple prefix "<"
+STRING_LITERAL            ::= @literal kind cpp prefix "\"" token-id STRING_LITERAL
+CHAR_LITERAL              ::= @literal kind cpp prefix "\'" token-id CHAR_LITERAL
+INCLUDE_SYS_NAME_LITERAL  ::= @literal kind simple prefix "<" token-id ANGLE_BACKETS_STRING_LITERAL
 
 IDENTIFIER: @identifier
 

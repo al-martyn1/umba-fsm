@@ -2,12 +2,12 @@ invalid,unknown         =-1
 
 none                    = 0
 
-integral,integralNumber
-float,floatNumber
+integralNumber,integral
+floatNumber,float
 operator,operatorSeq,operatorSequence
-literal,stringLiteral
+stringLiteral,literal
 identifier
 bracket
-comment,sComment,singleLineComment
+sComment,comment,singleLineComment
 mComment,multilineComment
 
