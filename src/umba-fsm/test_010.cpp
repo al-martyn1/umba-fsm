@@ -37,7 +37,7 @@
 // #define PRINT_ONLY_NUMBERS
 #define USE_TRY_CATCH
 
-#define DUPLICATE_TO_STD_OUT
+//#define DUPLICATE_TO_STD_OUT
 
 
 
@@ -195,7 +195,7 @@ body {
 
 .kwd2{
   color:green;
-  font-style: bold;
+  font-weight: bold;
 
 }
 
@@ -312,7 +312,7 @@ int main(int argc, char* argv[])
 
         inputFiles.clear();
 
-        inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/preprocessor.h")));
+        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/preprocessor.h")));
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/the.h")));
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/stl_keil_initializer_list.h")));
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/stl_keil_type_traits.h")));
@@ -323,8 +323,9 @@ int main(int argc, char* argv[])
 
         // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/marty_decimal/tests/src/regression_tests.cpp")));
 
-        //inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("tests/tokenizer/number_ull.cpp")));
+        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("tests/tokenizer/number_ull.cpp")));
 
+        inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("tests/suffix_gluing_sample.h")));
     }
 
 
@@ -379,6 +380,14 @@ int main(int argc, char* argv[])
 
 
                                              .makeTokenizer();
+
+
+    // auto openAngleBracketFlags = tokenizer.getCharClass('<');
+    // if ((openAngleBracketFlags&umba::tokenizer::CharClass::string_literal_prefix)!=0)
+    // {
+    //     tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::string_literal_prefix); // По дефолту символ '<' не является маркером строкового литерала
+    // }
+    
 
 
     // Пока с kind не определился, и пихаем в keywords всё
@@ -687,21 +696,24 @@ int main(int argc, char* argv[])
         // text = "";
         inputFilename.clear();
 #else
+
+        std::cout << "\nProcessing: '" << inputFilename << "'\n";
+
         if (!umba::filesys::readFile(inputFilename, text))
         {
-            std::cout << "Failed to read input file '" << inputFilename << "'\n";
+            std::cout << "Failed to read input file\n";
             continue;
         }
 #endif
         if (text.empty())
         {
-            std::cout << "Input file '" << inputFilename << "' empty\n";
+            std::cout << "Input file is empty\n";
             continue;
         }
 
         if (text.back()!='\n' && text.back()!='\r')
         {
-            std::cout << "Warning: file '" << inputFilename << "': no linefeed at end of file\n";
+            std::cout << "Warning: no linefeed at end of file\n";
         }
 
         oss = std::ostringstream();

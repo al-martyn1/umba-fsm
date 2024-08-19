@@ -1,8 +1,38 @@
+#if !defined(_MSVC_LANG) || _MSVC_LANG < 201402
+#endif
+
 #pragma once
+
+// #if !defined(_MSVC_LANG) || _MSVC_LANG < 201402
+    // #define UMBA_DEPRECATED            __declspec(deprecated)
+    // #define UMBA_DEPRECATED_MSG(msg)   __declspec(deprecated(msg))
+// #else
+    // #define UMBA_DEPRECATED            [[deprecated]]
+    // #define UMBA_DEPRECATED_MSG(msg)   [[deprecated(msg)]]
+// #endif
+
 
 
 #ifndef TEST_H_INCLUDED
 #define TEST_H_INCLUDED
+
+#include "zz_detect_environment.h"
+
+#if defined(UMBA_CXX_HAS_STD11)
+
+    #include <cstddef>
+    #include <cstdint>
+
+    //! Зачем-то сделано
+    #define UMBA_STD_SIZE_T    std::size_t
+
+#else
+
+    //! Зачем-то сделано
+    #define UMBA_STD_SIZE_T    size_t
+
+#endif
+
 
 /* add this lines to your source
 #ifndef TEST_H_INCLUDED
@@ -22,4 +52,14 @@ void func()
 }
 
 #endif /* TEST_H_INCLUDED */
+
+
+#ifndef UMBA_DECLARE_WEAK_IRQ_HANDLER
+    #define UMBA_DECLARE_WEAK_IRQ_HANDLER( funcName )     extern "C" UMBA_DECLARE_WEAK_FUNCTION( void funcName() )
+#endif
+
+//! Декларирует WEAK-функцию - обработчик прерывания
+#ifndef UMBA_WEAK_IRQ_HANDLER
+    #define UMBA_WEAK_IRQ_HANDLER( funcName )             UMBA_DECLARE_WEAK_IRQ_HANDLER(funcName)
+#endif
 
