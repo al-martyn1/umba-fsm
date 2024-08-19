@@ -8,7 +8,8 @@ suffix
 tokenId
 name
 kind
-value
+value // keyword
+sequence,operatorSequence,opSequence
 open
 close
 position

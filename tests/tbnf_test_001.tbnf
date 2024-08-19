@@ -3,7 +3,8 @@
 
 # UNK: @unk - потестили ошибку
 
-
+// У всех s-comment position должен быть одинаковый, иначе будет ошибка
+// Можно задать s-comment без prefix, но с position, а в остальных s-comment position не указывать
 SINGLELINE_COMMENT: @s-comment prefix "//" position any // beginning
 # Может быть задано неоднократно. Не используется при генерации парсера, передаётся токенизеру, и коментарии просто отбрасываются
 MULTILINE_COMMENT : @m-comment prefix "/*" suffix "*/"
@@ -32,22 +33,22 @@ STRING_LITERAL            ::= @literal kind cpp prefix "\"" token-id STRING_LITE
 CHAR_LITERAL              ::= @literal kind cpp prefix "\'" token-id CHAR_LITERAL
 INCLUDE_SYS_NAME_LITERAL  ::= @literal kind simple prefix "<" token-id ANGLE_BACKETS_STRING_LITERAL
 
+// dummy - или не нужно, добавляется по умолчанию?
 IDENTIFIER: @identifier
 
 # KEYWORD_IMPORT - попадёт в список констант для генерации, значение будет присвоено автоматически
+# KEYWORD_IMPORT ::= @keyword value "import"i
 KEYWORD_IMPORT ::= @identifier value \
 "import"i
 KEYWORD_FROM   ::= @identifier value "from"i
 KEYWORD_AS     ::= @identifier value "as"i
 KEYWORD_FSM    ::= @identifier value "fsm"i
 
-
+PARENTHESIS_OPEN   : @bracket open  "(" token-id ROUND_BRACKET_OPEN
+PARENTHESIS_CLOSE  : @bracket close ")" token-id ROUND_BRACKET_CLOSE
 
 FLOAT_NUMBER    ::= DEFAULT_FLOAT_NUMBER    | EXPLICIT_DEC_FLOAT_NUMBER    | EXPLICIT_BIN_FLOAT_NUMBER    | EXPLICIT_OCT_FLOAT_NUMBER    |\
   EXPLICIT_HEX_FLOAT_NUMBER
 INTEGRAL_NUMBER ::= DEFAULT_INTEGRAL_NUMBER | EXPLICIT_DEC_INTEGRAL_NUMBER | EXPLICIT_BIN_INTEGRAL_NUMBER | EXPLICIT_OCT_INTEGRAL_NUMBER | EXPLICIT_HEX_INTEGRAL_NUMBER
-
-PARENTHESIS_OPEN   : @brackets open  "(" token-id 0x2345 name OPERATOR_MULTIPLICATION         
-PARENTHESIS_CLOSE  : @brackets close ")" token-id UMBA_TOKENIZER_TOKEN_OPERATOR_MULTIPLICATION
 
 

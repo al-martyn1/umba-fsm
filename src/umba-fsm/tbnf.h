@@ -210,16 +210,17 @@ struct BuiltinOperatorInfo : public BuiltinNonTerminalInfoBase
 
 
 //----------------------------------------------------------------------------
-struct BuiltinIdentigierInfo : public BuiltinNonTerminalInfoBase
+struct BuiltinKeywordInfo : public BuiltinNonTerminalInfoBase
 {
     std::string  value;
+    bool         caseIndependent = false;
 
-    UMBA_RULE_OF_FIVE(BuiltinIdentigierInfo, default, default, default, default, default);
+    UMBA_RULE_OF_FIVE(BuiltinKeywordInfo, default, default, default, default, default);
 
-    BuiltinIdentigierInfo(const BuiltinNonTerminalInfoBase &b) : BuiltinNonTerminalInfoBase(b)  {}
-    BuiltinIdentigierInfo(BuiltinTokenType tt)                 : BuiltinNonTerminalInfoBase(tt) {}
+    BuiltinKeywordInfo(const BuiltinNonTerminalInfoBase &b) : BuiltinNonTerminalInfoBase(b)  {}
+    BuiltinKeywordInfo(BuiltinTokenType tt)                 : BuiltinNonTerminalInfoBase(tt) {}
 
-}; // struct BuiltinIdentigierInfo
+}; // struct BuiltinKeywordInfo
 
 //----------------------------------------------------------------------------
 
@@ -228,8 +229,16 @@ struct BuiltinIdentigierInfo : public BuiltinNonTerminalInfoBase
 //----------------------------------------------------------------------------
 struct BuiltinBracketInfo : public BuiltinNonTerminalInfoBase
 {
-    std::string               value; // exact one char from set of (){}[]<>
-    BuiltinTokenTypeParam     kind = BuiltinTokenTypeParam::invalid; // allowed values: open/close
+    std::string               open ; // exact one char from set of (){}[]<>
+    std::string               close; // exact one char from set of (){}[]<>
+    //BuiltinTokenTypeParam     kind = BuiltinTokenTypeParam::invalid; // allowed values: open/close
+
+    token_type                openTokenId   = token_id_invalid;
+    std::string               openTokenName;
+
+    token_type                closeTokenId   = token_id_invalid;
+    std::string               closeTokenName;
+
 
     UMBA_RULE_OF_FIVE(BuiltinBracketInfo, default, default, default, default, default);
 
@@ -249,9 +258,9 @@ struct BuiltinBracketInfo : public BuiltinNonTerminalInfoBase
 // struct BuiltinNumberLiteralInfo : public BuiltinNonTerminalInfoBase
 // struct BuiltinStringLiteralInfo : public BuiltinNonTerminalInfoBase
 // struct BuiltinOperatorInfo : public BuiltinNonTerminalInfoBase
-// struct BuiltinIdentigierInfo : public BuiltinNonTerminalInfoBase
+// struct BuiltinKeywordInfo : public BuiltinNonTerminalInfoBase
 // struct BuiltinBracketInfo : public BuiltinNonTerminalInfoBase
-using BuiltinNonTerminalInfo = std::variant<BuiltinEmptyInfo, BuiltinCommentInfo, BuiltinNumberLiteralInfo, BuiltinStringLiteralInfo, BuiltinOperatorInfo, BuiltinIdentigierInfo, BuiltinBracketInfo>;
+using BuiltinNonTerminalInfo = std::variant<BuiltinEmptyInfo, BuiltinCommentInfo, BuiltinNumberLiteralInfo, BuiltinStringLiteralInfo, BuiltinOperatorInfo, BuiltinKeywordInfo, BuiltinBracketInfo>;
 
 //----------------------------------------------------------------------------
 
@@ -327,16 +336,16 @@ class GrammaParser
         // IDENTIFIER
         std::unordered_map<std::string, token_type> m = 
         { { "", token_id_invalid }
-        , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(CURLY_BRACKET       )
+        , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(CURLY_BRACKETS      )
         , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(CURLY_BRACKET_OPEN  )
         , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(CURLY_BRACKET_CLOSE )
-        , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(ROUND_BRACKET       )
+        , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(ROUND_BRACKETS      )
         , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(ROUND_BRACKET_OPEN  )
         , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(ROUND_BRACKET_CLOSE )
-        , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(ANGLE_BRACKET       )
+        , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(ANGLE_BRACKETS      )
         , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(ANGLE_BRACKET_OPEN  )
         , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(ANGLE_BRACKET_CLOSE )
-        , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(SQUARE_BRACKET      )
+        , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(SQUARE_BRACKETS     )
         , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(SQUARE_BRACKET_OPEN )
         , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(SQUARE_BRACKET_CLOSE)
         // , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(INTEGRAL_NUMBER)
@@ -472,9 +481,9 @@ class GrammaParser
         return std::unordered_map<BuiltinTokenType, std::unordered_set<BuiltinTokenTypeParam> >
         { { BuiltinTokenType::integralNumber   , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::base, BuiltinTokenTypeParam::prefix } }
         , { BuiltinTokenType::floatNumber      , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::base, BuiltinTokenTypeParam::prefix } }
-        , { BuiltinTokenType::operatorSequence , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::value } }
+        , { BuiltinTokenType::operatorSequence , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::opSequence } }
         , { BuiltinTokenType::stringLiteral    , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::prefix, BuiltinTokenTypeParam::kind  } }
-        , { BuiltinTokenType::identifier       , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::value } }
+        , { BuiltinTokenType::keyword          , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::value } }
         , { BuiltinTokenType::bracket          , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::open  , BuiltinTokenTypeParam::close } }
         , { BuiltinTokenType::sComment         , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::prefix, BuiltinTokenTypeParam::position } }
         , { BuiltinTokenType::mComment         , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::prefix, BuiltinTokenTypeParam::suffix } }
@@ -498,6 +507,7 @@ class GrammaParser
         , { BuiltinTokenTypeParam::tokenId   , { UMBA_TOKENIZER_TOKEN_IDENTIFIER /* , UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_DEC, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_BIN, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_OCT, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_HEX */   } }
         // , { BuiltinTokenTypeParam::name      , { UMBA_TOKENIZER_TOKEN_IDENTIFIER, UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
         , { BuiltinTokenTypeParam::kind      , { UMBA_TOKENIZER_TOKEN_IDENTIFIER, UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
+        , { BuiltinTokenTypeParam::opSequence, { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
         , { BuiltinTokenTypeParam::value     , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
         , { BuiltinTokenTypeParam::open      , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
         , { BuiltinTokenTypeParam::close     , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
@@ -742,7 +752,7 @@ public:
                         case BuiltinTokenType::floatNumber      : builtinRuleInfo = BuiltinNumberLiteralInfo(BuiltinTokenType::floatNumber   ); break;
                         case BuiltinTokenType::operatorSequence : builtinRuleInfo = BuiltinOperatorInfo(BuiltinTokenType::operatorSequence); break;
                         case BuiltinTokenType::stringLiteral    : builtinRuleInfo = BuiltinStringLiteralInfo(BuiltinTokenType::stringLiteral); break;
-                        case BuiltinTokenType::identifier       : builtinRuleInfo = BuiltinIdentigierInfo(BuiltinTokenType::identifier); break;
+                        case BuiltinTokenType::identifier       : builtinRuleInfo = BuiltinKeywordInfo(BuiltinTokenType::identifier); break;
                         case BuiltinTokenType::bracket          : builtinRuleInfo = BuiltinBracketInfo(BuiltinTokenType::bracket); break;
                         case BuiltinTokenType::sComment         : builtinRuleInfo = BuiltinCommentInfo(BuiltinTokenType::sComment); break;
                         case BuiltinTokenType::mComment         : builtinRuleInfo = BuiltinCommentInfo(BuiltinTokenType::mComment); break;
@@ -880,6 +890,24 @@ public:
                             }
                             break;
     
+                            case BuiltinTokenTypeParam::kind    :
+                            {
+                                 auto identifierData = std::get<typename TokenizerType::IdentifierData>(parsedData);
+                                 auto dataStr  = typename TokenizerType::string_type(identifierData.data);
+
+                                 std::visit( [&](auto &v)
+                                             {
+                                                 using T = std::decay_t<decltype(v)>;
+                                                 if constexpr ( std::is_same_v<T, BuiltinStringLiteralInfo> )
+                                                 {
+                                                     v.kind = dataStr;
+                                                 }
+                                             }
+                                           , builtinRuleInfo
+                                           );
+                            }
+                            break;
+    
                             case BuiltinTokenTypeParam::prefix  :
                             {
                                  std::visit( [&](auto &v)
@@ -942,10 +970,51 @@ public:
                                            );
                             }
                             break;
+
+                            case BuiltinTokenTypeParam::position:
+                            {
+                                 auto identifierData = std::get<typename TokenizerType::IdentifierData>(parsedData);
+                                 auto dataStr  = typename TokenizerType::string_type(identifierData.data);
+
+                                 BuiltinTokenTypeParam positionValue = enum_deserialize(make_string<std::string>(dataStr), BuiltinTokenTypeParam::invalid);
+                                 if (positionValue!=BuiltinTokenTypeParam::startOnly && positionValue!=BuiltinTokenTypeParam::any)
+                                 {
+                                     return reset(false, errMsg, make_string<msgt>("Invalid 'position' value. Only 'start-only' or 'any' values allowed"));
+                                 }
+    
+                                 std::visit( [&](auto &v)
+                                             {
+                                                 using T = std::decay_t<decltype(v)>;
+                                                 if constexpr ( std::is_same_v<T, BuiltinCommentInfo> )
+                                                 {
+                                                     if (v.tokenType!=BuiltinTokenType::sComment)
+                                                     {
+                                                         throw std::runtime_error("'position' used only in single line comment expressions");
+                                                     }
+
+                                                     v.position = positionValue;
+                                                 }
+                                             }
+                                           , builtinRuleInfo
+                                           );
+                            }
+                            break;
+    
+
+        // { { BuiltinTokenTypeParam::base      , { UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_DEC, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_BIN, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_OCT, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_HEX } } // только десятичный числовой литерал
+        // , { BuiltinTokenTypeParam::prefix    , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
+        // , { BuiltinTokenTypeParam::suffix    , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
+        // , { BuiltinTokenTypeParam::tokenId   , { UMBA_TOKENIZER_TOKEN_IDENTIFIER /* , UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_DEC, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_BIN, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_OCT, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_HEX */   } }
+        // // , { BuiltinTokenTypeParam::name      , { UMBA_TOKENIZER_TOKEN_IDENTIFIER, UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
+        // , { BuiltinTokenTypeParam::kind      , { UMBA_TOKENIZER_TOKEN_IDENTIFIER, UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
+        // , { BuiltinTokenTypeParam::value     , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
+        // , { BuiltinTokenTypeParam::open      , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
+        // , { BuiltinTokenTypeParam::close     , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
+        // , { BuiltinTokenTypeParam::position  , { UMBA_TOKENIZER_TOKEN_IDENTIFIER } }
     
         // { { BuiltinTokenType::integralNumber   , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::base, BuiltinTokenTypeParam::prefix } }
         // , { BuiltinTokenType::floatNumber      , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::base, BuiltinTokenTypeParam::prefix } }
-        // , { BuiltinTokenType::operatorSequence , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::value } }
+        // , { BuiltinTokenType::operatorSequence , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::sequence } }
         // , { BuiltinTokenType::stringLiteral    , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::prefix, BuiltinTokenTypeParam::kind  } }
         // , { BuiltinTokenType::identifier       , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::value } }
         // , { BuiltinTokenType::bracket          , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::open  , BuiltinTokenTypeParam::close } }
@@ -958,37 +1027,66 @@ public:
 // struct BuiltinNumberLiteralInfo : public BuiltinNonTerminalInfoBase
 // struct BuiltinStringLiteralInfo : public BuiltinNonTerminalInfoBase
 // struct BuiltinOperatorInfo : public BuiltinNonTerminalInfoBase
-// struct BuiltinIdentigierInfo : public BuiltinNonTerminalInfoBase
+// struct BuiltinKeywordInfo : public BuiltinNonTerminalInfoBase
 // struct BuiltinBracketInfo : public BuiltinNonTerminalInfoBase
 
-
-                            case BuiltinTokenTypeParam::kind    :
+                            // operatorSequence
+                            case BuiltinTokenTypeParam::value   :
                             {
-    
+                                 std::visit( [&](auto &v)
+                                             {
+                                                 using T = std::decay_t<decltype(v)>;
+                                                 if constexpr ( std::is_same_v<T, BuiltinOperatorInfo>
+                                                             || std::is_same_v<T, BuiltinKeywordInfo> 
+                                                              )
+                                                 {
+                                                     bool ci = false;
+                                                     v.value = extractParsedStringLiteralData(ci, tokenizer, parsedData, e);
+                                                     if constexpr ( std::is_same_v<T, BuiltinKeywordInfo> )
+                                                         v.caseIndependent = ci;
+                                                 }
+                                             }
+                                           , builtinRuleInfo
+                                           );
                             }
                             break;
     
                             case BuiltinTokenTypeParam::value   :
                             {
-    
+                                 std::visit( [&](auto &v)
+                                             {
+                                                 using T = std::decay_t<decltype(v)>;
+                                                 if constexpr ( std::is_same_v<T, BuiltinOperatorInfo>
+                                                             || std::is_same_v<T, BuiltinKeywordInfo> 
+                                                              )
+                                                 {
+                                                     bool ci = false;
+                                                     v.value = extractParsedStringLiteralData(ci, tokenizer, parsedData, e);
+                                                     if constexpr ( std::is_same_v<T, BuiltinKeywordInfo> )
+                                                         v.caseIndependent = ci;
+                                                 }
+                                             }
+                                           , builtinRuleInfo
+                                           );
                             }
                             break;
     
-                            case BuiltinTokenTypeParam::open    :
-                            {
-    
-                            }
-                            break;
-    
+// struct BuiltinBracketInfo : public BuiltinNonTerminalInfoBase
+// {
+//     std::string               open ; // exact one char from set of (){}[]<>
+//     std::string               close; // exact one char from set of (){}[]<>
+//     //BuiltinTokenTypeParam     kind = BuiltinTokenTypeParam::invalid; // allowed values: open/close
+//  
+//     token_type                openTokenId   = token_id_invalid;
+//     std::string               openTokenName;
+//  
+//     token_type                closeTokenId   = token_id_invalid;
+//     std::string               closeTokenName;
+
+                            case BuiltinTokenTypeParam::open    : [[fallthrough]]; // https://en.cppreference.com/w/cpp/language/attributes
                             case BuiltinTokenTypeParam::close   :
                             {
-    
-                            }
-                            break;
-    
-                            case BuiltinTokenTypeParam::position:
-                            {
-    
+                                // if (curBuiltinTokenTypeParam==BuiltinTokenTypeParam::open)
                             }
                             break;
     

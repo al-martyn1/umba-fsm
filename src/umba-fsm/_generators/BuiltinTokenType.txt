@@ -6,7 +6,8 @@ integralNumber,integral
 floatNumber,float
 operator,operatorSeq,operatorSequence
 stringLiteral,literal
-identifier
+# identifier
+keyword
 bracket
 sComment,comment,singleLineComment
 mComment,multilineComment
