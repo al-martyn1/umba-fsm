@@ -1,3 +1,38 @@
+//
+#include "char_class.h"
+//
+#include "iterator.h"
+#include "escape_string.h"
+
+//
+#include <map>
+#include <deque>
+#include <iostream>
+#include <algorithm>
+#include <unordered_map>
+#include <type_traits>
+
+//
+#include "assert.h"
+
+//
+#include "tokenizer/defs.h"
+//
+#include "tokenizer/utils.h"
+//
+#include "tokenizer/trie_builder.h"
+//
+#include "tokenizer/string_literal_parsing.h"
+//
+#include "tokenizer/tokenizer_base.h"
+//
+#include "tokenizer/tokenizer_function_handlers.h"
+//
+#include "tokenizer/tokenizer.h"
+//
+#include "tokenizer/tokenizer_builder.h"
+
+
 #if !defined(_MSVC_LANG) || _MSVC_LANG < 201402
 #endif
 

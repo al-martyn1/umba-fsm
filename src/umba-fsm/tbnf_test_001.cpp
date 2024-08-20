@@ -149,11 +149,11 @@ int main(int argc, char* argv[])
         UMBA_USED(e);
         UMBA_USED(parsedData);
         UMBA_USED(errMsg);
-   
+
         //getTokenKindString(umba::tokenizer::payload_type p)
         // printToken(oss, tokenType, b, e);
         // printToken(std::cout, tokenType, b, e);
-   
+
         return grammaParser.handleToken(tokenizer, bLineStart, tokenType, b, e, parsedData, errMsg);
     };
 
@@ -283,7 +283,7 @@ int main(int argc, char* argv[])
     {
 
         // std::cout << oss.str() << "\n";
-        //  
+        //
         // auto resultText = marty_cpp::converLfToOutputFormat("!!!"  + oss.str(), outputLinefeed);
         // auto outputFilename = umba::filename::replaceExtention(inputFilename, std::string("html"));
         // umba::filesys::writeFile(outputFilename, resultText, true /* overwrite */ );

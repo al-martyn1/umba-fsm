@@ -72,14 +72,14 @@ auto makeTokenizerBuilder()
                                    .setMultiLineComment("/*", "*/")
 
 
-                                   .addOperator("*"  , UMBA_TOKENIZER_TOKEN_OPERATOR_ANY_NUM_REPETITIONS)      // * - от нуля повторений до бесконечности
+                                   .addOperator("!"  , UMBA_TOKENIZER_TOKEN_OPERATOR_ANY_NUM_REPETITIONS)      // * - от нуля повторений до бесконечности
                                    .addOperator("+"  , UMBA_TOKENIZER_TOKEN_OPERATOR_ONE_MORE_REPETITION)      // + - от одного повторения до бесконечности
                                    .addOperator("?"  , UMBA_TOKENIZER_TOKEN_OPERATOR_ZERO_OR_ONE_REPETITIONS)  // ? - ноль или одно
 
                                    .addOperator(":"  , UMBA_TOKENIZER_TOKEN_OPERATOR_ASSIGNMENT)        // Поддерживаем три версии оператора присваивания
                                    .addOperator("="  , UMBA_TOKENIZER_TOKEN_OPERATOR_ASSIGNMENT, true)  // allow token usage for multiple sequences
                                    .addOperator("::=", UMBA_TOKENIZER_TOKEN_OPERATOR_ASSIGNMENT, true)  // allow token usage for multiple sequences
-                                   
+
                                    .addOperator("@"  , UMBA_TOKENIZER_TOKEN_OPERATOR_AT)
 
                                    .addOperator("|"  , UMBA_TOKENIZER_TOKEN_OPERATOR_BNF_ALTER)
@@ -334,7 +334,7 @@ class GrammaParser
 
 
         // IDENTIFIER
-        std::unordered_map<std::string, token_type> m = 
+        std::unordered_map<std::string, token_type> m =
         { { "", token_id_invalid }
         , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(CURLY_BRACKETS      )
         , UMBA_FSM_TBNF_GRAMMAR_PARSER_MAKE_KNOWN_TOKEN_MAP_ENTRY(CURLY_BRACKET_OPEN  )
@@ -456,7 +456,7 @@ class GrammaParser
         };
 
         return m;
-    
+
     }
 
     const std::unordered_map<std::string, token_type>& getKnownTokensMap()
@@ -520,7 +520,7 @@ class GrammaParser
     // template <typename StringType>
     // using make_string = umba::string_plus::make_string<StringType>;
 
-    
+
 
     static
     const std::unordered_map<BuiltinTokenTypeParam, std::unordered_set<payload_type> >& getBuiltinRulesAllowedParamValueTypes()
@@ -551,7 +551,7 @@ class GrammaParser
                 resStr.append(make_string<StringType>("'"));
         }
     }
-    
+
     template<typename StringType>
     StringType makeBuiltinTokenTypeStringCommaList(bool quoted=true) const
     {
@@ -635,15 +635,15 @@ class GrammaParser
         auto dataStr = typename TokenizerType::string_type(stringLiteralData.data);
         return make_string<std::string>(dataStr);
     }
-                                 
+
 
     // struct StringLiteralData
     // {
     //     std::basic_string_view<value_type>  data;
-    //  
+    //
     //     bool                 hasSuffix = false;
     //     iterator_type        suffixStartPos;
-    //  
+    //
     // }; // struct StringLiteralData
 
 
@@ -802,8 +802,8 @@ public:
                     if (!TheValue(tokenType).oneOf(UMBA_TOKENIZER_TOKEN_IDENTIFIER))
                     {
                         return reset(false, errMsg, make_string<msgt>(enum_serialize(curBuiltinTokenType)) + make_string<msgt>(": ")
-                                                  + make_string<msgt>("Expected ") + umba::tokenizer::getTokenizerTokenStr<msgt>(UMBA_TOKENIZER_TOKEN_IDENTIFIER) 
-                                                  + make_string<msgt>(", but got ") + umba::tokenizer::getTokenizerTokenStr<msgt>(tokenType) 
+                                                  + make_string<msgt>("Expected ") + umba::tokenizer::getTokenizerTokenStr<msgt>(UMBA_TOKENIZER_TOKEN_IDENTIFIER)
+                                                  + make_string<msgt>(", but got ") + umba::tokenizer::getTokenizerTokenStr<msgt>(tokenType)
                                     );
                     }
 
@@ -820,7 +820,7 @@ public:
                                     );
                     }
 
-                    // Проверяем, валидный ли параметр для 
+                    // Проверяем, валидный ли параметр для
                     const auto &c = getBuiltinRulesAllowedParams();
                     auto it = c.find(curBuiltinTokenType);
                     if (it==c.end())
@@ -889,7 +889,7 @@ public:
                                            );
                             }
                             break;
-    
+
                             case BuiltinTokenTypeParam::kind    :
                             {
                                  auto identifierData = std::get<typename TokenizerType::IdentifierData>(parsedData);
@@ -907,15 +907,15 @@ public:
                                            );
                             }
                             break;
-    
+
                             case BuiltinTokenTypeParam::prefix  :
                             {
                                  std::visit( [&](auto &v)
                                              {
                                                  using T = std::decay_t<decltype(v)>;
                                                  if constexpr ( std::is_same_v<T, BuiltinNumberLiteralInfo>
-                                                             || std::is_same_v<T, BuiltinStringLiteralInfo> 
-                                                             || std::is_same_v<T, BuiltinCommentInfo> 
+                                                             || std::is_same_v<T, BuiltinStringLiteralInfo>
+                                                             || std::is_same_v<T, BuiltinCommentInfo>
                                                               )
                                                  {
                                                      bool ci = false;
@@ -928,7 +928,7 @@ public:
                                            );
                             }
                             break;
-    
+
                             case BuiltinTokenTypeParam::suffix  :
                             {
                                  std::visit( [&](auto &v)
@@ -950,7 +950,7 @@ public:
                                            );
                             }
                             break;
-    
+
                             case BuiltinTokenTypeParam::tokenId :
                             {
                                  auto identifierData = std::get<typename TokenizerType::IdentifierData>(parsedData);
@@ -981,7 +981,7 @@ public:
                                  {
                                      return reset(false, errMsg, make_string<msgt>("Invalid 'position' value. Only 'start-only' or 'any' values allowed"));
                                  }
-    
+
                                  std::visit( [&](auto &v)
                                              {
                                                  using T = std::decay_t<decltype(v)>;
@@ -999,7 +999,7 @@ public:
                                            );
                             }
                             break;
-    
+
 
         // { { BuiltinTokenType::integralNumber   , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::base, BuiltinTokenTypeParam::prefix } }
         // , { BuiltinTokenType::floatNumber      , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::base, BuiltinTokenTypeParam::prefix } }
@@ -1009,7 +1009,7 @@ public:
         // , { BuiltinTokenType::bracket          , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::open  , BuiltinTokenTypeParam::close } }
         // , { BuiltinTokenType::sComment         , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::prefix, BuiltinTokenTypeParam::position } }
         // , { BuiltinTokenType::mComment         , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::prefix, BuiltinTokenTypeParam::suffix } }
-        //  
+        //
         // { { BuiltinTokenTypeParam::base      , { UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_DEC, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_BIN, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_OCT, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_HEX } } // только десятичный числовой литерал
         // , { BuiltinTokenTypeParam::prefix    , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
         // , { BuiltinTokenTypeParam::suffix    , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
@@ -1048,7 +1048,7 @@ public:
                                            );
                             }
                             break;
-    
+
                             case BuiltinTokenTypeParam::value   :
                             {
                                  std::visit( [&](auto &v)
@@ -1065,16 +1065,16 @@ public:
                                            );
                             }
                             break;
-    
+
 // struct BuiltinBracketInfo : public BuiltinNonTerminalInfoBase
 // {
 //     std::string               open ; // exact one char from set of (){}[]<>
 //     std::string               close; // exact one char from set of (){}[]<>
 //     //BuiltinTokenTypeParam     kind = BuiltinTokenTypeParam::invalid; // allowed values: open/close
-//  
+//
 //     token_type                openTokenId   = token_id_invalid;
 //     std::string               openTokenName;
-//  
+//
 //     token_type                closeTokenId   = token_id_invalid;
 //     std::string               closeTokenName;
 
@@ -1084,10 +1084,10 @@ public:
                                 // if (curBuiltinTokenTypeParam==BuiltinTokenTypeParam::open)
                             }
                             break;
-    
+
                             //case :
                             default: return reset(false, errMsg, make_string<msgt>("Internal error (3)"));
-                        
+
                         }
                     }
                     catch(const std::exception &e)
@@ -1113,7 +1113,7 @@ public:
     // StringType makeBuiltinTokenTypeStringCommaList()
     // StringType makeBuiltinTokenTypeParamStringCommaList(BuiltinTokenType btk)
 
-        
+
             default:
             {
                 return reset(false, errMsg, msgt("Parser state not currently handled") );
@@ -1125,7 +1125,7 @@ public:
         // getBuiltinRulesAllowedParamValueTypes()
 
         // UMBA_TOKENIZER_TOKEN_OPERATOR_ASSIGNMENT
-    
+
 
         UMBA_USED(tokenizer);
         UMBA_USED(bLineStart);
@@ -1135,7 +1135,7 @@ public:
         UMBA_USED(parsedData);
         UMBA_USED(errMsg);
 
-        return true; 
+        return true;
     }
 
 }; // class GrammaParser
@@ -1148,14 +1148,14 @@ public:
     // using tokenizer_char_type  = typename tokenizer_type::value_type;
     // using messages_string_type = typename tokenizer_type::messages_string_type;
     // using token_parsed_data    = typename tokenizer_type::token_parsed_data;
-    //  
-    //  
+    //
+    //
     // // tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::opchar); // Ничего не устанавливаем, сбрасываем opchar
     // // tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::string_literal_prefix); // По дефолту символ '<' не является маркером строкового литерала
     // // bool isStartAngleBracketIsOperator = (tokenizer.getCharClass('<') & umba::tokenizer::CharClass::opchar) != 0;
     // // bool isEndAngleBracketIsOperator   = (tokenizer.getCharClass('>') & umba::tokenizer::CharClass::opchar) != 0;
-    //  
-    //  
+    //
+    //
     // tokenizer.tokenHandler = [&]( tokenizer_type &tokenizer
     //                             , bool bLineStart, payload_type tokenType
     //                             , InputIteratorType b, InputIteratorType e

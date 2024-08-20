@@ -10,6 +10,8 @@
 #include "umba/filesys.h"
 #include "umba/tokenizer/token_filters.h"
 //
+#include "umba/tokenizer/lang/cpp.h"
+//
 #include "umba/debug_helpers.h"
 
 //
@@ -35,7 +37,7 @@
 #define USE_SIMPLE_NUMBER_SUFFIX_GLUING_FILTER
 // #define NUMBER_PRINTING_PRINT_PARSED_VALUE
 // #define PRINT_ONLY_NUMBERS
-#define USE_TRY_CATCH
+// #define USE_TRY_CATCH
 
 //#define DUPLICATE_TO_STD_OUT
 
@@ -331,55 +333,55 @@ int main(int argc, char* argv[])
 
 
 
-    payload_type numberTokenId = UMBA_TOKENIZER_TOKEN_NUMBER_USER_LITERAL_FIRST;
-
-    umba::tokenizer::CppEscapedSimpleQuotedStringLiteralParser<char>  cppEscapedSimpleQuotedStringLiteralParser;
-    umba::tokenizer::SimpleQuotedStringLiteralParser<char>            simpleQuotedStringLiteralParser;
-
-
-    auto tokenizer = TokenizerBuilder<char>().generateStandardCharClassTable()
-
-                                             .addNumbersPrefix("0b", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_BIN)
-                                             .addNumbersPrefix("0B", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_BIN)
-
-                                             .addNumbersPrefix("0d", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_DEC)
-                                             .addNumbersPrefix("0D", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_DEC)
-
-                                             .addNumbersPrefix("4x", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_QUAT)
-                                             .addNumbersPrefix("4X", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_QUAT)
-
-                                             .addNumbersPrefix("0" , numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_OCT | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_FLAG_MISS_DIGIT)
-
-                                             .addNumbersPrefix("12x", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_DUOD)
-                                             .addNumbersPrefix("12X", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_DUOD)
-
-                                             .addNumbersPrefix("0x", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_HEX)
-                                             .addNumbersPrefix("0X", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_HEX)
-
-
-                                             .addBrackets("{}", UMBA_TOKENIZER_TOKEN_CURLY_BRACKETS )
-                                             .addBrackets("()", UMBA_TOKENIZER_TOKEN_ROUND_BRACKETS )
-                                             .addBrackets("<>", UMBA_TOKENIZER_TOKEN_ANGLE_BRACKETS )
-                                             .addBrackets("[]", UMBA_TOKENIZER_TOKEN_SQUARE_BRACKETS)
-
-
-                                             .addSingleLineComment("//", UMBA_TOKENIZER_TOKEN_OPERATOR_SINGLE_LINE_COMMENT_FIRST)
-                                             .setMultiLineComment("/*", "*/")
-
-
-                                             // Операторы # и ## доступны только внутри директивы define препроцессора.
-                                             // Для этого вначале работы мы сбрасываем признак umba::tokenizer::CharClass::opchar,
-                                             // при получении маркера директивы define - устанавливаем его,
-                                             // и при окончании блока препроцессора опять сбрасываем
-                                             .addOperators(UMBA_TOKENIZER_TOKEN_OPERATOR_FIRST_GENERIC, std::vector<std::string>{".","#","##","...",".*","+","-","*","/","%","^","&","|","~","!","=","<",">","+=","-=","*=","/=","%=","^=","&=","|=","<<",">>",">>=","<<=","==","!=","<=",">=","<=>","&&","||","++","--",",","->*","->",":","::",";","?"})
-
-
-                                             .addStringLiteralParser("\'", &cppEscapedSimpleQuotedStringLiteralParser)
-                                             .addStringLiteralParser("\"", &cppEscapedSimpleQuotedStringLiteralParser)
-                                             .addStringLiteralParser("<" , &simpleQuotedStringLiteralParser)
-
-
-                                             .makeTokenizer();
+    // payload_type numberTokenId = UMBA_TOKENIZER_TOKEN_NUMBER_USER_LITERAL_FIRST;
+    //
+    // umba::tokenizer::CppEscapedSimpleQuotedStringLiteralParser<char>  cppEscapedSimpleQuotedStringLiteralParser;
+    // umba::tokenizer::SimpleQuotedStringLiteralParser<char>            simpleQuotedStringLiteralParser;
+    //
+    //
+    // auto tokenizer = TokenizerBuilder<char>().generateStandardCharClassTable()
+    //
+    //                                          .addNumbersPrefix("0b", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_BIN)
+    //                                          .addNumbersPrefix("0B", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_BIN)
+    //
+    //                                          .addNumbersPrefix("0d", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_DEC)
+    //                                          .addNumbersPrefix("0D", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_DEC)
+    //
+    //                                          .addNumbersPrefix("4x", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_QUAT)
+    //                                          .addNumbersPrefix("4X", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_QUAT)
+    //
+    //                                          .addNumbersPrefix("0" , numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_OCT | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_FLAG_MISS_DIGIT)
+    //
+    //                                          .addNumbersPrefix("12x", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_DUOD)
+    //                                          .addNumbersPrefix("12X", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_DUOD)
+    //
+    //                                          .addNumbersPrefix("0x", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_HEX)
+    //                                          .addNumbersPrefix("0X", numberTokenId++ | UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_BASE_HEX)
+    //
+    //
+    //                                          .addBrackets("{}", UMBA_TOKENIZER_TOKEN_CURLY_BRACKETS )
+    //                                          .addBrackets("()", UMBA_TOKENIZER_TOKEN_ROUND_BRACKETS )
+    //                                          .addBrackets("<>", UMBA_TOKENIZER_TOKEN_ANGLE_BRACKETS )
+    //                                          .addBrackets("[]", UMBA_TOKENIZER_TOKEN_SQUARE_BRACKETS)
+    //
+    //
+    //                                          .addSingleLineComment("//", UMBA_TOKENIZER_TOKEN_OPERATOR_SINGLE_LINE_COMMENT_FIRST)
+    //                                          .setMultiLineComment("/*", "*/")
+    //
+    //
+    //                                          // Операторы # и ## доступны только внутри директивы define препроцессора.
+    //                                          // Для этого вначале работы мы сбрасываем признак umba::tokenizer::CharClass::opchar,
+    //                                          // при получении маркера директивы define - устанавливаем его,
+    //                                          // и при окончании блока препроцессора опять сбрасываем
+    //                                          .addOperators(UMBA_TOKENIZER_TOKEN_OPERATOR_FIRST_GENERIC, std::vector<std::string>{".","#","##","...",".*","+","-","*","/","%","^","&","|","~","!","=","<",">","+=","-=","*=","/=","%=","^=","&=","|=","<<",">>",">>=","<<=","==","!=","<=",">=","<=>","&&","||","++","--",",","->*","->",":","::",";","?"})
+    //
+    //
+    //                                          .addStringLiteralParser("\'", &cppEscapedSimpleQuotedStringLiteralParser)
+    //                                          .addStringLiteralParser("\"", &cppEscapedSimpleQuotedStringLiteralParser)
+    //                                          .addStringLiteralParser("<" , &simpleQuotedStringLiteralParser)
+    //
+    //
+    //                                          .makeTokenizer();
 
 
     // auto openAngleBracketFlags = tokenizer.getCharClass('<');
@@ -436,176 +438,143 @@ int main(int argc, char* argv[])
     // }
 
 
-
-
-    std::ostringstream oss;
-    bool bOk = true;
+    auto tokenizerBuilder = umba::tokenizer::makeTokenizerBuilderCpp<char>();
+    using TokenizerBuilderType = decltype(tokenizerBuilder);
 
     //using tokenizer_type      = std::decay<decltype(tokenizer)>;
-    using tokenizer_type       = decltype(tokenizer);
+    using tokenizer_type       = typename TokenizerBuilderType::tokenizer_type;
     using InputIteratorType    = typename tokenizer_type::iterator_type;
     using tokenizer_char_type  = typename tokenizer_type::value_type;
     using messages_string_type = typename tokenizer_type::messages_string_type;
     using token_parsed_data    = typename tokenizer_type::token_parsed_data;
 
 
-    // enum State
-    // {
-    //     stNormal,
-    //     stWaitPreprocessorKeyword,
-    //     stReadPreprocessor,
-    //     stReadDefine
-    // };
 
-    std::vector<TokenInfo> bufferedTokens;
-
-
-    auto flushBufferedTokens = [&]()
-    {
-        for(const auto &ti : bufferedTokens)
-        {
-            printTokenHtml(oss, ti);
-        }
-
-        bufferedTokens.clear();
-    };
-
+    std::ostringstream oss;
+    bool bOk = true;
     bool inPreprocessor = false;
 
-    tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::opchar); // Ничего не устанавливаем, сбрасываем opchar
 
+    auto tokenHandler =     [&]( auto &tokenizer
+                               , bool bLineStart, payload_type tokenType
+                               , InputIteratorType b, InputIteratorType e
+                               , token_parsed_data parsedData // std::basic_string_view<tokenizer_char_type> parsedData
+                               , messages_string_type &errMsg
+                               ) -> bool
+                            {
+                                UMBA_USED(parsedData);
 
-    // tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::opchar); // Ничего не устанавливаем, сбрасываем opchar
-    // tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::string_literal_prefix); // По дефолту символ '<' не является маркером строкового литерала
-    // bool isStartAngleBracketOperator = (tokenizer.getCharClass('<') & umba::tokenizer::CharClass::opchar) != 0;
-    // bool isEndAngleBracketIsOperator   = (tokenizer.getCharClass('>') & umba::tokenizer::CharClass::opchar) != 0;
-
-    // Как в HTML делать раскрывающиеся фрагменты
-    // https://htmlacademy.ru/blog/html-tags/sup
-    // <details>
-    //   <summary>Заголовок</summary>
-    //   Здесь располагается скрытый контент, который будет отображен после клика по заголовку.
-    // </details>
-
-    tokenizer.tokenHandler = [&]( auto &tokenizer
-                                , bool bLineStart, payload_type tokenType
-                                , InputIteratorType b, InputIteratorType e
-                                , token_parsed_data parsedData // std::basic_string_view<tokenizer_char_type> parsedData
-                                , messages_string_type &errMsg
-                                ) -> bool
-                             {
-                                 UMBA_USED(parsedData);
-
-                                 if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_FIN)
-                                 {
-                                     return true;
-                                 }
-                                 else if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_START)
-                                 {
-                                     oss << "<span class=\"pp\">";
+                                if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_FIN)
+                                {
+                                    return true;
+                                }
+                                else if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_START)
+                                {
+                                    oss << "<span class=\"pp\">";
 #if defined(DUPLICATE_TO_STD_OUT)
-                                     std::cout << "<span class=\"pp\">";
+                                    std::cout << "<span class=\"pp\">";
 #endif
 
-                                     inPreprocessor = true;
-                                     return true;
-                                 }
-                                 else if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_END)
-                                 {
-                                     oss << "</span>";
+                                    inPreprocessor = true;
+                                    return true;
+                                }
+                                else if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_END)
+                                {
+                                    oss << "</span>";
 #if defined(DUPLICATE_TO_STD_OUT)
-                                     std::cout << "</span>";
+                                    std::cout << "</span>";
 #endif
 
-                                     // tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::opchar); // Ничего не устанавливаем, сбрасываем opchar
-                                     //
-                                     // if (isStartAngleBracketIsOperator)
-                                     // {
-                                     //     tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::opchar, umba::tokenizer::CharClass::none); // Устанавливаем признак оператора обратно
-                                     // }
-                                     // if (isEndAngleBracketIsOperator)
-                                     // {
-                                     //     tokenizer.setResetCharClassFlags('>', umba::tokenizer::CharClass::opchar, umba::tokenizer::CharClass::none); // Устанавливаем признак оператора обратно
-                                     // }
-                                     //
-                                     // tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::string_literal_prefix); // Ничего не устанавливаем, сбрасываем string_literal_prefix
-                                     // tokenizer.setResetCharClassFlags('>', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::string_literal_prefix); // Ничего не устанавливаем, сбрасываем string_literal_prefix
+                                    // tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::opchar); // Ничего не устанавливаем, сбрасываем opchar
+                                    //
+                                    // if (isStartAngleBracketIsOperator)
+                                    // {
+                                    //     tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::opchar, umba::tokenizer::CharClass::none); // Устанавливаем признак оператора обратно
+                                    // }
+                                    // if (isEndAngleBracketIsOperator)
+                                    // {
+                                    //     tokenizer.setResetCharClassFlags('>', umba::tokenizer::CharClass::opchar, umba::tokenizer::CharClass::none); // Устанавливаем признак оператора обратно
+                                    // }
+                                    //
+                                    // tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::string_literal_prefix); // Ничего не устанавливаем, сбрасываем string_literal_prefix
+                                    // tokenizer.setResetCharClassFlags('>', umba::tokenizer::CharClass::none, umba::tokenizer::CharClass::string_literal_prefix); // Ничего не устанавливаем, сбрасываем string_literal_prefix
 
-                                     inPreprocessor = false;
-                                     return true;
-                                 }
-                                 else if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_DEFINE)
-                                 {
-                                     // tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::opchar, umba::tokenizer::CharClass::none); // устанавливаем opchar, ничего не сбрасываем
-                                     // inDefine = false;
-                                     return true;
-                                 }
-                                 else if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_INCLUDE)
-                                 {
-                                     // tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::string_literal_prefix, umba::tokenizer::CharClass::opchar); // устанавливаем string_literal_prefix, сбрасываем opchar
-                                     // inDefine = false;
-                                     return true;
-                                 }
+                                    inPreprocessor = false;
+                                    return true;
+                                }
+                                else if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_DEFINE)
+                                {
+                                    // tokenizer.setResetCharClassFlags('#', umba::tokenizer::CharClass::opchar, umba::tokenizer::CharClass::none); // устанавливаем opchar, ничего не сбрасываем
+                                    // inDefine = false;
+                                    return true;
+                                }
+                                else if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_INCLUDE)
+                                {
+                                    // tokenizer.setResetCharClassFlags('<', umba::tokenizer::CharClass::string_literal_prefix, umba::tokenizer::CharClass::opchar); // устанавливаем string_literal_prefix, сбрасываем opchar
+                                    // inDefine = false;
+                                    return true;
+                                }
 
-                                 if (tokenType&UMBA_TOKENIZER_TOKEN_CTRL_FLAG)
-                                 {
-                                     return true; // Управляющий токен, не надо выводить, никакой нагрузки при нём нет
-                                 }
+                                if (tokenType&UMBA_TOKENIZER_TOKEN_CTRL_FLAG)
+                                {
+                                    return true; // Управляющий токен, не надо выводить, никакой нагрузки при нём нет
+                                }
 
 
-                                 if (tokenType==UMBA_TOKENIZER_TOKEN_IDENTIFIER)
-                                 {
-                                     auto identStr = umba::iterator::makeString(b, e);
+                                if (tokenType==UMBA_TOKENIZER_TOKEN_IDENTIFIER)
+                                {
+                                    auto identStr = umba::iterator::makeString(b, e);
 
-                                     if (!inPreprocessor)
-                                     {
-                                         if (cppKeywords.find(identStr)!=cppKeywords.end())
-                                             tokenType = UMBA_TOKENIZER_TOKEN_KEYWORD_SET1_FIRST;
-                                         // else if (cppPreprocessorKeywords.find(identStr)!=cppPreprocessorKeywords.end())
-                                         //     tokenType = UMBA_TOKENIZER_TOKEN_KEYWORD_SET2_FIRST;
-                                     }
-                                     else // preprocessor
-                                     {
-                                         // if (cppPreprocessorKeywords.find(identStr)!=cppPreprocessorKeywords.end())
-                                         //     tokenType = UMBA_TOKENIZER_TOKEN_KEYWORD_SET2_FIRST;
-                                         // else
-                                         if (cppKeywords.find(identStr)!=cppKeywords.end())
-                                             tokenType = UMBA_TOKENIZER_TOKEN_KEYWORD_SET1_FIRST;
-                                     }
-                                 }
+                                    if (!inPreprocessor)
+                                    {
+                                        if (cppKeywords.find(identStr)!=cppKeywords.end())
+                                            tokenType = UMBA_TOKENIZER_TOKEN_KEYWORD_SET1_FIRST;
+                                    }
+                                    else // preprocessor
+                                    {
+                                        if (cppKeywords.find(identStr)!=cppKeywords.end())
+                                            tokenType = UMBA_TOKENIZER_TOKEN_KEYWORD_SET1_FIRST;
+                                    }
+                                }
 
-                                 printTokenHtml(oss, tokenType, b, e);
+                                printTokenHtml(oss, tokenType, b, e);
 
-                                 if (tokenType>=UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_FIRST && tokenType<=UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_LAST)
-                                 {
-                                     oss.flush();
+                                if (tokenType>=UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_FIRST && tokenType<=UMBA_TOKENIZER_TOKEN_NUMBER_LITERAL_LAST)
+                                {
+                                    oss.flush();
 
-                                     // https://en.cppreference.com/w/cpp/utility/variant/get_if
-                                     // https://en.cppreference.com/w/cpp/utility/variant/get
-                                     if (tokenType&UMBA_TOKENIZER_TOKEN_FLOAT_FLAG)
-                                     {
-                                         auto numericLiteralData = std::get<typename tokenizer_type::FloatNumericLiteralData>(parsedData);
-                                         #if defined(NUMBER_PRINTING_PRINT_PARSED_VALUE)
-                                         oss << " " << numericLiteralData.data << " ";
-                                         if (numericLiteralData.fIntegerOverflow)
-                                             oss << "integer part overflow ";
-                                         if (numericLiteralData.fFractionalOverflow)
-                                             oss << "floating part overflow ";
-                                         #endif
-                                     }
-                                     else
-                                     {
-                                         auto numericLiteralData = std::get<typename tokenizer_type::IntegerNumericLiteralData>(parsedData);
-                                         #if defined(NUMBER_PRINTING_PRINT_PARSED_VALUE)
-                                         oss << " " << numericLiteralData.data << " ";
-                                         if (numericLiteralData.fOverflow)
-                                             oss << "overflow ";
-                                         #endif
-                                     }
-                                 }
+                                    // https://en.cppreference.com/w/cpp/utility/variant/get_if
+                                    // https://en.cppreference.com/w/cpp/utility/variant/get
+                                    if (tokenType&UMBA_TOKENIZER_TOKEN_FLOAT_FLAG)
+                                    {
+                                        auto numericLiteralData = std::get<typename tokenizer_type::FloatNumericLiteralData>(parsedData);
+                                        #if defined(NUMBER_PRINTING_PRINT_PARSED_VALUE)
+                                        oss << " " << numericLiteralData.data << " ";
+                                        if (numericLiteralData.fIntegerOverflow)
+                                            oss << "integer part overflow ";
+                                        if (numericLiteralData.fFractionalOverflow)
+                                            oss << "floating part overflow ";
+                                        #endif
+                                    }
+                                    else
+                                    {
+                                        auto numericLiteralData = std::get<typename tokenizer_type::IntegerNumericLiteralData>(parsedData);
+                                        #if defined(NUMBER_PRINTING_PRINT_PARSED_VALUE)
+                                        oss << " " << numericLiteralData.data << " ";
+                                        if (numericLiteralData.fOverflow)
+                                            oss << "overflow ";
+                                        #endif
+                                    }
+                                }
 
-                                 return true;
-                             };
+                                return true;
+                            };
+
+
+    auto tokenizer = umba::tokenizer::makeTokenizerCpp( tokenizerBuilder
+                                                      , tokenHandler
+                                                      );
+
 
     tokenizer.unexpectedHandler = [&](auto &tokenizer, InputIteratorType it, InputIteratorType itEnd, const char* srcFile, int srcLine) -> bool
                              {
@@ -636,35 +605,6 @@ int main(int argc, char* argv[])
                                  UMBA_USED(bErr); UMBA_USED(it); UMBA_USED(msg);
                              };
 
-    //
-    // auto reportPossibleUnknownOperatorLambda = [&](const PosCountingIterator b, const PosCountingIterator &e)
-    // {
-    //     cout << "Possible unknown operator: '" << makeString(b, e) << "'\n";
-    // };
-    //
-    // auto reportStringLiteralMessageLambda = [&](bool bErr, const PosCountingIterator it, const std::string msg)
-    // {
-    //     auto errPos = it.getPosition(true); // с поиском конца строки (а вообще не надо пока, но пусть)
-    //     std::string erroneousLineText = umba::iterator::makeString(it.getLineStartIterator(), it.getLineEndIterator());
-    //     cout << (bErr ? "Error: " : "Warning: ") << msg << " at " << inputFilename << ":" << umba::makeSimpleTextPositionInfoString<std::string>(errPos) << "\n";
-    //     cout << "Line:" << erroneousLineText << "\n";
-    //     auto errMarkerStr = std::string(erroneousLineText.size(), ' ');
-    //     if (errPos.symbolOffset>=errMarkerStr.size())
-    //         errMarkerStr.append(1,'^');
-    //     else
-    //         errMarkerStr[errPos.symbolOffset] = '^';
-    //     cout << "    |" << errMarkerStr << "|\n";
-    // };
-
-
-    // Фильтры, установленные позже, отрабатывают раньше
-
-    #if defined(USE_SIMPLE_NUMBER_SUFFIX_GLUING_FILTER)
-    tokenizer.installTokenFilter<umba::tokenizer::filters::SimpleSuffixGluingFilter<tokenizer_type> >();
-    #endif
-
-    tokenizer.installTokenFilter<umba::tokenizer::filters::CcPreprocessorFilter<tokenizer_type> >();
-
 
 
     if (inputFiles.empty())
@@ -686,20 +626,6 @@ int main(int argc, char* argv[])
 
         std::string text;
 
-#if 0
-        // text = "(1)";
-        // text = "    //! Оператор сравнения на равенство\n    bool operator==( const RgbQuad rq ) const\n";
-        // text = "DECIMAL_CTOR_TEST_WITH_PREC(  ((std::uint64_t)3141592654ULL), 9, \"3.141592654\" );";
-        // text = "3141592654ULL), 9, \"3.141592654\" );";
-        // text = "54ULL), 9, \"3.141592654\" );";
-        text = "4ULL), 9, \"3.141592654\" );";
-        // text = "";
-        // text = "";
-        // text = "";
-        // text = "";
-        inputFilename.clear();
-#else
-
         std::cout << "\nProcessing: '" << inputFilename << "'\n";
 
         if (!umba::filesys::readFile(inputFilename, text))
@@ -707,7 +633,7 @@ int main(int argc, char* argv[])
             std::cout << "Failed to read input file\n";
             continue;
         }
-#endif
+
         if (text.empty())
         {
             std::cout << "Input file is empty\n";
@@ -774,9 +700,11 @@ int main(int argc, char* argv[])
         }
         catch(const std::exception &e)
         {
+#if defined(DUPLICATE_TO_STD_OUT)
+                    std::cout << oss.str() << "\n";
+#endif
 
-            std::cout << oss.str() << "\n";
-
+            // !!! Inform about exception
             auto resultText = marty_cpp::converLfToOutputFormat("!!!"  + oss.str(), outputLinefeed);
             auto outputFilename = umba::filename::replaceExtention(inputFilename, std::string("html"));
             //std::cout << "Writting output to '" << outputFilename << "' - ";
