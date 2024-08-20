@@ -752,7 +752,7 @@ public:
                         case BuiltinTokenType::floatNumber      : builtinRuleInfo = BuiltinNumberLiteralInfo(BuiltinTokenType::floatNumber   ); break;
                         case BuiltinTokenType::operatorSequence : builtinRuleInfo = BuiltinOperatorInfo(BuiltinTokenType::operatorSequence); break;
                         case BuiltinTokenType::stringLiteral    : builtinRuleInfo = BuiltinStringLiteralInfo(BuiltinTokenType::stringLiteral); break;
-                        case BuiltinTokenType::identifier       : builtinRuleInfo = BuiltinKeywordInfo(BuiltinTokenType::identifier); break;
+                        case BuiltinTokenType::keyword          : builtinRuleInfo = BuiltinKeywordInfo(BuiltinTokenType::keyword); break;
                         case BuiltinTokenType::bracket          : builtinRuleInfo = BuiltinBracketInfo(BuiltinTokenType::bracket); break;
                         case BuiltinTokenType::sComment         : builtinRuleInfo = BuiltinCommentInfo(BuiltinTokenType::sComment); break;
                         case BuiltinTokenType::mComment         : builtinRuleInfo = BuiltinCommentInfo(BuiltinTokenType::mComment); break;
@@ -1001,25 +1001,28 @@ public:
                             break;
     
 
+        // { { BuiltinTokenType::integralNumber   , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::base, BuiltinTokenTypeParam::prefix } }
+        // , { BuiltinTokenType::floatNumber      , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::base, BuiltinTokenTypeParam::prefix } }
+        // , { BuiltinTokenType::operatorSequence , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::opSequence } }
+        // , { BuiltinTokenType::stringLiteral    , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::prefix, BuiltinTokenTypeParam::kind  } }
+        // , { BuiltinTokenType::keyword          , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::value } }
+        // , { BuiltinTokenType::bracket          , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::open  , BuiltinTokenTypeParam::close } }
+        // , { BuiltinTokenType::sComment         , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::prefix, BuiltinTokenTypeParam::position } }
+        // , { BuiltinTokenType::mComment         , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::prefix, BuiltinTokenTypeParam::suffix } }
+        //  
         // { { BuiltinTokenTypeParam::base      , { UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_DEC, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_BIN, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_OCT, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_HEX } } // только десятичный числовой литерал
         // , { BuiltinTokenTypeParam::prefix    , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
         // , { BuiltinTokenTypeParam::suffix    , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
         // , { BuiltinTokenTypeParam::tokenId   , { UMBA_TOKENIZER_TOKEN_IDENTIFIER /* , UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_DEC, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_BIN, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_OCT, UMBA_TOKENIZER_TOKEN_INTEGRAL_NUMBER_HEX */   } }
         // // , { BuiltinTokenTypeParam::name      , { UMBA_TOKENIZER_TOKEN_IDENTIFIER, UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
         // , { BuiltinTokenTypeParam::kind      , { UMBA_TOKENIZER_TOKEN_IDENTIFIER, UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
+        // , { BuiltinTokenTypeParam::opSequence, { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
         // , { BuiltinTokenTypeParam::value     , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
         // , { BuiltinTokenTypeParam::open      , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
         // , { BuiltinTokenTypeParam::close     , { UMBA_TOKENIZER_TOKEN_STRING_LITERAL } }
         // , { BuiltinTokenTypeParam::position  , { UMBA_TOKENIZER_TOKEN_IDENTIFIER } }
-    
-        // { { BuiltinTokenType::integralNumber   , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::base, BuiltinTokenTypeParam::prefix } }
-        // , { BuiltinTokenType::floatNumber      , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::base, BuiltinTokenTypeParam::prefix } }
-        // , { BuiltinTokenType::operatorSequence , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::sequence } }
-        // , { BuiltinTokenType::stringLiteral    , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::prefix, BuiltinTokenTypeParam::kind  } }
-        // , { BuiltinTokenType::identifier       , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::value } }
-        // , { BuiltinTokenType::bracket          , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::open  , BuiltinTokenTypeParam::close } }
-        // , { BuiltinTokenType::sComment         , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::prefix, BuiltinTokenTypeParam::position } }
-        // , { BuiltinTokenType::mComment         , { BuiltinTokenTypeParam::tokenId, BuiltinTokenTypeParam::name, BuiltinTokenTypeParam::prefix, BuiltinTokenTypeParam::suffix } }
+        // //, { BuiltinTokenTypeParam::startOnly , {} } // Это значение параметра, а не сам параметр
+        // //, { BuiltinTokenTypeParam::any       , {} }
 
 // struct BuiltinEmptyInfo
 // struct BuiltinNonTerminalInfoBase
@@ -1030,20 +1033,15 @@ public:
 // struct BuiltinKeywordInfo : public BuiltinNonTerminalInfoBase
 // struct BuiltinBracketInfo : public BuiltinNonTerminalInfoBase
 
-                            // operatorSequence
-                            case BuiltinTokenTypeParam::value   :
+                            case BuiltinTokenTypeParam::opSequence   :
                             {
                                  std::visit( [&](auto &v)
                                              {
                                                  using T = std::decay_t<decltype(v)>;
-                                                 if constexpr ( std::is_same_v<T, BuiltinOperatorInfo>
-                                                             || std::is_same_v<T, BuiltinKeywordInfo> 
-                                                              )
+                                                 if constexpr ( std::is_same_v<T, BuiltinOperatorInfo> )
                                                  {
                                                      bool ci = false;
-                                                     v.value = extractParsedStringLiteralData(ci, tokenizer, parsedData, e);
-                                                     if constexpr ( std::is_same_v<T, BuiltinKeywordInfo> )
-                                                         v.caseIndependent = ci;
+                                                     v.operatorSequence = extractParsedStringLiteralData(ci, tokenizer, parsedData, e);
                                                  }
                                              }
                                            , builtinRuleInfo
@@ -1056,13 +1054,10 @@ public:
                                  std::visit( [&](auto &v)
                                              {
                                                  using T = std::decay_t<decltype(v)>;
-                                                 if constexpr ( std::is_same_v<T, BuiltinOperatorInfo>
-                                                             || std::is_same_v<T, BuiltinKeywordInfo> 
-                                                              )
+                                                 if constexpr ( std::is_same_v<T, BuiltinKeywordInfo> )
                                                  {
                                                      bool ci = false;
                                                      v.value = extractParsedStringLiteralData(ci, tokenizer, parsedData, e);
-                                                     if constexpr ( std::is_same_v<T, BuiltinKeywordInfo> )
                                                          v.caseIndependent = ci;
                                                  }
                                              }
