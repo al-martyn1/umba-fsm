@@ -87,6 +87,7 @@ int main(int argc, char* argv[])
     }
 
     srcPath = umba::filename::makeAbsPath(srcPath);
+    srcFile = umba::filename::makeAbsPath(srcFile);
     dstPath = umba::filename::makeAbsPath(dstPath);
 
 
@@ -345,7 +346,9 @@ int main(int argc, char* argv[])
 
     std::cout << "Umba Header Copy Tool v1.0\n\n";
 
-    inputFiles.emplace_back( umba::filename::makeCanonical(umba::filename::appendPath(srcPath, srcFile)));
+    //inputFiles.emplace_back( umba::filename::makeCanonical(umba::filename::appendPath(srcPath, srcFile)));
+    //inputFiles.emplace_back( umba::filename::makeCanonical(umba::filename::makeAbsPath(srcFile, srcPath)));
+    inputFiles.emplace_back( umba::filename::makeCanonical(srcFile));
 
     std::set<std::string>   filesToCopy;
     std::set<std::string>   processedFiles;
@@ -422,7 +425,7 @@ int main(int argc, char* argv[])
         std::string relName;
         bool isRel = umba::filename::makeRelPath( relName, srcPath, f );
 
-        std::cout << (isRel?"+ ":"- ") << f << ": ";
+        std::cout << (isRel?"+ ":"- ") << f << " ";
 
         if (isRel)
         {
@@ -434,12 +437,12 @@ int main(int argc, char* argv[])
 
             if (!CopyFileA( f.c_str(), copyTo.c_str(), FALSE))
             {
-                std::cout << "  ! Failed to copy file\n";
+                std::cout << ": ! Failed to copy file\n";
             }
         }
         else
         {
-            std::cout << "file not in the source directory\n";
+            std::cout << ": ! File is not from the source directory or it's subdirs\n";
         }
     }
 
