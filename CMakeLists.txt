@@ -159,11 +159,6 @@ umba_add_target_options(tbnf_test_001 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "
 target_link_libraries(tbnf_test_001 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
-add_executable(umba-hcp "${SRC_ROOT}/umba-hcp/umba-hcp.cpp" "${headers}")
-umba_add_target_options(umba-hcp "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
-target_link_libraries(umba-hcp PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
-
-
 #https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#target-usage-requirements
 
 
