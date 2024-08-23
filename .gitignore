@@ -10,3 +10,4 @@ $*$.*
 tmp*.txt
 /tests/hcp
 /tests/*.html
+/setup_msvc.bat
