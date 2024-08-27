@@ -2,9 +2,9 @@
 
 
 
- - **umba-fsm/_generators/enums.rsp** - 
- - **umba-fsm/enums.h** - 
- - **umba-fsm/tbnf.h** - 
+ - **umba-fsm/_generators/enums.rsp** -
+ - **umba-fsm/enums.h** -
+ - **umba-fsm/tbnf.h** -
  - **umba-fsm/tbnf_test_001.cpp** - Начинаем разбор TBNF
  - **umba-fsm/test_001.cpp** - Тестируем корректность генерации индексов для таблицы CharClass по символу
  - **umba-fsm/test_002.cpp** - Генерируем CharClass таблицу
@@ -18,5 +18,5 @@
  - **umba-fsm/test_009.cpp** - Делаем для теста раскраску плюсового кода в HTML - обработка препроцессора вынесена в библиотечный класс CcPreprocessorFilter. Устаревший тест, может работать некорректно
  - **umba-fsm/test_010.cpp** - Делаем для теста раскраску плюсового кода в HTML - обработка препроцессора вынесена в библиотечный класс CcPreprocessorFilter
  - **umba-fsm/test_011.cpp** - Делаем для теста раскраску плюсового кода в HTML - обработка препроцессора вынесена в библиотечный класс CcPreprocessorFilter
- - **umba-fsm/utils.h** - 
+ - **umba-fsm/utils.h** -
 
