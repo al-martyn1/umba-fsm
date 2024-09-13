@@ -98,7 +98,7 @@ void testTraverseToken(const ContainerType &tokenTrie, const std::string &str)
         //TrieNode.tokenId
         foundPayload = tokenTrie[idx].payload;
         cout << "Backtrace: ";
-        tokenTrieBackTrace(tokenTrie, idx, [](token_type ch) { cout << std::string(1,(char)ch); });
+        tokenTrieBackTrace(tokenTrie, idx, [](token_type ch, const umba::tokenizer::TrieNode &tn) { cout << std::string(1,(char)ch); });
         cout << "\n";
     }
 

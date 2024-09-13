@@ -923,7 +923,7 @@ int main(int argc, char* argv[])
 
                         tokenTrieBackTrace( numbersTrie
                                           , numberPrefixIdx
-                                          , [&](token_type ch)
+                                          , [&](token_type ch, const umba::tokenizer::TrieNode& tn)
                                             {
                                                 if (!utils::isDigitAllowed(ch, numbersBase))
                                                     prefixIsNumber = false;
