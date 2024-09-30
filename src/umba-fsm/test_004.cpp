@@ -3,8 +3,10 @@
  */
 
 #include "umba/umba.h"
+//
 #include "umba/tokenizer.h"
 #include "umba/assert.h"
+#include "umba/app_main.h"
 
 //
 #include "umba/text_position_info.h"
@@ -52,7 +54,7 @@ void printChar(char ch)
        cout << " " << (unsigned)(unsigned char)ch;
 }
 
-int main(int argc, char* argv[])
+UMBA_MAIN()
 {
     cout << text << "\n";
 

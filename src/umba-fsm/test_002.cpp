@@ -3,11 +3,13 @@
  */
 
 #include "umba/umba.h"
+//
 #include "umba/tokenizer.h"
+#include "umba/app_main.h"
 
 
 
-int main(int argc, char* argv[])
+UMBA_MAIN()
 {
 
     umba::tokenizer::CharClass charClasses[128] = { umba::tokenizer::CharClass::none };

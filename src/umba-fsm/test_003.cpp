@@ -6,8 +6,10 @@
 // #define UMBA_TOKENIZER_NO_PAYLOAD_FLAGS
 
 #include "umba/umba.h"
+//
 #include "umba/tokenizer.h"
 #include "umba/assert.h"
+#include "umba/app_main.h"
 
 #include <iostream>
 #include <map>
@@ -166,7 +168,7 @@ std::vector<OperatorInfo> operatorInfos = { { UMBA_TOKENIZER_TOKEN_OPERATOR_LOGI
 
 
 
-int main(int argc, char* argv[])
+UMBA_MAIN()
 {
 
     umba::tokenizer::TrieBuilder trieBuilder;

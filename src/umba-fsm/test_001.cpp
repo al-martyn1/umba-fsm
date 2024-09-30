@@ -3,7 +3,9 @@
  */
 
 #include "umba/umba.h"
+//
 #include "umba/tokenizer.h"
+#include "umba/app_main.h"
 
 
 #include <iostream>
@@ -11,7 +13,7 @@
 using std::cout;
 using std::cerr;
 
-int main(int argc, char* argv[])
+UMBA_MAIN()
 {
     cout << "Character indices in CharClass table:\n";
 

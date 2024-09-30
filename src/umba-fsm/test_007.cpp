@@ -8,6 +8,7 @@
 #include "umba/assert.h"
 #include "umba/filename.h"
 #include "umba/filesys.h"
+#include "umba/app_main.h"
 //
 #include "umba/debug_helpers.h"
 
@@ -56,7 +57,7 @@ using std::cerr;
 // }
 
 
-int main(int argc, char* argv[])
+UMBA_MAIN()
 {
     // auto t1 = getCharClassTable();
     // auto t2 = getTrieVector();
@@ -74,7 +75,7 @@ int main(int argc, char* argv[])
 
     if (umba::isDebuggerPresent() || inputFilename.empty())
     {
-        std::string cwd = umba::filesys::getCurrentDirectory<std::string>();
+        std::string cwd = umba::filesys::getCurrentDirectory();
         std::cout << "Working Dir: " << cwd << "\n";
         std::string rootPath;
 

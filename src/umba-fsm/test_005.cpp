@@ -3,8 +3,10 @@
  */
 
 #include "umba/umba.h"
+//
 #include "umba/tokenizer.h"
 #include "umba/assert.h"
+#include "umba/app_main.h"
 
 //
 #include "umba/text_position_info.h"
@@ -21,7 +23,7 @@ using std::cerr;
 
 
 
-int main(int argc, char* argv[])
+UMBA_MAIN()
 {
     using namespace umba::tokenizer;
 

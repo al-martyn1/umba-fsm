@@ -5,8 +5,10 @@
 #define UMBA_TOKENISER_DISABLE_UMBA_TOKENISER_GET_CHAR_CLASS_FUNCTION
 
 #include "umba/umba.h"
+//
 #include "umba/tokeniser.h"
 #include "umba/assert.h"
+#include "umba/app_main.h"
 
 #include <iostream>
 #include <map>
@@ -233,7 +235,7 @@ std::vector<OperatorInfo> operatorInfos = { { UMBA_TOKENISER_TOKEN_OPERATOR_LOGI
 
 
 
-int main(int argc, char* argv[])
+UMBA_MAIN()
 {
 
     TrieNodesMap  trieNodesMap;
