@@ -99,64 +99,68 @@ set(JSON_YAML_LIB nlohmann_json::nlohmann_json yaml-cpp::yaml-cpp)
 # set(COMMON_UMBA_OPTIONS "BIGOBJ" "UTF8" "WALL" "WERR")
 
 
-add_executable(test_001 "${SRC_ROOT}/umba-fsm/test_001.cpp" "${headers}")
-umba_add_target_options(test_001 "BIGOBJ" "CONSOLE" "UTF8")
-target_link_libraries(test_001 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+add_executable(tokenizer_test_001 "${SRC_ROOT}/umba-fsm/tokenizer_test_001.cpp" "${headers}")
+umba_add_target_options(tokenizer_test_001 "BIGOBJ" "CONSOLE" "UTF8")
+target_link_libraries(tokenizer_test_001 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
-add_executable(test_002 "${SRC_ROOT}/umba-fsm/test_002.cpp" "${headers}")
-umba_add_target_options(test_002 "BIGOBJ" "CONSOLE" "UTF8")
-target_link_libraries(test_002 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+add_executable(tokenizer_test_002 "${SRC_ROOT}/umba-fsm/tokenizer_test_002.cpp" "${headers}")
+umba_add_target_options(tokenizer_test_002 "BIGOBJ" "CONSOLE" "UTF8")
+target_link_libraries(tokenizer_test_002 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
-add_executable(test_003 "${SRC_ROOT}/umba-fsm/test_003.cpp" "${headers}")
-umba_add_target_options(test_003 "BIGOBJ" "CONSOLE" "UTF8")
-target_link_libraries(test_003 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+add_executable(tokenizer_test_003 "${SRC_ROOT}/umba-fsm/tokenizer_test_003.cpp" "${headers}")
+umba_add_target_options(tokenizer_test_003 "BIGOBJ" "CONSOLE" "UTF8")
+target_link_libraries(tokenizer_test_003 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
-add_executable(test_004 "${SRC_ROOT}/umba-fsm/test_004.cpp" "${headers}")
-umba_add_target_options(test_004 "BIGOBJ" "CONSOLE" "UTF8")
-target_link_libraries(test_004 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+add_executable(tokenizer_test_004 "${SRC_ROOT}/umba-fsm/tokenizer_test_004.cpp" "${headers}")
+umba_add_target_options(tokenizer_test_004 "BIGOBJ" "CONSOLE" "UTF8")
+target_link_libraries(tokenizer_test_004 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
-add_executable(test_005 "${SRC_ROOT}/umba-fsm/test_005.cpp" "${headers}")
-umba_add_target_options(test_005 "BIGOBJ" "CONSOLE" "UTF8")
-target_link_libraries(test_005 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+add_executable(tokenizer_test_005 "${SRC_ROOT}/umba-fsm/tokenizer_test_005.cpp" "${headers}")
+umba_add_target_options(tokenizer_test_005 "BIGOBJ" "CONSOLE" "UTF8")
+target_link_libraries(tokenizer_test_005 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
-add_executable(test_006 "${SRC_ROOT}/umba-fsm/test_006.cpp" "${headers}")
-umba_add_target_options(test_006 "BIGOBJ" "CONSOLE" "UTF8")
-target_link_libraries(test_006 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+add_executable(tokenizer_test_006 "${SRC_ROOT}/umba-fsm/tokenizer_test_006.cpp" "${headers}")
+umba_add_target_options(tokenizer_test_006 "BIGOBJ" "CONSOLE" "UTF8")
+target_link_libraries(tokenizer_test_006 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
-add_executable(test_007 "${SRC_ROOT}/umba-fsm/test_007.cpp" "${headers}")
-umba_add_target_options(test_007 "BIGOBJ" "CONSOLE" "UTF8")
-target_link_libraries(test_007 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+add_executable(tokenizer_test_007 "${SRC_ROOT}/umba-fsm/tokenizer_test_007.cpp" "${headers}")
+umba_add_target_options(tokenizer_test_007 "BIGOBJ" "CONSOLE" "UTF8")
+target_link_libraries(tokenizer_test_007 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
-add_executable(test_008 "${SRC_ROOT}/umba-fsm/test_008.cpp" "${headers}")
-umba_add_target_options(test_008 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
-target_link_libraries(test_008 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+add_executable(tokenizer_test_008 "${SRC_ROOT}/umba-fsm/tokenizer_test_008.cpp" "${headers}")
+umba_add_target_options(tokenizer_test_008 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
+target_link_libraries(tokenizer_test_008 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
-add_executable(test_009 "${SRC_ROOT}/umba-fsm/test_009.cpp" "${headers}")
-umba_add_target_options(test_009 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
-target_link_libraries(test_009 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+add_executable(tokenizer_test_009 "${SRC_ROOT}/umba-fsm/tokenizer_test_009.cpp" "${headers}")
+umba_add_target_options(tokenizer_test_009 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
+target_link_libraries(tokenizer_test_009 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
-add_executable(test_010 "${SRC_ROOT}/umba-fsm/test_010.cpp" "${headers}")
-umba_add_target_options(test_010 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
-target_link_libraries(test_010 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+add_executable(tokenizer_test_010 "${SRC_ROOT}/umba-fsm/tokenizer_test_010.cpp" "${headers}")
+umba_add_target_options(tokenizer_test_010 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
+target_link_libraries(tokenizer_test_010 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
-add_executable(test_011 "${SRC_ROOT}/umba-fsm/test_011.cpp" "${headers}")
-umba_add_target_options(test_011 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
-target_link_libraries(test_011 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+add_executable(tokenizer_test_011 "${SRC_ROOT}/umba-fsm/tokenizer_test_011.cpp" "${headers}")
+umba_add_target_options(tokenizer_test_011 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
+target_link_libraries(tokenizer_test_011 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
 add_executable(tbnf_test_001 "${SRC_ROOT}/umba-fsm/tbnf_test_001.cpp" "${headers}")
 umba_add_target_options(tbnf_test_001 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
 target_link_libraries(tbnf_test_001 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
+
+add_executable(plantuml_test_001 "${SRC_ROOT}/umba-fsm/plantuml_test_001.cpp" "${headers}")
+umba_add_target_options(plantuml_test_001 "CONSOLE" "BIGOBJ" "UTF8" ) # "PEDANTIC" "WERR"
+target_link_libraries(plantuml_test_001 PRIVATE "${PLATFORM_LIBS}" "${COMMON_LIBS}")
 
 
 #https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#target-usage-requirements

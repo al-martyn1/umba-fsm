@@ -15,25 +15,43 @@ StringType getTokenKindString(umba::tokenizer::payload_type p)
 {
     switch(p)
     {
-        case UMBA_TOKENIZER_TOKEN_UNEXPECTED                       : return umba::string_plus::make_string<StringType>("unxp");
-        case UMBA_TOKENIZER_TOKEN_LINEFEED                         : return umba::string_plus::make_string<StringType>("");
-        case UMBA_TOKENIZER_TOKEN_SPACE                            : return umba::string_plus::make_string<StringType>("");
-        case UMBA_TOKENIZER_TOKEN_TAB                              : return umba::string_plus::make_string<StringType>("");
-        case UMBA_TOKENIZER_TOKEN_IDENTIFIER                       : return umba::string_plus::make_string<StringType>("ident");
-        case UMBA_TOKENIZER_TOKEN_SEMIALPHA                        : return umba::string_plus::make_string<StringType>("");
+        case UMBA_TOKENIZER_TOKEN_UNEXPECTED                         : return umba::string_plus::make_string<StringType>("unxp");
+        case UMBA_TOKENIZER_TOKEN_LINEFEED                           : return umba::string_plus::make_string<StringType>("");
+        case UMBA_TOKENIZER_TOKEN_SPACE                              : return umba::string_plus::make_string<StringType>("");
+        case UMBA_TOKENIZER_TOKEN_TAB                                : return umba::string_plus::make_string<StringType>("");
+        case UMBA_TOKENIZER_TOKEN_IDENTIFIER                         : return umba::string_plus::make_string<StringType>("ident");
+        case UMBA_TOKENIZER_TOKEN_SEMIALPHA                          : return umba::string_plus::make_string<StringType>("");
         // https://en.wikipedia.org/wiki/Bracket
-        case UMBA_TOKENIZER_TOKEN_CURLY_BRACKET_OPEN               : return umba::string_plus::make_string<StringType>("curly");
-        case UMBA_TOKENIZER_TOKEN_CURLY_BRACKET_CLOSE              : return umba::string_plus::make_string<StringType>("curly");
-        case UMBA_TOKENIZER_TOKEN_ROUND_BRACKET_OPEN               : return umba::string_plus::make_string<StringType>("round");
-        case UMBA_TOKENIZER_TOKEN_ROUND_BRACKET_CLOSE              : return umba::string_plus::make_string<StringType>("round");
-        case UMBA_TOKENIZER_TOKEN_ANGLE_BRACKET_OPEN               : return umba::string_plus::make_string<StringType>("angle");
-        case UMBA_TOKENIZER_TOKEN_ANGLE_BRACKET_CLOSE              : return umba::string_plus::make_string<StringType>("angle");
-        case UMBA_TOKENIZER_TOKEN_SQUARE_BRACKET_OPEN              : return umba::string_plus::make_string<StringType>("square");
-        case UMBA_TOKENIZER_TOKEN_SQUARE_BRACKET_CLOSE             : return umba::string_plus::make_string<StringType>("square");
-        case UMBA_TOKENIZER_TOKEN_OPERATOR_MULTI_LINE_COMMENT_START: return umba::string_plus::make_string<StringType>("cmnt");
-        case UMBA_TOKENIZER_TOKEN_OPERATOR_MULTI_LINE_COMMENT_END  : return umba::string_plus::make_string<StringType>("cmnt");
-        case UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_START                 : return umba::string_plus::make_string<StringType>("pp");
-        case UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_END                   : return umba::string_plus::make_string<StringType>("pp");
+        case UMBA_TOKENIZER_TOKEN_CURLY_BRACKET_OPEN                 : return umba::string_plus::make_string<StringType>("curly");
+        case UMBA_TOKENIZER_TOKEN_CURLY_BRACKET_CLOSE                : return umba::string_plus::make_string<StringType>("curly");
+        case UMBA_TOKENIZER_TOKEN_ROUND_BRACKET_OPEN                 : return umba::string_plus::make_string<StringType>("round");
+        case UMBA_TOKENIZER_TOKEN_ROUND_BRACKET_CLOSE                : return umba::string_plus::make_string<StringType>("round");
+        case UMBA_TOKENIZER_TOKEN_ANGLE_BRACKET_OPEN                 : return umba::string_plus::make_string<StringType>("angle");
+        case UMBA_TOKENIZER_TOKEN_ANGLE_BRACKET_CLOSE                : return umba::string_plus::make_string<StringType>("angle");
+        case UMBA_TOKENIZER_TOKEN_SQUARE_BRACKET_OPEN                : return umba::string_plus::make_string<StringType>("square");
+        case UMBA_TOKENIZER_TOKEN_SQUARE_BRACKET_CLOSE               : return umba::string_plus::make_string<StringType>("square");
+        case UMBA_TOKENIZER_TOKEN_OPERATOR_MULTI_LINE_COMMENT_START  : return umba::string_plus::make_string<StringType>("cmnt");
+        case UMBA_TOKENIZER_TOKEN_OPERATOR_MULTI_LINE_COMMENT_END    : return umba::string_plus::make_string<StringType>("cmnt");
+        case UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_START                   : return umba::string_plus::make_string<StringType>("pp");
+        case UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_END                     : return umba::string_plus::make_string<StringType>("pp");
+
+        case UMBA_TOKENIZER_TOKEN_OPERATOR_TRANSITION                : return umba::string_plus::make_string<StringType>("TRANSITION");
+        case UMBA_TOKENIZER_TOKEN_OPERATOR_PLANTUML_TRANSITION_DIRECTED       : return umba::string_plus::make_string<StringType>("TRANSITION_DIRECTED");
+        case UMBA_TOKENIZER_TOKEN_OPERATOR_PLANTUML_TRANSITION_DIRECTED_UP    : return umba::string_plus::make_string<StringType>("TRANSITION_DIRECTED_UP");
+        case UMBA_TOKENIZER_TOKEN_OPERATOR_PLANTUML_TRANSITION_DIRECTED_DOWN  : return umba::string_plus::make_string<StringType>("TRANSITION_DIRECTED_DOWN");
+        case UMBA_TOKENIZER_TOKEN_OPERATOR_PLANTUML_TRANSITION_DIRECTED_LEFT  : return umba::string_plus::make_string<StringType>("TRANSITION_DIRECTED_LEFT");
+        case UMBA_TOKENIZER_TOKEN_OPERATOR_PLANTUML_TRANSITION_DIRECTED_RIGHT : return umba::string_plus::make_string<StringType>("TRANSITION_DIRECTED_RIGHT");
+
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_PSEUDO_STATE                       : return umba::string_plus::make_string<StringType>("PSEUDO_STATE");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_HISTORY_STATE                      : return umba::string_plus::make_string<StringType>("HISTORY_STATE");
+
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STARTUML                           : return umba::string_plus::make_string<StringType>("STARTUML");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_ENDUML                             : return umba::string_plus::make_string<StringType>("ENDUML");
+        // case : return umba::string_plus::make_string<StringType>("");
+        // case : return umba::string_plus::make_string<StringType>("");
+        // case : return umba::string_plus::make_string<StringType>("");
+        // case : return umba::string_plus::make_string<StringType>("");
+
 
         //case : return umba::string_plus::make_string<StringType>("");
         default:
@@ -98,7 +116,7 @@ auto makeTokenText(umba::tokenizer::payload_type tokenType, umba::iterator::Text
 }
 
 template<typename StreamType, typename InputIteratorType>
-StreamType& printToken(StreamType &ss, umba::tokenizer::payload_type tokenType, InputIteratorType b, InputIteratorType e)
+StreamType& printTokenImpl(StreamType &ss, umba::tokenizer::payload_type tokenType, InputIteratorType b, InputIteratorType e)
 {
     auto kindStr   = getTokenKindString<std::string>(tokenType);
     auto tokenText = makeTokenText(tokenType, b, e);
@@ -107,8 +125,28 @@ StreamType& printToken(StreamType &ss, umba::tokenizer::payload_type tokenType, 
 
     if (!kindStr.empty())
     {
-        ss << " - " << kindStr << "\n";
+        ss << " - " << kindStr;
     }
+
+    return ss;
+}
+
+template<typename StreamType, typename InputIteratorType>
+StreamType& printToken(StreamType &ss, umba::tokenizer::payload_type tokenType, InputIteratorType b, InputIteratorType e)
+{
+    return printTokenImpl(ss, tokenType, b, e) << "\n";
+}
+
+template<typename StreamType, typename InputIteratorType>
+StreamType& printToken(StreamType &ss, umba::tokenizer::payload_type tokenType, InputIteratorType b, InputIteratorType e, bool lineStart)
+{
+    printTokenImpl(ss, tokenType, b, e);
+    if (tokenType==UMBA_TOKENIZER_TOKEN_OPERATOR_MULTI_LINE_COMMENT)
+    {
+        ss << " - lineStart: " << (lineStart?"true":"false");
+    }
+
+    ss << "\n";
 
     return ss;
 }

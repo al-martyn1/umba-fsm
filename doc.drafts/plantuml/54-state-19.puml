@@ -1,0 +1,7 @@
+@startuml
+[*] -> State1
+State1 --> State2
+note on link 
+  Это заметка об изменении состояния
+end note
+@enduml
