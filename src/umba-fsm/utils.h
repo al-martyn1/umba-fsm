@@ -208,6 +208,8 @@ void printError(StreamType &ss, const std::string &inputFilename, umba::tokenize
 {
      UMBA_USED(tokenType);
 
+     ss << "!!! ";
+
      if (it==itEnd)
      {
          ss << inputFilename << ": Unexpected end of file\n";
