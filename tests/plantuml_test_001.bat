@@ -32,4 +32,13 @@
 %TEST_PATH%\63-state-28.puml ^
 %TEST_PATH%\64-state-29.puml ^
 %TEST_PATH%\65-state-30.puml ^
-%TEST_PATH%\66-state-31.puml
+%TEST_PATH%\66-state-31.puml ^
+%TEST_PATH%\67-state-32.puml ^
+%TEST_PATH%\68-state-33.puml ^
+%TEST_PATH%\69-state-34.puml ^
+%TEST_PATH%\70-state-35.puml ^
+%TEST_PATH%\71-state-36.puml ^
+%TEST_PATH%\72-state-37.puml ^
+%TEST_PATH%\73-state-38.puml ^
+%TEST_PATH%\74-state-39.puml ^
+%TEST_PATH%\75-state-40.puml

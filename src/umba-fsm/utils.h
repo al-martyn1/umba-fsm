@@ -44,13 +44,65 @@ StringType getTokenKindString(umba::tokenizer::payload_type p)
 
         case UMBA_TOKENIZER_TOKEN_PLANTUML_PSEUDO_STATE                       : return umba::string_plus::make_string<StringType>("PSEUDO_STATE");
         case UMBA_TOKENIZER_TOKEN_PLANTUML_HISTORY_STATE                      : return umba::string_plus::make_string<StringType>("HISTORY_STATE");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_HISTORYPLUS_STATE                  : return umba::string_plus::make_string<StringType>("HISTORYPLUS_STATE");
 
         case UMBA_TOKENIZER_TOKEN_PLANTUML_STARTUML                           : return umba::string_plus::make_string<StringType>("STARTUML");
         case UMBA_TOKENIZER_TOKEN_PLANTUML_ENDUML                             : return umba::string_plus::make_string<StringType>("ENDUML");
+
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_GENERIC_TAG_START                  : return umba::string_plus::make_string<StringType>("GENERIC_TAG_START");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_GENERIC_TAG_END                    : return umba::string_plus::make_string<StringType>("GENERIC_TAG_END");
+
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_GENERIC_STEREOTYPE                 : return umba::string_plus::make_string<StringType>("GENERIC_STEREOTYPE");
+
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STEREOTYPE_FORK                    : return umba::string_plus::make_string<StringType>("STEREOTYPE_FORK");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STEREOTYPE_JOIN                    : return umba::string_plus::make_string<StringType>("STEREOTYPE_JOIN");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STEREOTYPE_CHOICE                  : return umba::string_plus::make_string<StringType>("STEREOTYPE_CHOICE");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STEREOTYPE_START                   : return umba::string_plus::make_string<StringType>("STEREOTYPE_START");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STEREOTYPE_END                     : return umba::string_plus::make_string<StringType>("STEREOTYPE_END");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STEREOTYPE_ENTRYPOINT              : return umba::string_plus::make_string<StringType>("STEREOTYPE_ENTRYPOINT");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STEREOTYPE_EXITPOINT               : return umba::string_plus::make_string<StringType>("STEREOTYPE_EXITPOINT");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STEREOTYPE_INPUTPIN                : return umba::string_plus::make_string<StringType>("STEREOTYPE_INPUTPIN");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STEREOTYPE_OUTPUTPIN               : return umba::string_plus::make_string<StringType>("STEREOTYPE_OUTPUTPIN");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STEREOTYPE_EXPANSIONINPUT          : return umba::string_plus::make_string<StringType>("STEREOTYPE_EXPANSIONINPUT");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STEREOTYPE_EXPANSIONOUTPUT         : return umba::string_plus::make_string<StringType>("STEREOTYPE_EXPANSIONOUTPUT");
+
+        case UMBA_TOKENIZER_TOKEN_OPERATOR_PLANTUML_HSPLIT                    : return umba::string_plus::make_string<StringType>("HSPLIT");
+        case UMBA_TOKENIZER_TOKEN_OPERATOR_PLANTUML_VSPLIT                    : return umba::string_plus::make_string<StringType>("VSPLIT");
+
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STATE                              : return umba::string_plus::make_string<StringType>("STATE"      );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_HIDE                               : return umba::string_plus::make_string<StringType>("HIDE"       );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_EMPTY                              : return umba::string_plus::make_string<StringType>("EMPTY"      );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_DESCRIPTION                        : return umba::string_plus::make_string<StringType>("DESCRIPTION");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_SCALE                              : return umba::string_plus::make_string<StringType>("SCALE"      );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_WIDTH                              : return umba::string_plus::make_string<StringType>("WIDTH"      );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_HEIGHT                             : return umba::string_plus::make_string<StringType>("HEIGHT"     );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_AS                                 : return umba::string_plus::make_string<StringType>("AS"         );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_NOTE                               : return umba::string_plus::make_string<StringType>("NOTE"       );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_ON                                 : return umba::string_plus::make_string<StringType>("ON"         );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_END                                : return umba::string_plus::make_string<StringType>("END"        );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_OF                                 : return umba::string_plus::make_string<StringType>("OF"         );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_UP                                 : return umba::string_plus::make_string<StringType>("UP"         );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_DOWN                               : return umba::string_plus::make_string<StringType>("DOWN"       );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_LEFT                               : return umba::string_plus::make_string<StringType>("LEFT"       );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_RIGHT                              : return umba::string_plus::make_string<StringType>("RIGHT"      );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_DASHED                             : return umba::string_plus::make_string<StringType>("DASHED"     );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_DOTTED                             : return umba::string_plus::make_string<StringType>("DOTTED"     );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_BOLD                               : return umba::string_plus::make_string<StringType>("BOLD"       );
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_ITALIC                             : return umba::string_plus::make_string<StringType>("ITALIC"     );
+
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STYLE_TAG_START                    : return umba::string_plus::make_string<StringType>("STYLE_TAG_START");
+        case UMBA_TOKENIZER_TOKEN_PLANTUML_STYLE_TAG_END                      : return umba::string_plus::make_string<StringType>("STYLE_TAG_END  ");
+
+
+
         // case : return umba::string_plus::make_string<StringType>("");
         // case : return umba::string_plus::make_string<StringType>("");
         // case : return umba::string_plus::make_string<StringType>("");
         // case : return umba::string_plus::make_string<StringType>("");
+        // case : return umba::string_plus::make_string<StringType>("");
+        // case : return umba::string_plus::make_string<StringType>("");
+
+
 
 
         //case : return umba::string_plus::make_string<StringType>("");
