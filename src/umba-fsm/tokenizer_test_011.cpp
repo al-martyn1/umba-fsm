@@ -20,8 +20,6 @@
 #include "umba/iterator.h"
 #include "umba/the.h"
 //
-#include "utils.h"
-//
 #include "marty_cpp/src_normalization.h"
 //
 
@@ -41,6 +39,13 @@
 // #define USE_TRY_CATCH
 
 //#define DUPLICATE_TO_STD_OUT
+
+
+#include "utils.h"
+//
+
+
+
 
 
 
@@ -96,162 +101,14 @@ VSCode statements AF00DB
 
 */
 
-auto cssStyle = R"--(
-
-body {
-  color:#1F377F;
-}
-
-.unxp{
-}
-
-.ident{
-}
-
-/********************/
-.curly{
-  color:black;
-}
-
-.round{
-  color:black;
-}
-
-.angle{
-  color:black;
-}
-
-.square{
-  color:black;
-}
-
-.op{
-  color:black;
-  /* font-weight: bold; */
-}
-
-/********************/
-.pp{
-  color:green;
-}
-
-/********************/
-.pp .curly{
-  /*color:#004400;*/
-  /*color:#003F00;*/
-  color:#004200;
-}
-
-.pp .round{
-  color:#004200;
-}
-
-.pp .angle{
-  color:#004200;
-}
-
-.pp .square{
-  color:#004200;
-}
-
-.pp .op{
-  color:#004200;
-}
-
-.pp .num{
-  color:#006400; /* #004200 */
-}
-
-.pp .kwd1{
-  color:#006400; /* #004200 */
-}
-
-.pp .kwd1{
-  color:#006400; /* #004200 */
-}
-
-.pp .cmnt{
-  color:#79AF79;
-}
-
-/********************/
-.cmnt{
-  //color:olive;
-  color:#808080;
-  font-style: italic;
-}
-
-.num{
-  /* color:DarkRed; */
-  /*color:#7A0000;*/
-  color:#6A0000;
-}
-
-.str{
-  /* color:Red; */
-  color:#E21F1F;
-}
-
-.kwd1{
-  color:blue;
-}
-
-.kwd2{
-  color:green;
-  font-weight: bold;
-
-}
-
-)--";
-
-// .pp .str{
-//   /*color:#E2831F;*/
-//   color:#D3783F;
-// }
-//
+#include "css_style.h"
 
 
-
-struct TokenInfo
-{
-    umba::tokenizer::payload_type                        tokenType;
-    umba::iterator::TextPositionCountingIterator<char>   b;
-    umba::iterator::TextPositionCountingIterator<char>   e;
-};
 
 
 std::string inputFilename;
 
 
-template<typename StreamType, typename InputIteratorType>
-StreamType& printTokenHtml(StreamType &ss, umba::tokenizer::payload_type tokenType, InputIteratorType b, InputIteratorType e)
-{
-    auto kindStr   = getTokenKindString<std::string>(tokenType);
-    auto tokenText = makeTokenText(tokenType, b, e);
-    if (kindStr.empty())
-    {
-        ss << umba::escapeStringXmlHtml(tokenText);
-#if defined(DUPLICATE_TO_STD_OUT)
-        std::cout << umba::escapeStringXmlHtml(tokenText);
-#endif
-    }
-    else
-    {
-        ss << "<span class=\"" << kindStr << "\">" << umba::escapeStringXmlHtml(tokenText) << "</span>";
-#if defined(DUPLICATE_TO_STD_OUT)
-        std::cout << "<span class=\"" << kindStr << "\">" << umba::escapeStringXmlHtml(tokenText) << "</span>";
-#endif
-    }
-
-    return ss;
-}
-
-template<typename StreamType>
-StreamType& printTokenHtml(StreamType &ss, const TokenInfo &ti)
-{
-    return printTokenHtml(ss, ti.tokenType, ti.b, ti.e);
-
-}
 
 
 
@@ -390,10 +247,9 @@ UMBA_MAIN()
                             {
                                 UMBA_USED(parsedData);
 
-                                if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_FIN)
-                                {
+                                if (tokenType==UMBA_TOKENIZER_TOKEN_RST || tokenType==UMBA_TOKENIZER_TOKEN_CTRL_FIN)
                                     return true;
-                                }
+
                                 else if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_START)
                                 {
                                     oss << "<span class=\"pp\">";

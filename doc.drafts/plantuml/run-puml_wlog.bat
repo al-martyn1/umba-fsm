@@ -1,0 +1,1 @@
+@call %~dp0run-puml.bat >run-puml.log 2>&1

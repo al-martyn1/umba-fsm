@@ -1,0 +1,1 @@
+@call plantuml_test_001_txt.bat > plantuml_test_001_txt.log 2>&1

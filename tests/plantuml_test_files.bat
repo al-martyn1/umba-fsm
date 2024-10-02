@@ -1,5 +1,8 @@
 @set TEST_PATH=%~dp0..\doc.drafts\plantuml
 @set PLANTUML_TEST_FILES=^
+%TEST_PATH%\boost_sample_001_no_uml_name.puml ^
+%TEST_PATH%\boost_sample_001_org.puml ^
+%TEST_PATH%\plantuml_to_fsm_tree_generator.puml ^
 %TEST_PATH%\36-state-01.puml ^
 %TEST_PATH%\37-state-02.puml ^
 %TEST_PATH%\38-state-03.puml ^
@@ -41,3 +44,4 @@
 %TEST_PATH%\74-state-39.puml ^
 %TEST_PATH%\75-state-40.puml
 
+@rem %TEST_PATH%\plantuml_to_fsm_tree_generator.puml

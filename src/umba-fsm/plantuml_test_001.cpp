@@ -36,52 +36,14 @@
 
 
 
-
+#include "css_style.h"
 
 using std::cout;
 using std::cerr;
 
 
-
-
-
-
-
-// struct TokenInfo
-// {
-//     umba::tokenizer::payload_type                        tokenType;
-//     umba::iterator::TextPositionCountingIterator<char>   b;
-//     umba::iterator::TextPositionCountingIterator<char>   e;
-// };
-
-
+bool highLightMode = false;
 std::string inputFilename;
-
-
-// template<typename StreamType, typename InputIteratorType>
-// StreamType& printToken(StreamType &ss, umba::tokenizer::payload_type tokenType, InputIteratorType b, InputIteratorType e)
-// {
-//     auto kindStr   = getTokenKindString<std::string>(tokenType);
-//     auto tokenText = makeTokenText(tokenType, b, e);
-//     if (kindStr.empty())
-//     {
-//         ss << tokenText << "\n";
-//     }
-//     else
-//     {
-//         ss << kindStr << ": " << tokenText << "\n";
-//     }
-//  
-//     return ss;
-// }
-
-// template<typename StreamType>
-// StreamType& printTokenHtml(StreamType &ss, const TokenInfo &ti)
-// {
-//     return printTokenHtml(ss, ti.tokenType, ti.b, ti.e);
-//  
-// }
-
 
 
 
@@ -144,20 +106,10 @@ UMBA_MAIN()
 
         inputFiles.clear();
 
-        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/preprocessor.h")));
-        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/the.h")));
-        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/stl_keil_initializer_list.h")));
-        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/stl_keil_type_traits.h")));
-        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/string_plus.h")));
-        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/rgbquad.h")));
-
-        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/umba/")));
-
-        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("_libs/marty_decimal/tests/src/regression_tests.cpp")));
-
-        // inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("tests/tokenizer/number_ull.cpp")));
-
-        inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("tests/suffix_gluing_sample.h")));
+        //inputFiles.emplace_back(umba::filename::appendPath(rootPath, std::string("tests/suffix_gluing_sample.h")));
+        inputFiles.emplace_back("C:\\work\\github\\umba-tools\\umba-fsm\\tests\\..\\doc.drafts\\plantuml\\plantuml_to_fsm_tree_generator.puml");
+        inputFiles.emplace_back("C:\\work\\github\\umba-tools\\umba-fsm\\tests\\..\\doc.drafts\\plantuml\\36-state-01.puml");
+        
     }
 
 
@@ -173,8 +125,8 @@ UMBA_MAIN()
 
 
 
-    //std::ostringstream oss;
-    auto &oss = std::cout;
+    std::ostringstream oss;
+    //auto &oss = std::cout;
     bool bOk = true;
     bool inPreprocessor = false;
 
@@ -192,7 +144,14 @@ UMBA_MAIN()
                                     return true;
                                 }
 
-                                printToken(oss, tokenType, b, e, bLineStart);
+                                if (highLightMode)
+                                {
+                                    printTokenHtml(oss, tokenType, b, e);
+                                }
+                                else
+                                {
+                                    printToken(oss, tokenType, b, e, bLineStart);
+                                }
                                 return true;
                             };
 
@@ -238,6 +197,104 @@ UMBA_MAIN()
     {
         inputFilename = fn;
 
+        if (inputFilename=="--")
+        {
+            highLightMode = !highLightMode;
+            continue;
+        }
+
+        std::string text;
+
+        std::cout << "\nProcessing: '" << inputFilename << "'\n";
+
+        if (!umba::filesys::readFile(inputFilename, text))
+        {
+            std::cout << "Failed to read input file\n";
+            continue;
+        }
+
+        if (text.empty())
+        {
+            std::cout << "Input file is empty\n";
+            continue;
+        }
+
+        if (text.back()!='\n' && text.back()!='\r')
+        {
+            std::cout << "Warning: no linefeed at end of file\n";
+        }
+
+        oss = std::ostringstream();
+        bOk = true;
+
+        if (highLightMode)
+            oss<<"<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"utf-8\"/>\n<style>\n" << cssStyle << "\n</style>\n</head>\n<body>\n<pre>\n";
+
+#if defined(USE_TRY_CATCH)
+        try
+        {
+#endif
+            auto itBegin = InputIteratorType(text.data(), text.size());
+            auto itEnd   = InputIteratorType();
+            tokenizer.tokenizeInit();
+            InputIteratorType it = itBegin;
+            for(; it!=itEnd && bOk; ++it)
+            {
+                if (!tokenizer.tokenize(it, itEnd))
+                {
+                    bOk = false;
+                }
+            }
+
+            if (bOk)
+            {
+                bOk = tokenizer.tokenizeFinalize(itEnd);
+            }
+
+            //if (bOk)
+            {
+                if (highLightMode)
+                    oss<<"</pre>\n</body>\n</html>\n";
+
+                if (inputFilename.empty())
+                {
+                    std::cout << oss.str() << "\n";
+                }
+                else
+                {
+#if defined(DUPLICATE_TO_STD_OUT)
+                    std::cout << oss.str() << "\n";
+#endif
+                    auto resultText = marty_cpp::converLfToOutputFormat(oss.str(), outputLinefeed);
+                    auto outputFilename = umba::filename::replaceExtention(inputFilename, std::string((highLightMode?"html":"txt")) );
+                    std::cout << "Writting output to '" << outputFilename << "' - ";
+                    if (!umba::filesys::writeFile(outputFilename, resultText, true /* overwrite */ ))
+                        std::cout << "Failed";
+                    else
+                        std::cout << "Success";
+                    std::cout << "\n";
+                }
+
+            }
+
+#if defined(USE_TRY_CATCH)
+        }
+        catch(const std::exception &e)
+        {
+#if defined(DUPLICATE_TO_STD_OUT)
+                    std::cout << oss.str() << "\n";
+#endif
+
+            // !!! Inform about exception
+            auto resultText = marty_cpp::converLfToOutputFormat("!!!"  + oss.str(), outputLinefeed);
+            auto outputFilename = umba::filename::replaceExtention(inputFilename, std::string("html"));
+            umba::filesys::writeFile(outputFilename, resultText, true /* overwrite */ );
+
+            std::cout << "!!!\n";
+        }
+#endif
+
+        #if 0
         std::string text;
 
         std::cout << "\nProcessing: '" << inputFilename << "'\n";
@@ -321,6 +378,7 @@ UMBA_MAIN()
         }
 
         oss << "---------" << "\n";
+        #endif
 
     }
 

@@ -196,6 +196,9 @@ UMBA_MAIN()
 
     tokenizer.tokenHandler = [&](auto &tokenizer, bool bLineStart, payload_type tokenType, InputIteratorType b, InputIteratorType e, token_parsed_data parsedData, messages_string_type &errMsg) -> bool
                              {
+                                 if (tokenType==UMBA_TOKENIZER_TOKEN_RST || tokenType==UMBA_TOKENIZER_TOKEN_CTRL_FIN)
+                                     return true;
+
                                  using namespace umba::iterator;
 
                                  auto curPos = b.getPosition(); // Выводим позицию начала токена

@@ -1,0 +1,1 @@
+@if exist *.png @del /Q *.png
