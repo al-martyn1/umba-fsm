@@ -187,16 +187,16 @@ UMBA_MAIN()
 
 // using PosCountingIterator = umba::iterator::TextPositionCountingIterator<char>;
 
-    //using tokenizer_type      = std::decay<decltype(tokenizer)>;
-    using tokenizer_type       = decltype(tokenizer);
-    using InputIteratorType    = typename tokenizer_type::iterator_type;
-    using tokenizer_char_type  = typename tokenizer_type::value_type;
-    using messages_string_type = typename tokenizer_type::messages_string_type;
-    using token_parsed_data    = typename tokenizer_type::token_parsed_data;
+    //using tokenizer_type        = std::decay<decltype(tokenizer)>;
+    using tokenizer_type         = decltype(tokenizer);
+    using InputIteratorType      = typename tokenizer_type::iterator_type;
+    using tokenizer_char_type    = typename tokenizer_type::value_type;
+    using messages_string_type   = typename tokenizer_type::messages_string_type;
+    using token_parsed_data_type = typename tokenizer_type::token_parsed_data_type;
 
-    tokenizer.tokenHandler = [&](auto &tokenizer, bool bLineStart, payload_type tokenType, InputIteratorType b, InputIteratorType e, token_parsed_data parsedData, messages_string_type &errMsg) -> bool
+    tokenizer.tokenHandler = [&](auto &tokenizer, bool bLineStart, payload_type tokenType, InputIteratorType b, InputIteratorType e, token_parsed_data_type parsedData, messages_string_type &errMsg) -> bool
                              {
-                                 if (tokenType==UMBA_TOKENIZER_TOKEN_RST || tokenType==UMBA_TOKENIZER_TOKEN_CTRL_FIN)
+                                 if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_RST || tokenType==UMBA_TOKENIZER_TOKEN_CTRL_FIN)
                                      return true;
 
                                  using namespace umba::iterator;

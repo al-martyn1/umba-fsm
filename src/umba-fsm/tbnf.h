@@ -611,7 +611,7 @@ class GrammaParser
 
     template<typename TokenizerType>
     static
-    std::string extractParsedStringLiteralData(bool &caseIndependent, TokenizerType &tokenizer, const typename TokenizerType::token_parsed_data &parsedData, typename TokenizerType::iterator_type itEnd)
+    std::string extractParsedStringLiteralData(bool &caseIndependent, TokenizerType &tokenizer, const typename TokenizerType::token_parsed_data_type &parsedData, typename TokenizerType::iterator_type itEnd)
     {
         UMBA_USED(tokenizer);
 
@@ -660,7 +660,7 @@ public:
     bool handleToken( TokenizerType &tokenizer
                     , bool bLineStart, payload_type tokenType
                     , typename TokenizerType::iterator_type b, typename TokenizerType::iterator_type e
-                    , const typename TokenizerType::token_parsed_data &parsedData // std::basic_string_view<tokenizer_char_type> parsedData
+                    , const typename TokenizerType::token_parsed_data_type &parsedData // std::basic_string_view<tokenizer_char_type> parsedData
                     , typename TokenizerType::messages_string_type &errMsg
                     )
     {

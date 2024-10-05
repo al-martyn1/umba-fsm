@@ -235,12 +235,12 @@ UMBA_MAIN()
     std::ostringstream oss;
     bool bOk = true;
 
-    //using tokenizer_type      = std::decay<decltype(tokenizer)>;
-    using tokenizer_type       = decltype(tokenizer);
-    using InputIteratorType    = typename tokenizer_type::iterator_type;
-    using tokenizer_char_type  = typename tokenizer_type::value_type;
-    using messages_string_type = typename tokenizer_type::messages_string_type;
-    using token_parsed_data    = typename tokenizer_type::token_parsed_data;
+    //using tokenizer_type        = std::decay<decltype(tokenizer)>;
+    using tokenizer_type         = decltype(tokenizer);
+    using InputIteratorType      = typename tokenizer_type::iterator_type;
+    using tokenizer_char_type    = typename tokenizer_type::value_type;
+    using messages_string_type   = typename tokenizer_type::messages_string_type;
+    using token_parsed_data_type = typename tokenizer_type::token_parsed_data_type;
 
 
     // enum State
@@ -281,13 +281,13 @@ UMBA_MAIN()
     tokenizer.tokenHandler = [&]( auto &tokenizer
                                 , bool bLineStart, payload_type tokenType
                                 , InputIteratorType b, InputIteratorType e
-                                , token_parsed_data parsedData // std::basic_string_view<tokenizer_char_type> parsedData
+                                , token_parsed_data_type parsedData // std::basic_string_view<tokenizer_char_type> parsedData
                                 , messages_string_type &errMsg
                                 ) -> bool
                              {
                                  UMBA_USED(parsedData);
 
-                                 if (tokenType==UMBA_TOKENIZER_TOKEN_RST || tokenType==UMBA_TOKENIZER_TOKEN_CTRL_FIN)
+                                 if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_RST || tokenType==UMBA_TOKENIZER_TOKEN_CTRL_FIN)
                                      return true;
 
                                  else if (tokenType==UMBA_TOKENIZER_TOKEN_CTRL_CC_PP_START)
