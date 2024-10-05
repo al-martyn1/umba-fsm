@@ -7,6 +7,7 @@
 @call :DO_GIT_JOB %1 %~dp0\nlohmann
 @call :DO_GIT_JOB %1 %~dp0\sfmt
 @call :DO_GIT_JOB %1 %~dp0\umba
+@call :DO_GIT_JOB %1 %~dp0\umba_tokenizer
 @call :DO_GIT_JOB %1 %~dp0\yaml-cpp
 
 

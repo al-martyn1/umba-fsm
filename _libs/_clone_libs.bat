@@ -33,5 +33,6 @@ git clone --recurse-submodules %PREFIX%/marty_yaml_toml_json.git    %~dp0\marty_
 git clone --recurse-submodules %PREFIX%/forks-nlohmann-json.git     %~dp0\nlohmann
 git clone --recurse-submodules %PREFIX%/umba_mm_mod_sfmt.git        %~dp0\sfmt
 git clone --recurse-submodules %PREFIX%/umba_mm_mod_umba.git        %~dp0\umba
+@git clone --recurse-submodules %PREFIX%/umba_tokenizer.git         %~dp0\umba_tokenizer
 git clone --recurse-submodules %PREFIX%/forks-jbeder-yaml-cpp.git   %~dp0\yaml-cpp
 
