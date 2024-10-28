@@ -13,6 +13,20 @@ exit /B 1
 :PLANTUML_FOUND
 @set RUN_CMD=%JAVA_HOME%\bin\java.exe -jar %PLANTUML_JAR% -charset utf8
 
+%RUN_CMD% balancing1.puml
+exit /B 0
+%RUN_CMD% balancing2.puml
+
+
+%RUN_CMD% emoji-1F3.puml
+%RUN_CMD% emoji-1F4.puml
+%RUN_CMD% emoji-1F5.puml
+%RUN_CMD% emoji-1F6.puml
+%RUN_CMD% emoji-1F9.puml
+%RUN_CMD% emoji-26.puml
+%RUN_CMD% emoji-27.puml
+
+
 %RUN_CMD% plantuml_to_fsm_tree_generator.puml
 
 %RUN_CMD% 01-sequenceDiagram.puml

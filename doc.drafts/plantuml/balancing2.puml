@@ -1,0 +1,7 @@
+@startuml
+' Диаграмма деятельности (активности) - https://plantuml.com/ru/activity-diagram-beta
+' Creole синтаксис - https://plantuml.com/ru/creole
+start
+
+@enduml
+
