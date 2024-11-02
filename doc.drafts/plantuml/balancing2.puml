@@ -1,7 +1,121 @@
 @startuml
+
 ' Диаграмма деятельности (активности) - https://plantuml.com/ru/activity-diagram-beta
 ' Creole синтаксис - https://plantuml.com/ru/creole
+' Creole Emoji - https://plantuml.com/ru/creole#68305e25f5788db0
+'     Unicode block 26: 83 emoji   - https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuKhDpS_AL30out98pKi12W00
+'     Unicode block 27: 33 emoji   - https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuKhDpS_AL30ovt98pKi12W00
+'     Unicode block 1F5: 136 emoji - https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuKhDpS_AL31qC-LoICrB0Oe00000
+' <:zap:> - молния, символ зарядки - пошел заряд по трубам
+' <:warning:> - треугольник с '!' внутри - какое-то предупреждение
+' <:recycle:> / <:heavy_check_mark:> - Выключение
+' <:penguin:> - linux
+' <:on:> - включение
+' <:heavy_check_mark:>
+' Unicode Power Symbol - https://unicodepowersymbol.com/
+'   PlatUML не поддерживает их
+'     Power Off - &#x2B58;
+'
+' Итого, используем:
+'   <:zap:> - включение зарядки
+'   <:on:>  - включение чего-либо, например, балансировки
+'   <:recycle:> - какой-то релакс, выключение чего-либо, например, зарядки или балансировки
+'   <:heavy_check_mark:> - продолжение совершающегося действия
+'
+'----------------------------------------------------------------------------
 start
 
+note right
+Условные обозначения
+----
+<:zap:> - Включение заряда
+<:on:>  - Включение балансировки
+<:recycle:> - Выключение заряда или балансировки
+<:heavy_check_mark:> - Продолжение совершающегося действия
+end note
+
+'note right
+'  Эта заметка длиной в
+'  //несколько строчек//
+'  и может содержать
+'  в себе <b>HTML</b> теги
+'  и creole синтаксис
+'  ====
+'  * Вызов метода ""foo()"" запрещен
+'end note
+'
+
+'----------------------------------------------------------------------------
+:Инициализация начальных условий
+----
+I<sub>ЗарMin</sub> = 0.05 А - минимальный ток заряда (настр.)
+I<sub>Зар</sub> = текущий ток заряда
+t<sub>Авар</sub> = 60 С (настр.)
+t<sub>Мод</sub> = температура модуля (общая)
+t<sub>Bat</sub> = температура ячейки
+U<sub>Max</sub> = 3.65 B - верхний порог балансировки (настр.)
+U<sub>Min</sub> = 3.45 В - нижний порог балансировки (настр.)
+dU<sub>Max</sub> = 5 мВ (0 мВ ?) (настр.)
+dU<sub>Min</sub> = 100 мВ (35 мВ ?) (настр.)
+U<sub>BatMin</sub> = минимальное из напряжений на ячейках (модуля или системы)
+U<sub>Bat</sub> = текущее напряжение на ячейке
+;
+
+'----------------------------------------------------------------------------
+if (U<sub>Bat</sub> > (U<sub>max</sub>+dU<sub>max</sub>)) then (да)
+    :<:recycle:> Выключаем
+    балансировку ячейки;
+else (нет)
+    if (I<sub>Зар</sub> > I<sub>ЗарMin</sub> && \nU<sub>Bat</sub> > U<sub>Min</sub> && \nU<sub>Bat</sub> > (U<sub>BatMin</sub>+dU<sub>Max</sub>) && \nt<sub>Мод</sub> < t<sub>Авар</sub>) then (да)
+        :<:on:> Включаем
+        балансировку ячейки;
+    endif
+    
+    if (I<sub>Зар</sub> < I<sub>ЗарMin</sub> || \nU<sub>Bat</sub> < U<sub>BatMin</sub> || \nU<sub>Bat</sub> < U<sub>Min</sub> )
+        :<:recycle:> Выключаем
+        балансировку ячейки;
+    endif
+endif
+
+
+
+/'
+if (U<sub>Bat</sub> <= U<sub>min</sub>) then (да)
+    :<:recycle:> Выключаем
+    балансировку ячейки;
+elseif (U<sub>Bat</sub> > (U<sub>max</sub>+dU<sub>max</sub>)) then (да)
+    :<:on:> Включаем
+    балансировку ячейки;
+else (нет)
+    if (Ячейка уже балансируется?) then (да)
+  	    if (U<sub>Bat</sub> <= U<sub>BatMin</sub>) then (да)
+            :<:recycle:> Выключаем
+            балансировку ячейки;
+        else (нет)
+            :<:heavy_check_mark:> Балансировка
+            ячейки продолжается;
+        endif  
+    else (нет)
+        if (U<sub>Bat</sub> > (U<sub>BatMin</sub> + dU<sub>min</sub>)) then (да)
+            :<:on:> Включаем
+            балансировку ячейки;
+        else (нет)
+            :<:heavy_check_mark:> Балансировка
+            ячейки не производится;
+        endif
+    endif
+endif
+'/
+
+
+/'
+  if () then (да)
+  else (нет)
+  endif
+'/
+
+
+stop
 @enduml
+
 
