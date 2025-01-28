@@ -240,9 +240,9 @@ UMBA_MAIN()
         auto pILiteralParserCppEscpdSmpQtdStr = static_cast<umba::tokenizer::ITokenizerLiteralParser<char>* >(&cppEscapedSimpleQuotedStringLiteralParser);
 
         literalsTrieBuilder.addTokenSequence("\'", UMBA_TOKENIZER_TOKEN_CHAR_LITERAL  )
-            .payloadExtra = reinterpret_cast<umba::tokenizer::payload_type>(pILiteralParserCppEscpdSmpQtdStr);
+            .payloadExtra = reinterpret_cast<UMBA_TOKENIZER_PAYLOAD_FLAGS_TYPE>(pILiteralParserCppEscpdSmpQtdStr);
         literalsTrieBuilder.addTokenSequence("\"", UMBA_TOKENIZER_TOKEN_STRING_LITERAL)
-            .payloadExtra = reinterpret_cast<umba::tokenizer::payload_type>(pILiteralParserCppEscpdSmpQtdStr);
+            .payloadExtra = reinterpret_cast<UMBA_TOKENIZER_PAYLOAD_FLAGS_TYPE>(pILiteralParserCppEscpdSmpQtdStr);
     }
 
 

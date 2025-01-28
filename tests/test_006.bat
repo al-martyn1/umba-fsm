@@ -1,4 +1,4 @@
-@call %~dp0\..\.bat\find-exe-in-out.bat test_006
+@call %~dp0\..\.bat\find-exe-in-out.bat tokenizer_test_006
 @echo FOUND_EXE: %FOUND_EXE%
 @set TEST_EXE=%FOUND_EXE%
 @set LIB_ROOT=%~dp0\..\_libs
