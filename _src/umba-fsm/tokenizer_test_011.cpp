@@ -311,9 +311,9 @@ UMBA_MAIN()
                                     // https://en.cppreference.com/w/cpp/utility/variant/get
                                     if (tokenType&UMBA_TOKENIZER_TOKEN_FLOAT_FLAG)
                                     {
-                                        auto numericLiteralData = std::get<typename tokenizer_type::FloatNumericLiteralData>(parsedData);
+                                        auto numericLiteralData = std::get<typename tokenizer_type::FloatNumericLiteralDataHolder>(parsedData);
                                         #if defined(NUMBER_PRINTING_PRINT_PARSED_VALUE)
-                                        oss << " " << numericLiteralData.data << " ";
+                                        oss << " " << numericLiteralData.pData->value << " ";
                                         if (numericLiteralData.fIntegerOverflow)
                                             oss << "integer part overflow ";
                                         if (numericLiteralData.fFractionalOverflow)
@@ -322,7 +322,7 @@ UMBA_MAIN()
                                     }
                                     else
                                     {
-                                        auto numericLiteralData = std::get<typename tokenizer_type::IntegerNumericLiteralData>(parsedData);
+                                        auto numericLiteralData = std::get<typename tokenizer_type::IntegerNumericLiteralDataHolder>(parsedData);
                                         #if defined(NUMBER_PRINTING_PRINT_PARSED_VALUE)
                                         oss << " " << numericLiteralData.data << " ";
                                         if (numericLiteralData.fOverflow)

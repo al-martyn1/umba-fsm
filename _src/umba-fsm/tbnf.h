@@ -690,8 +690,8 @@ public:
 
                 if (tokenType==UMBA_TOKENIZER_TOKEN_IDENTIFIER)
                 {
-                    auto identifierData = std::get<typename TokenizerType::IdentifierData>(parsedData);
-                    currentRuleName = identifierData.data; // из string_view в строку
+                    auto identifierData = std::get<typename TokenizerType::IdentifierDataHolder>(parsedData);
+                    currentRuleName = identifierData.pData->value; // из string_view в строку
                     st = stWaitAssignment;
                     return true;
                 }
@@ -735,8 +735,8 @@ public:
 
                 if (TheValue(tokenType).oneOf(UMBA_TOKENIZER_TOKEN_IDENTIFIER))
                 {
-                    auto identifierData       = std::get<typename TokenizerType::IdentifierData>(parsedData);
-                    typename TokenizerType::string_type ruleTypeStr = typename TokenizerType::string_type(identifierData.data); // из string_view в строку
+                    auto identifierData       = std::get<typename TokenizerType::IdentifierDataHolder>(parsedData);
+                    typename TokenizerType::string_type ruleTypeStr = typename TokenizerType::string_type(identifierData.pData->value); // из string_view в строку
                     BuiltinTokenType ruleType = enum_deserialize(make_string<std::string>(ruleTypeStr), BuiltinTokenType::invalid);
 
                     if (ruleType==BuiltinTokenType::invalid)
@@ -807,8 +807,8 @@ public:
                                     );
                     }
 
-                    auto identifierData       = std::get<typename TokenizerType::IdentifierData>(parsedData);
-                    typename TokenizerType::string_type paramTypeStr = typename TokenizerType::string_type(identifierData.data); // из string_view в строку
+                    auto identifierData       = std::get<typename TokenizerType::IdentifierDataHolder>(parsedData);
+                    typename TokenizerType::string_type paramTypeStr = typename TokenizerType::string_type(identifierData.pData->value); // из string_view в строку
 
                     // Пытаемся десериализовать тип параметра
                     BuiltinTokenTypeParam paramType = enum_deserialize(make_string<std::string>(paramTypeStr), BuiltinTokenTypeParam::invalid);
@@ -869,9 +869,9 @@ public:
                         {
                             case BuiltinTokenTypeParam::base    :
                             {
-                                 auto numericLiteralData = std::get<typename TokenizerType::IntegerNumericLiteralData>(parsedData);
+                                 auto numericLiteralData = std::get<typename TokenizerType::IntegerNumericLiteralDataHolder>(parsedData);
                                  // oss << " " << numericLiteralData.data << " ";
-                                 if (numericLiteralData.data!=2 && numericLiteralData.data!=4 && numericLiteralData.data!=8 && numericLiteralData.data!=10 && numericLiteralData.data!=12 && numericLiteralData.data!=16)
+                                 if (numericLiteralData.pData->value !=2 && numericLiteralData.pData->value !=4 && numericLiteralData.pData->value !=8 && numericLiteralData.pData->value !=10 && numericLiteralData.pData->value !=12 && numericLiteralData.pData->value !=16)
                                  {
                                      return reset(false, errMsg, make_string<msgt>("Invalid 'base' value. Only 2, 4, 8, 10, 12 and 16 allowed as numbers base"));
                                  }
@@ -892,8 +892,8 @@ public:
 
                             case BuiltinTokenTypeParam::kind    :
                             {
-                                 auto identifierData = std::get<typename TokenizerType::IdentifierData>(parsedData);
-                                 auto dataStr  = typename TokenizerType::string_type(identifierData.data);
+                                 auto identifierData = std::get<typename TokenizerType::IdentifierDataHolder>(parsedData);
+                                 auto dataStr  = typename TokenizerType::string_type(identifierData.pData->value);
 
                                  std::visit( [&](auto &v)
                                              {
@@ -953,8 +953,8 @@ public:
 
                             case BuiltinTokenTypeParam::tokenId :
                             {
-                                 auto identifierData = std::get<typename TokenizerType::IdentifierData>(parsedData);
-                                 auto dataStr = typename TokenizerType::string_type(identifierData.data);
+                                 auto identifierData = std::get<typename TokenizerType::IdentifierDataHolder>(parsedData);
+                                 auto dataStr = typename TokenizerType::string_type(identifierData.pData->value);
                                  auto identifierStr = make_string<std::string>(dataStr);
 
                                  std::visit( [&](auto &v)
@@ -973,8 +973,8 @@ public:
 
                             case BuiltinTokenTypeParam::position:
                             {
-                                 auto identifierData = std::get<typename TokenizerType::IdentifierData>(parsedData);
-                                 auto dataStr  = typename TokenizerType::string_type(identifierData.data);
+                                 auto identifierData = std::get<typename TokenizerType::IdentifierDataHolder>(parsedData);
+                                 auto dataStr  = typename TokenizerType::string_type(identifierData.pData->value);
 
                                  BuiltinTokenTypeParam positionValue = enum_deserialize(make_string<std::string>(dataStr), BuiltinTokenTypeParam::invalid);
                                  if (positionValue!=BuiltinTokenTypeParam::startOnly && positionValue!=BuiltinTokenTypeParam::any)
