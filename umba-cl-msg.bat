@@ -1,1 +1,1 @@
-umba-ck-msg.exe < msg.txt > msg.cpp
+umba-cl-msg.exe < msg.txt > msg.cpp
