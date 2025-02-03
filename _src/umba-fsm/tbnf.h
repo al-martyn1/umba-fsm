@@ -617,13 +617,13 @@ class GrammaParser
 
         using umba::string_plus::make_string;
 
-        auto stringLiteralData = std::get<typename TokenizerType::StringLiteralData>(parsedData);
+        auto stringLiteralData = std::get<typename TokenizerType::StringLiteralDataHolder>(parsedData);
 
         caseIndependent = false;
 
-        if (stringLiteralData.hasSuffix)
+        if (stringLiteralData.pData->hasSuffix)
         {
-            std::string suffix = make_string<std::string>(umba::iterator::makeString(stringLiteralData.suffixStartPos, itEnd));
+            std::string suffix = make_string<std::string>(umba::iterator::makeString(stringLiteralData.pData->suffixStartPos, itEnd));
             if (suffix!="i")
             {
                 throw std::runtime_error("Unknown string literal suffix. Only 'i' suffix allowed for case independent string literals");
@@ -632,7 +632,7 @@ class GrammaParser
             caseIndependent = true;
         }
 
-        auto dataStr = typename TokenizerType::string_type(stringLiteralData.data);
+        auto dataStr = typename TokenizerType::string_type(stringLiteralData.pData->value);
         return make_string<std::string>(dataStr);
     }
 
@@ -882,7 +882,7 @@ public:
                                                  using T = std::decay_t<decltype(v)>;
                                                  if constexpr (std::is_same_v<T, BuiltinNumberLiteralInfo>)
                                                  {
-                                                     v.numberBase = (unsigned)numericLiteralData.data;
+                                                     v.numberBase = (unsigned)numericLiteralData.pData->value;
                                                  }
                                              }
                                            , builtinRuleInfo
@@ -912,7 +912,8 @@ public:
                             {
                                  std::visit( [&](auto &v)
                                              {
-                                                 using T = std::decay_t<decltype(v)>;
+                                                 // using T = std::decay_t<decltype(v)>;
+                                                 using T = decltype(v);
                                                  if constexpr ( std::is_same_v<T, BuiltinNumberLiteralInfo>
                                                              || std::is_same_v<T, BuiltinStringLiteralInfo>
                                                              || std::is_same_v<T, BuiltinCommentInfo>
@@ -933,7 +934,8 @@ public:
                             {
                                  std::visit( [&](auto &v)
                                              {
-                                                 using T = std::decay_t<decltype(v)>;
+                                                 //using T = std::decay_t<decltype(v)>;
+                                                 using T = decltype(v);
                                                  if constexpr ( std::is_same_v<T, BuiltinCommentInfo>)
                                                  {
                                                      bool ci = false;
@@ -959,11 +961,13 @@ public:
 
                                  std::visit( [&](auto &v)
                                              {
-                                                 using T = std::decay_t<decltype(v)>;
+                                                 //using T = std::decay_t<decltype(v)>;
+                                                 using T = decltype(v);
                                                  if constexpr ( !std::is_same_v<T, BuiltinEmptyInfo>)
                                                  {
-                                                     v.tokenName = identifierStr;
-                                                     v.tokenId   = findKnownTokenId(identifierStr); // Если готового идентификатора нет, надо будет сгенерировать свой ID в зависимости от того, что за правило
+                                                    // !!! Закоментил. Но ведь как-то раньше работало?
+                                                     // v.tokenName = identifierStr;
+                                                     // v.tokenId   = findKnownTokenId(identifierStr); // Если готового идентификатора нет, надо будет сгенерировать свой ID в зависимости от того, что за правило
                                                  }
                                              }
                                            , builtinRuleInfo
